@@ -1,0 +1,23 @@
+{
+  "name": "emoscape",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qlaire/emoscape.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qlaire/emoscape/issues"
+  },
+  "homepage": "https://github.com/qlaire/emoscape#readme",
+  "dependencies": {
+    "three.terrain.js": "^1.4.0"
+  }
+}
