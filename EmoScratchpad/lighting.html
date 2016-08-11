@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>WebGL/Three.js Light Tutorial</title>
+    <style>
+      body {
+        background: linear-gradient(#e4e0ba, black);
+        margin: 0px;
+        overflow: hidden;
+       
+      }
+      #wordart{
+        width:1024;
+        height:1024;
+        display:none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <canvas id='wordart'></canvas>
+    <script src="/../three.js/build/three.min.js"></script>
+    <script src="/../three.js/examples/js/controls/OrbitControls.js"></script>
+    <script src="../node_modules/three.terrain.js/build/THREE.Terrain.js"></script>
+    <img id="noise" width="220" height="277" src="assets/noise.gif" style="display:none" onload="draw(); addSceneElements();">
+    <script>
+        var camera;
+        var scene;
+        var renderer;
+        var controls;
+        init();
+        animate();
+          
+        function init() {
+          
+            // Create a scene
+            scene = new THREE.Scene();
+          
+            // Add the camera
+            camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 4000);
+            camera.position.set(0, 100, 250);
+          
+            // Add scene elements
+            //addSceneElements();
+          
+            // Add lights
+            addLights();
+          
+            // Create the WebGL Renderer
+            renderer = new THREE.WebGLRenderer({alpha: true});
+            renderer.setSize( window.innerWidth, window.innerHeight );
+          
+            // Append the renderer to the body
+            document.body.appendChild( renderer.domElement );
+          
+            // Add a resize event listener
+            window.addEventListener( 'resize', onWindowResize, false );
+          
+            // Add the orbit controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.target = new THREE.Vector3(0, 100, 0);
+            //scene.fog = new THREE.FogExp2( 'gray', 0.002 );
+        }
+          
+        function addLights() {
+        	// //directional
+            var dirLight = new THREE.DirectionalLight(' #ff9900', .5);
+            dirLight.position.set(100, 100, 50);
+            scene.add(dirLight);
+
+         //    //ambient
+         //    var ambLight = new THREE.AmbientLight('0x404040');
+        	// scene.add(ambLight);
+
+        	//point
+        	// var bluePoint = new THREE.PointLight(0x0033ff, 3, 600);
+        	// bluePoint.position.set( 70, 5, 500 );
+        	// scene.add(bluePoint);
+        	// scene.add(new THREE.PointLightHelper(bluePoint, 3));
+        	  
+        	// var greenPoint = new THREE.PointLight(0x33ff00, 1, 150);
+        	// greenPoint.position.set( -70, 5, 70 );
+        	// scene.add(greenPoint);
+        	// scene.add(new THREE.PointLightHelper(greenPoint, 3));
+
+        	// //hemisphere
+        	// var hemLight = new THREE.HemisphereLight('0xffe5bb', 0xFFBF00, .2);
+        	// scene.add(hemLight);
+
+
+        }
+        function createGradient(ctx,color1,color2,yStart,yEnd){
+            var grd=ctx.createLinearGradient(0,yStart,0,yEnd);
+            grd.addColorStop(0,color1);
+            grd.addColorStop(1,color2);
+            return grd;
+        }
+
+
+        //create heightMap
+        var context;
+        function getHeightmap(moodArr,colorDict) {
+            var canvas = document.getElementById( 'wordart' );
+            canvas.width = 1024;
+            canvas.height = 1024;
+            var grd;
+            var color1;
+            var color2;
+            context = canvas.getContext( '2d' );
+            //var context = canvas.getContext( '2d' );
+            var yStart;
+            var yEnd;
+            for(var i=0; i<moodArr.length; i++){
+                color1=colorDict[moodArr[i]];
+                color2=colorDict[moodArr[i+1]]||colorDict[moodArr[i]];
+                yStart=i*canvas.height/moodArr.length;
+                yEnd=(i+1)*canvas.height/moodArr.length;
+                grd=createGradient(context,color1,color2,yStart,yEnd);
+                context.fillStyle=grd;
+                context.fillRect(0,(i*canvas.height/moodArr.length),canvas.width,canvas.height/moodArr.length);
+            }
+            // context.globalAlpha=.9;
+            // grd=context.createLinearGradient(0,0,canvas.width,0);
+            // grd.addColorStop(0,'black');
+            // grd.addColorStop(1,'white');
+            // context.fillStyle=grd;
+            // context.fillRect(0,0,canvas.width,canvas.height);
+            return canvas;
+        }
+        //SHITTY CODE ORAGANIZATION CRRYYY
+        var moods=[10,1,10,1,10,1];
+        //last in array is the first you see
+
+        var colorDict={10:' #ffffff',9:' #f2f2f2',8:' #e6e6e6',7:' #d9d9d9',6:' #cccccc',5:' #bfbfbf',4:' #b3b3b3',3:' #a6a6a6',2:' #999999',1:' #8c8c8c',0:' #808080'}
+        var heightmap=getHeightmap(moods,colorDict);
+        var img = document.getElementById("noise");
+        function draw() {
+            context.globalAlpha=.05;
+            context.drawImage(img,0,0,1024,1024);
+        }
+
+        function addSceneElements() { 
+            var material = new THREE.MeshPhongMaterial( { color: '#663300', specular: 0x555555, shininess: 5} );
+
+            var xS = 63, yS = 63;
+            terrainScene = THREE.Terrain({
+                easing: THREE.Terrain.Linear,
+                frequency: 2.5,
+                heightmap: heightmap,
+                material: material,
+                maxHeight: 200,
+                minHeight: -200,
+                steps: 1,
+                useBufferGeometry: false,
+                xSegments: xS,
+                xSize: 3000,
+                ySegments: yS,
+                ySize: 2048,
+            });
+            scene.add(terrainScene);
+
+        }
+        function animate() {
+            renderer.render( scene, camera );
+            requestAnimationFrame( animate );
+            controls.update();
+        }
+          
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+        }
+    </script>
+  </body>
+</html>
