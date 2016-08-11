@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <title>Terrain Demo</title>
+        <style>canvas {width: 100%; height: 100%;}
+
+        	#world {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+/*	display:none;
+*/	background: linear-gradient(#e4e0ba, #f7d9aa);
+}
+        </style>
+    </head>
+    <body>
+    <img id="noise" width="220" height="277" src="noise.gif" style="display:none">
+    <div id='world'></div>
+        <script src="three.js"></script>
+        <script src="node_modules/three.terrain.js/build/THREE.Terrain.js"></script>
+        <script src="js/controls/PointerLockControls.js"></script>
+
+        <script>
+        //NOTE - must run http-server to view
+
+        var moods=[10,1,10,1,10,1];
+        //last in array is the first you see
+
+        var colorDict={10:' #ffffff',9:' #f2f2f2',8:' #e6e6e6',7:' #d9d9d9',6:' #cccccc',5:' #bfbfbf',4:' #b3b3b3',3:' #a6a6a6',2:' #999999',1:' #8c8c8c',0:' #808080'}
+ 
+        function createGradient(ctx,color1,color2,yStart,yEnd){
+        	var grd=ctx.createLinearGradient(0,yStart,0,yEnd);
+			grd.addColorStop(0,color1);
+			grd.addColorStop(1,color2);
+			return grd;
+        }
+        //create heightMap
+		function getHeightmap(moodArr) {
+		    var canvas = document.createElement( 'canvas' );
+		    canvas.width = 1024;
+		    canvas.height = 1024;
+		    var grd;
+		    var color1;
+		    var color2;
+		    var context = canvas.getContext( '2d' );
+		    var yStart;
+		    var yEnd;
+		    for(var i=0; i<moodArr.length; i++){
+		    	color1=colorDict[moodArr[i]];
+		    	color2=colorDict[moodArr[i+1]]||colorDict[moodArr[i]];
+		    	yStart=i*canvas.height/moodArr.length;
+		    	yEnd=(i+1)*canvas.height/moodArr.length;
+		    	grd=createGradient(context,color1,color2,yStart,yEnd);
+		    	context.fillStyle=grd;
+		    	context.fillRect(0,(i*canvas.height/moodArr.length),canvas.width,canvas.height/moodArr.length);
+			}
+
+			var img = document.getElementById("noise");
+			context.globalAlpha=0.05;
+    		context.drawImage(img,0,0,1024,1024);
+		    document.body.appendChild(canvas);
+		    return canvas;
+		}
+
+
+        var terrainScene;
+		var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+ 
+            var renderer = new THREE.WebGLRenderer({alpha: true});
+            renderer.setSize(window.innerWidth, window.innerHeight);
+  			var container = document.getElementById('world');
+			container.appendChild(renderer.domElement);
+
+		var xS = 63, yS = 63;
+		terrainScene = THREE.Terrain({
+		    easing: THREE.Terrain.Linear,
+		    frequency: 2.5,
+		    heightmap: getHeightmap(moods),
+		    material: new THREE.MeshBasicMaterial({wireframe: true,color: 0x5566aa}),
+		    maxHeight: 200,
+		    minHeight: -200,
+		    steps: 1,
+		    useBufferGeometry: false,
+		    xSegments: xS,
+		    xSize: 3000,
+		    ySegments: yS,
+		    ySize: 2048,
+		});
+		scene.add(terrainScene);
+        var render = function () {
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+            if(keydownUp){
+            	camera.position.z-=5;
+            }
+            if(keydownDown){
+            	camera.position.z+=5;
+            }
+        };
+        render();
+           var keydownUp=false;
+            var keydownDown=false;
+			document.onkeydown = checkKey;
+			document.onkeyup=function(e){
+			    if (e.keyCode == '38') {
+			        // up arrow
+			        keydownUp=false;
+			    }
+			    else if (e.keyCode == '40') {
+			    	keydownDown=false;
+			    }
+			}
+			function checkKey(e) {
+
+			    e = e || window.event;
+
+			    if (e.keyCode == '38') {
+			        // up arrow
+			        keydownUp=true;
+			    }
+			    else if (e.keyCode == '40') {
+			    	keydownDown=true;
+			    }
+			    else if (e.keyCode == '37') {
+			       // left arrow
+			    }
+			    else if (e.keyCode == '39') {
+			       // right arrow
+			    }
+
+			}
+        </script>
+    </body>
+
+</html>
