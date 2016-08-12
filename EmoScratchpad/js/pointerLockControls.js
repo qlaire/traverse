@@ -1,8 +1,7 @@
 /**
  * @author mrdoob / http://mrdoob.com/
  */
-
-THREE.PointerLockControls = function ( camera ) {
+module.exports = function ( camera ) {
 
 	var scope = this;
 
