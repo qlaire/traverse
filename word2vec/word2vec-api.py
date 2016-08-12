@@ -42,11 +42,14 @@ class Project_To_Line(Resource):
         parser.add_argument('w2', type=str, required=True, help="Word 2 cannot be blank!")
         parser.add_argument('ws', type=str, required=True, help="Word set 1 cannot be blank!", action='append')
         args = parser.parse_args()
-        line = model[args['w2']] - model[args['w1']]
+        line = model[args['w1']] - model[args['w2']]
         s_dot_s = dot(line, line)
-        projections = {}
+        # projections = {}
+        # for word in filter_words(args['ws']):
+        #     projections[word] = scalar(dot(model[word] - model[args['w1']], line) / s_dot_s)
+        projections = []
         for word in filter_words(args['ws']):
-            projections[word] = scalar(dot(model[word] - model[args['w1']], line) / s_dot_s)
+            projections.append(scalar(dot(model[word] - model[args['w2']], line) / s_dot_s))
         return projections
 
 
