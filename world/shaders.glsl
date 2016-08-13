@@ -54,8 +54,8 @@ var fragmentShader=`/**
 
 varying float height;
 void main() {
-gl_FragColor = vec4(1.0,  // R
+gl_FragColor = vec4(height,  // R
               height,  // G
-              1.0,  // B
+              height,  // B
               1.0); // A
 }`
