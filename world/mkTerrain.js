@@ -42,8 +42,10 @@ function mkTerrain(paths,width,height) {
 
         fragmentShader: fragmentShader,
     })
-    var geometry = new THREE.PlaneBufferGeometry(400, 400, 256, 256);
+    //material.side=THREE.DoubleSide; //necessary??
+    var geometry = new THREE.PlaneBufferGeometry(2000, 2000, 256, 256);
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.x = -Math.PI / 2;
+    //THREE.GeometryUtils.merge(geometry, mesh)  MAYBE?!?!
     return mesh
 }
