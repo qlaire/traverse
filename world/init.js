@@ -21,6 +21,7 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
   
     // Add the orbit controls
-    addOrbitControls();
+    //initOrbitControls();
+    initPointerLockControls();
 
 }

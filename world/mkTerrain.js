@@ -44,5 +44,6 @@ function mkTerrain(paths,width,height) {
     })
     var geometry = new THREE.PlaneBufferGeometry(400, 400, 256, 256);
     mesh = new THREE.Mesh( geometry, material );
+    mesh.rotation.x = -Math.PI / 2;
     return mesh
 }
