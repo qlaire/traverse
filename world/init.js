@@ -1,3 +1,4 @@
+var terrain;
 function init() {
   
     // Create a scene
@@ -8,7 +9,8 @@ function init() {
     camera.position.set(0,0,200);
   
     // Add scene elements
-    scene.add(mkTerrain())
+    terrain=mkTerrain();
+    scene.add(terrain)
    
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true});
