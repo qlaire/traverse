@@ -1,8 +1,0 @@
-function urlMaker(diary, words) { 
-  var url = 'localhost:5000/word2vec/project?w1=' + words[0] + '&w2=' + words[1] + '&ws=' + diary.split(' ').join('&ws=');
-  return url;
-}
-
-var myDiary = "To start off the week my parents put my cat down and didn't even tell me. I noticed when I couldn't find my cat or her belongings. I never got to tell her goodbye. When I cried to them and told them they should have told me they said we're telling you now. I ended up with a kitten that had been neglected by a family member. I was yelled at by my parents for bringing it home and was told I had to take it back. I didn't get a chance to take it to a vet because no one would take me unless I had an appointment and none had any for awhile. The kitten died. My boyfriend of 5 years father has cancer. It was pretty much confirmed he'll be dead in a month and he is in constant pain. MY boyfriend then lied to me about where he was going. It was small and pretty innocent, but we have had trust issues in the past and I felt hurt and betrayed, especially because it was something that he didn't need to lie about. Then the next day he tells me we should take a break. Not break up, but spend less time together. He said he just wants to spend more time with friends. This also hurt because he could always say he wants more time with friends and I wouldn't mind, but now I feel like he is trying to end things and he can't be upfront. On top of all this I don't have many friends. None of which I can talk to all this about. I feel hated by everyone. My parents only yell at me and my boyfriend barely wants to talk. I just take all of it, too. I just feel shitty.";
-
-console.log(urlMaker(myDiary, ['happy', 'sad']));

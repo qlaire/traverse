@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/qlaire/emoscape#readme",
   "dependencies": {
-    "three.terrain.js": "^1.4.0"
+    "three.terrain.js": "^1.4.0",
+    "watson-developer-cloud": "^2.1.0"
   }
 }
