@@ -5,6 +5,7 @@
 THREE.PointerLockControls = function ( camera ) {
 
 	var scope = this;
+	var PI_2 = Math.PI / 2;
 
 	camera.rotation.set( 0, 0, 0 );
 
@@ -13,10 +14,10 @@ THREE.PointerLockControls = function ( camera ) {
 
 	var yawObject = new THREE.Object3D();
 	yawObject.position.y = 10;
+	yawObject.rotation.y += PI_2
 	yawObject.add( pitchObject );
 
-	var PI_2 = Math.PI / 2;
-
+	
 	var onMouseMove = function ( event ) {
 
 		if ( scope.enabled === false ) return;
