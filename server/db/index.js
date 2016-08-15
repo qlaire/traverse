@@ -7,3 +7,4 @@ var Entry = require('./models/entry');
 
 User.hasMany(Entry, {as: 'entries'});
 Entry.belongsTo(User, {as: 'author'});
+

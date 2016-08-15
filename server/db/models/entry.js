@@ -21,9 +21,7 @@ module.exports = db.define('entry', {
     instanceMethods: {
     },
     classMethods: {
-
     },
     hooks: {
-
     }
 });
