@@ -1,3 +1,7 @@
+.idea
 node_modules
-three.js
+npm-debug.log
+public
 .DS_Store
+coverage
+three.js
