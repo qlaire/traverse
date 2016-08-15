@@ -187,6 +187,7 @@ function initPointerLockControls(){
 	controls.getObject().position.x=xBound;
 	controls.getObject().position.y=600;
 
+
 }
 var raycount=0;
 function animatePointerLockControls(){
