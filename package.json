@@ -11,6 +11,8 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "three.terrain.js": "^1.4.0",
+    "watson-developer-cloud": "^2.1.0",
     "angular": "^1.5.0-beta.0",
     "angular-animate": "^1.4.7",
     "angular-mocks": "^1.4.0",
