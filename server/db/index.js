@@ -5,6 +5,5 @@ module.exports = db;
 var User = require('./models/user');
 var Entry = require('./models/entry');
 
-User.hasMany(Entry, {as: 'entries'});
-Entry.belongsTo(User, {as: 'author'});
-
+Entry.belongsTo(User, {as: 'author', foreignKey: 'authorId'});
+User.hasMany(Entry,{as: 'entries', foreignKey: 'authorId'});
