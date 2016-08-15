@@ -182,7 +182,9 @@ function initPointerLockControls(){
 	document.addEventListener( 'keyup', onKeyUp, false );
 
 	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 3001 );
-	//make this make sense
+	//Set positions
+	controls.getObject().position.z=0;
+	controls.getObject().position.x=xBound;
 	controls.getObject().position.y=600;
 
 }
@@ -239,9 +241,7 @@ function animatePointerLockControls(){
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				console.log('xBound',xBound);
-				console.log('zBound',zBound);
-				console.log('world',controls.getObject().position);
+				console.log('world',controls.getObject());
 
 			};
 			distToGround=intersections[0].distance;
