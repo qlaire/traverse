@@ -34,5 +34,6 @@ function init() {
     // Add the orbit controls
     //initOrbitControls();
     initPointerLockControls();
+    postProcess();
 
 }

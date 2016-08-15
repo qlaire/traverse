@@ -202,7 +202,7 @@ function animatePointerLockControls(){
 		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000;
+		var delta = 10 * ( time - prevTime ) / 1000; //TODO: decrease speed by 10!
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -225,7 +225,7 @@ function animatePointerLockControls(){
 		else if(currPosition.x<=-xBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.x=xBound+1;
+			controls.getObject().position.x=-xBound+1;
 		}
 		if(currPosition.z>=zBound){
 			velocity.x=0;
@@ -236,13 +236,33 @@ function animatePointerLockControls(){
 		else if(currPosition.z<=-zBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.z=zBound+1;
+			controls.getObject().position.z=-zBound+1;
+		}
+
+		//COLORING
+		//THIS IS NOT SYMMETRICAL, cRYYYYYY
+		if(raycount%100===0){
+			console.log(currPosition.z);
+			console.log(zoneMarkers)
+		}
+		if(currPosition.z>=(zoneMarkers[0])&&currPosition.z<(zoneMarkers[1])){
+			effect.uniforms[ 'color' ].value = new THREE.Color(0xcc66ff); //purple
+		}
+		if(currPosition.z>=(zoneMarkers[1])&&currPosition.z<(zoneMarkers[2])){
+			effect.uniforms[ 'color' ].value = new THREE.Color(0xff0000); //red
+		}			
+		if(currPosition.z>=(zoneMarkers[2])&&currPosition.z<(zoneMarkers[3])){
+			effect.uniforms[ 'color' ].value = new THREE.Color(0x33cc33); //green
+		}
+		else{
+			effect.uniforms[ 'color' ].value = new THREE.Color( 0xffffff);
+	
 		}
 		
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				console.log('world',controls.getObject());
+				console.log(controls.getObject().position.z);
 
 			};
 			distToGround=intersections[0].distance;
