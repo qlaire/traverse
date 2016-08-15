@@ -99,8 +99,11 @@ function makeTerrain(paths){
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*300;
     }
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
+
     return plane
 }
 function findMean(arr){

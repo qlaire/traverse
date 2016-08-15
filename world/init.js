@@ -20,6 +20,7 @@ function init() {
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.shadowMap.enabled = true;
   
     // Append the renderer to the body
     document.body.appendChild( renderer.domElement );
