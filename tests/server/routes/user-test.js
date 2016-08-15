@@ -6,8 +6,8 @@ var Sequelize = require('sequelize');
 var db = require('../../../server/db');
 
 var supertest = require('supertest');
-
 describe('Users Route', function () {
+
 
     var app, User;
 
