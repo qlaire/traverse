@@ -1,38 +1,3 @@
-// function mkTerrain(paths,width,height) {
-//     var width=6
-//     var height=4;
-//     paths=new Float32Array([
-//         1,0.2,1,1,.3,.6,
-//         0,0,0,0,.5,.7,
-//         1,1,0.4,1,0,.9,
-//         0,0,0,0,0,0
-//     ])
-//     map = new THREE.DataTexture(paths,
-//         width,height,
-//         THREE.AlphaFormat,
-//         THREE.FloatType );
-//     map.needsUpdate = true;
-
-//     material = new THREE.ShaderMaterial({
-//         uniforms: {
-//             map: {
-//                 type: "t",
-//                 value: map
-//             }
-//         },
-//         vertexShader: vertexShader,
-
-//         fragmentShader: fragmentShader,
-//     })
-//     //material.side=THREE.DoubleSide; //necessary??
-//     var geometry = new THREE.PlaneBufferGeometry(2000, 2000, 32, 32); //orig 256
-//     mesh = new THREE.Mesh( geometry, material );
-//     mesh.rotation.x = -Math.PI / 2;
-//     //THREE.GeometryUtils.merge(geometry, mesh)  MAYBE?!?!
-//     return mesh
-// }
-
-
 function magnifyArray(arr, scale) {
     var res = [];
     if(!arr.length)
@@ -48,19 +13,26 @@ function magnifyArray(arr, scale) {
 
 
 function makeTerrain(paths){
-    var paths=[[0,0,0,.5,.6,.4,.5,.1,.9],
-                [.2,.3,.9,.2,.6,.1,.1,.2,.3],
-                [.4,.5,.1,.7,.9,.2,.3,.5,.4],
-                [.9,.8,.2,.3,.6,.8,1,.5,.4],
-                [1,1,1,1,1,1,1,1,1],
-                [.3,.5,.4,.8,.9,.3,.3,.5,.4],
-                [.9,.8,.1,.3,.6,.7,1,.5,.4],
-                [1,1,1,1,.5,.4,.1,.7,.9],
-                [.9,.9,.7,.3,.7,.7,1,.5,.4]] 
+    // var paths=[[0,0,0,.5,.6,.4,.5,.1,.9],
+    //             [.2,.3,.9,.2,.6,.1,.1,.2,.3],
+    //             [.4,.5,.1,.7,.9,.2,.3,.5,.4],
+    //             [.9,.8,.2,.3,.6,.8,1,.5,.4],
+    //             [1,1,1,1,1,1,1,1,1],
+    //             [.3,.5,.4,.8,.9,.3,.3,.5,.4],
+    //             [.9,.8,.1,.3,.6,.7,1,.5,.4],
+    //             [1,1,1,1,.5,.4,.1,.7,.9],
+    //             [.9,.9,.7,.3,.7,.7,1,.5,.4]] 
+    // var paths=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    //         [.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5],
+    //         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+    var paths=[[0,.5,.7,.2,.9,.8,.4,.1,0,0,.2,0,1,0,1,.2,.4,.6,.6,0],
+        [.5,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,.5],
+        [0,0,0,0,0,0,0,.4,0,.3,.2,0,0,0,0,0,0,0,0,0]]
     var scaleUp=4;
     var wS=(paths[0].length*scaleUp)-1;
     var hS=(paths.length*scaleUp)-1;
-    var geometry = new THREE.PlaneGeometry(paths.length*300,paths[0].length*300, wS, hS);
+    //height should be smaller
+    var geometry = new THREE.PlaneGeometry(paths.length*800,paths[0].length*60, wS, hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading });
     var radius=2;
     var distance;
@@ -97,7 +69,7 @@ function makeTerrain(paths){
     }
     console.log('flattenedArr',flattenedArr);
     for(var i=0; i<geometry.vertices.length; i++){
-        geometry.vertices[i].z =  flattenedArr[i]*300;
+        geometry.vertices[i].z =  flattenedArr[i]*150;
     }
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
