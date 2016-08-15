@@ -183,7 +183,7 @@ function initPointerLockControls(){
 
 	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 201 );
 	controls.getObject().position.y=200;
-	console.log(controls.getObject());
+	//console.log(controls.getObject());
 
 }
 var raycount=0;
@@ -199,12 +199,12 @@ function animatePointerLockControls(){
 
 		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
-		if(isOnObject&&raycount%100===0){
-			intersections.forEach(function(intersection){
-				console.log(intersection.point);
-			})
-			console.log(terrain.material);
-		}
+		// if(isOnObject&&raycount%100===0){
+		// 	intersections.forEach(function(intersection){
+		// 		console.log(intersection.point);
+		// 	})
+		// 	//console.log(terrain.material);
+		// }
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000;
 
@@ -234,7 +234,10 @@ function animatePointerLockControls(){
 		controls.getObject().translateX( velocity.x * delta );
 		//controls.getObject().translateY( velocity.y * delta );
 		controls.getObject().translateZ( velocity.z * delta );
-
+		if(raycount%100===0){
+			//console.log(controls.getObject().position);
+			console.log(terrain);
+		}
 		// if ( controls.getObject().position.y < 10 ) {
 
 		// 	velocity.y = 0;
