@@ -1,0 +1,45 @@
+#enter {
+    background-color: #111;
+    border: none;
+    color: white;
+    opacity: 0.75;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 2px;
+    transition-duration: 0.4s;
+    vertical-align: middle;
+
+    &:hover,
+    &:active {
+        background-color: white;
+        color: #111;
+        letter-spacing: 5px;
+    }
+    &:after,
+    &:before {
+        backface-visibility: hidden;
+        border: 1px solid rgba(#fff, 0);
+        bottom: 0px;
+        content: " ";
+        display: block;
+        margin: 0 auto;
+        position: relative;
+        transition: all 280ms ease-in-out;
+        width: 0;
+    }
+    &:hover:after,
+    &:hover:before {
+        backface-visibility: hidden;
+        border-color: #fff;
+        transition: width 350ms ease-in-out;
+        width: 70%;
+    }
+    &:hover:before {
+        bottom: auto;
+        top: 0;
+        width: 70%;
+    }
+}

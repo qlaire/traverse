@@ -1,9 +1,11 @@
+@import 'https://fonts.googleapis.com/css?family=Dosis';
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: #fdfdfd;
+  background: white;
 }
 
 @mixin clearfix {
@@ -23,3 +25,5 @@ body {
 @import 'about/main';
 @import 'tutorial/main';
 @import 'login/main';
+@import 'home/enter';
+@import 'login/login';

@@ -1,0 +1,47 @@
+#login-form {
+    font-family: 'Dosis', sans-serif;
+    text-transform: uppercase;
+    padding-top: 25px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    width: 40%;
+    margin: 0 auto;
+    color: white;
+    &::placeholder {
+        transition: all 0.2s ease-in-out;
+        color: #999;
+        font: 18px Helvetica, Arial, sans-serif;
+    }
+    &:focus,
+    &.populated {
+        padding-top: 28px;
+        padding-bottom: 12px;
+        &::placeholder {
+            color: transparent;
+        }
+        & + span {
+            opacity: 1;
+            top: 10px;
+        }
+    }
+    span {
+        color: #35dc9b;
+        font: 13px Helvetica, Arial, sans-serif;
+        position: absolute;
+        top: 0px;
+        left: 20px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+    }
+    input[type="submit"] {
+        transition: all 0.2s ease-in-out;
+        font: 18px Helvetica, Arial, sans-serif;
+        border: none;
+        background: #1aaf75;
+        color: #fff;
+        padding: 16px 40px;
+        &:hover {
+            background: #109f67;
+        }
+    }
+}
