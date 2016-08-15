@@ -24,7 +24,7 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = true;
   
-    addClouds();
+    // addClouds();
     // Append the renderer to the body
     document.body.appendChild( renderer.domElement );
   

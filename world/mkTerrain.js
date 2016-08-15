@@ -49,7 +49,10 @@ function padArray(arr,paddingSize){
 
 }
 
+var xBound;
+var zBound;
 function makeTerrain(paths){
+    var paddingSize=5;
     // var paths=[[0,0,0,.5,.6,.4,.5,.1,.9],
     //             [.2,.3,.9,.2,.6,.1,.1,.2,.3],
     //             [.4,.5,.1,.7,.9,.2,.3,.5,.4],
@@ -65,17 +68,32 @@ function makeTerrain(paths){
     var paths=[[0,.5,.7,.2,.9,.8,.4,.1,0,0,.2,0,1,0,1,.2,.4,.6,.6,0],
         [.5,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,.5],
         [0,0,0,0,0,0,0,.4,0,.3,.2,0,0,0,0,0,0,0,0,0]]
-    padArray(paths,5);
+    padArray(paths,paddingSize);
     var scaleUp=4;
     var wS=(paths[0].length*scaleUp)-1;
     var hS=(paths.length*scaleUp)-1;
     //height should be smaller
-    var geometry = new THREE.PlaneGeometry(paths.length*800,paths[0].length*60, wS, hS);
+    //one bound is terrain width/2 x terrain height/2
+    //the other is negative of that
+
+    //TODO: width and height change according to array dimensions NONLINEARLY
+    var terrainWidth=paths.length*200;
+    var terrainHeight=paths[0].length*200;
+
+    //IT'S POSSIBLE tHESE ARE SWITCHED AROUND
+    paddingX=(paddingSize/(paths[0].length+paddingSize))*terrainWidth;
+    paddingZ=(paddingSize/(paths.length+paddingSize))*terrainHeight;
+    xBound=terrainWidth/2-(paddingX/2);
+    zBound=terrainHeight/2-(paddingZ/2);
+
+
+    console.log('paddingX',paddingX,'paddingZ',paddingZ);
+
+    var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight, wS, hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading });
     var radius=2;
     var distance;
     var scaledArr=magnifyArray(paths,scaleUp);
-    console.log(scaledArr);
     var neighbors;
     var newVal;
     var smoothedArr=[];
