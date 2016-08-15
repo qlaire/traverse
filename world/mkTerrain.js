@@ -11,6 +11,23 @@ function magnifyArray(arr, scale) {
     return res;
 }
 
+function padArray(arr,paddingSize){
+  var toUnshift, toPush;
+  //pad beginnings and ends of rows
+  for(var i=0;i<arr.length;i++){
+    for(var j=0;j<paddingSize;j++){
+      toUnshift=arr[i][0];
+      arr[i].unshift(toUnshift);
+      toPush=arr[i][arr.length-1];
+      arr[i].push(toPush)
+    } 
+  }
+  //pad top and bottom
+  for(var i=0;i<paddingSize;i++){
+    arr.unshift(arr[0]);
+    arr.push(arr[arr.length-1])
+  }
+}
 
 function makeTerrain(paths){
     // var paths=[[0,0,0,.5,.6,.4,.5,.1,.9],
@@ -28,6 +45,7 @@ function makeTerrain(paths){
     var paths=[[0,.5,.7,.2,.9,.8,.4,.1,0,0,.2,0,1,0,1,.2,.4,.6,.6,0],
         [.5,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,.5],
         [0,0,0,0,0,0,0,.4,0,.3,.2,0,0,0,0,0,0,0,0,0]]
+    padArray(paths,5);
     var scaleUp=4;
     var wS=(paths[0].length*scaleUp)-1;
     var hS=(paths.length*scaleUp)-1;

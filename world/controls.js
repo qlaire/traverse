@@ -206,7 +206,7 @@ function animatePointerLockControls(){
 		// 	//console.log(terrain.material);
 		// }
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000;
+		var delta = 10 * ( time - prevTime ) / 1000;
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -222,7 +222,13 @@ function animatePointerLockControls(){
 
 		var distToGround;
 		if ( isOnObject === true ) {
-			if(raycount%100===0) console.log(intersections);
+			if(raycount%100===0){
+				console.log(intersections);
+				console.log('world',controls.getObject().position);
+				// console.log('local',terrain.worldToLocal(controls.getObject().position));
+
+
+			};
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 			
