@@ -16,6 +16,15 @@ module.exports = db.define('entry', {
     date: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
+    },
+    joy: {
+        type: Sequelize.ARRAY(Sequelize.FLOAT)
+    },
+    anger: {
+        type: Sequelize.ARRAY(Sequelize.FLOAT)
+    },
+    fear: {
+        type: Sequelize.ARRAY(Sequelize.FLOAT)
     }
 }, {
     instanceMethods: {
