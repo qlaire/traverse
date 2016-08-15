@@ -161,11 +161,7 @@ gulp.task('default', function () {
     gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['reload']);
 
     // Run server tests server test file changes.
-    gulp.watch(['tests/server/**/*.js'], ['testServerJS']);
-
-    // Run server tests when a server file changes.
-    gulp.watch(['server/**/*.js'], ['serverJS']);
-
+    gulp.watch(['tests/server/**/*.js', 'server/**/*.js'], ['testServerJS']);
 
     // Run browser testing when a browser test file changes.
     gulp.watch('tests/browser/**/*', ['testBrowserJS']);
