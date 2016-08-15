@@ -11,22 +11,42 @@ function magnifyArray(arr, scale) {
     return res;
 }
 
+// function padArray(arr,paddingSize){
+//   var toUnshift, toPush;
+//   //pad beginnings and ends of rows
+//   for(var i=0;i<arr.length;i++){
+//     for(var j=0;j<paddingSize;j++){
+//       toUnshift=arr[i][0];
+//       arr[i].unshift(toUnshift);
+//       toPush=arr[i][arr.length-1];
+//       arr[i].push(toPush)
+//     } 
+//   }
+//   //pad top and bottom
+//   for(var i=0;i<paddingSize;i++){
+//     arr.unshift(arr[0]);
+//     arr.push(arr[arr.length-1])
+//   }
+// }
+
 function padArray(arr,paddingSize){
-  var toUnshift, toPush;
   //pad beginnings and ends of rows
   for(var i=0;i<arr.length;i++){
     for(var j=0;j<paddingSize;j++){
-      toUnshift=arr[i][0];
-      arr[i].unshift(toUnshift);
-      toPush=arr[i][arr.length-1];
-      arr[i].push(toPush)
+      arr[i].unshift(0);
+      arr[i].push(0)
     } 
   }
   //pad top and bottom
-  for(var i=0;i<paddingSize;i++){
-    arr.unshift(arr[0]);
-    arr.push(arr[arr.length-1])
+  arrOfZero=[];
+  for(var i=0;i<arr[0].length;i++){
+    arrOfZero.push(0);
   }
+  for(var i=0;i<paddingSize;i++){
+    arr.unshift(arrOfZero);
+    arr.push(arrOfZero)
+  }
+
 }
 
 function makeTerrain(paths){

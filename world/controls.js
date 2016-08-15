@@ -225,8 +225,6 @@ function animatePointerLockControls(){
 			if(raycount%100===0){
 				console.log(intersections);
 				console.log('world',controls.getObject().position);
-				// console.log('local',terrain.worldToLocal(controls.getObject().position));
-
 
 			};
 			distToGround=intersections[0].distance;
