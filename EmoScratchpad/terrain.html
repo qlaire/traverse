@@ -324,9 +324,9 @@ void main() {
                                 neighbors.push(scaledArr[r][c]*10)
                             }
                             else if(scaledArr[r+i]&&scaledArr[r+i][c+j]){
-                                distance=Math.sqrt(Math.pow(i,2)+Math.pow(j,2));
+                                distance=Math.sqrt(Math.pow(i,2)+j**2);
                                 console.log('distance',distance)
-                                neighbors.push(scaledArr[r+i][c+j]*(1/distance));
+                                neighbors.push(scaledArr[r+i][c+j]*(1/Math.pow(distance,2)));
                             }
                         }
                     }

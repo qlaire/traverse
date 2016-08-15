@@ -181,9 +181,9 @@ function initPointerLockControls(){
 	document.addEventListener( 'keydown', onKeyDown, false );
 	document.addEventListener( 'keyup', onKeyUp, false );
 
-	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 201 );
-	controls.getObject().position.y=200;
-	//console.log(controls.getObject());
+	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 3001 );
+	//make this make sense
+	controls.getObject().position.y=600;
 
 }
 var raycount=0;
@@ -220,11 +220,12 @@ function animatePointerLockControls(){
 		if ( moveLeft ) velocity.x -= 400.0 * delta;
 		if ( moveRight ) velocity.x += 400.0 * delta;
 
-		var heightOfGround=0;
+		var distToGround;
 		if ( isOnObject === true ) {
-			// if(raycount%100===0) console.log(intersections[0].point.y);
-
-			heightOfGround=intersections[0].point.y;
+			if(raycount%100===0) console.log(intersections);
+			distToGround=intersections[0].distance;
+			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
+			
 			//velocity.y = Math.max( 0, velocity.y );
 
 		}
@@ -234,10 +235,10 @@ function animatePointerLockControls(){
 		controls.getObject().translateX( velocity.x * delta );
 		//controls.getObject().translateY( velocity.y * delta );
 		controls.getObject().translateZ( velocity.z * delta );
-		if(raycount%100===0){
-			//console.log(controls.getObject().position);
-			console.log(terrain);
-		}
+		// if(raycount%100===0){
+		// 	//console.log(controls.getObject().position);
+		// 	console.log(terrain);
+		// }
 		// if ( controls.getObject().position.y < 10 ) {
 
 		// 	velocity.y = 0;
