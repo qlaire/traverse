@@ -128,7 +128,17 @@ describe('User model', function () {
                 });
             });
 
-        });
+            it('should not allow you to create duplicate users', function (done) {
+                createUser()
+                .then(function(){
+                    return createUser()
+                })
+                .then(function(response){
+                  expect(response).to.contain('unique');
+                })
+                .done()
+            });
+        })
 
         describe('sanitize method', function () {
 
@@ -146,7 +156,5 @@ describe('User model', function () {
                 });
             });
         });
-
     });
-
 });
