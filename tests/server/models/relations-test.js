@@ -58,7 +58,7 @@ describe('Relations',function(){
       })
     })
 
-    xdescribe('User',function(){
+    describe('User',function(){
 
       it('has many entries',function(done){
         return userObama.addEntries(obamaEntries)
