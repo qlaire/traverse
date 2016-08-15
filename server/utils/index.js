@@ -20,15 +20,15 @@ function processEntry(entry) {
 }
 
 function sendToWatson(text) {
-  console.log('the text is------', text);
   if (!Array.isArray(text)) {
     alchemy_language.emotion({text: text}, function (err, response) {
-      if (err)
-        console.log('error:', err);
-      else
-        // return response.docEmotions;
-        console.log('------------hey');
-        return 'hey';
+      if (err) {
+        console.err(err);
+      }
+      else {
+        console.log('the response in the sendToWatson func is', response.docEmotions);
+        return response.docEmotions;
+      }
     });
   } else {
     let results = [];
@@ -45,8 +45,11 @@ function sendToWatson(text) {
 }
 
 function analyzeEmotion(entry) {
-  console.log('hi---------');
-  return sendToWatson(processEntry(entry));
+  sendToWatson(entry)
+  .then(response => {
+    console.log('the response in analyzeEmotion', response);
+    return response;
+  })
 }
 
 module.exports = {
