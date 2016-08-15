@@ -1,0 +1,29 @@
+@import 'https://fonts.googleapis.com/css?family=Dosis';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: white;
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+#main {
+  margin: 0 auto;
+}
+
+@import 'directives/main';
+@import 'home/main';
+@import 'about/main';
+@import 'tutorial/main';
+@import 'login/main';
+@import 'home/enter';
+@import 'login/login';
