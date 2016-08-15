@@ -7,7 +7,7 @@ var db = require('../../../server/db');
 
 var supertest = require('supertest');
 
-describe('Members Route', function () {
+describe('Users Route', function () {
 
     var app, User;
 
@@ -65,5 +65,4 @@ describe('Members Route', function () {
     });
 
   });
-
 });
