@@ -39,7 +39,7 @@ return tex / 100.0;
 */
 void main() {
 height = getDisplacement(); //texture2D(map, uv).a;
-vec3 new_pos = vec3(position.x, position.y, position.z + height * 100.0);
+vec3 new_pos = vec3(position.x, position.y, position.z + height * 500.0);
 gl_Position = projectionMatrix *
         modelViewMatrix *
         vec4(new_pos,1.0);

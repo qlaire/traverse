@@ -114,7 +114,6 @@ function initPointerLockControls(){
 	moveBackward = false;
 	moveLeft = false;
 	moveRight = false;
-	canJump = false;
 
 	prevTime = performance.now();
 	velocity = new THREE.Vector3();
@@ -146,10 +145,6 @@ function initPointerLockControls(){
 				moveRight = true;
 				break;
 
-			case 32: // space
-				if ( canJump === true ) velocity.y += 350;
-				canJump = false;
-				break;
 
 		}
 
@@ -186,26 +181,38 @@ function initPointerLockControls(){
 	document.addEventListener( 'keydown', onKeyDown, false );
 	document.addEventListener( 'keyup', onKeyUp, false );
 
-	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 3001 );
+	//make this make sense
+	controls.getObject().position.y=600;
 
 }
-
+var raycount=0;
 function animatePointerLockControls(){
+
 	if ( controlsEnabled ) {
+		//for console.logging
+		raycount++;
+
+		//
 		raycaster.ray.origin.copy( controls.getObject().position );
-		raycaster.ray.origin.y -= 10;
+		// raycaster.ray.origin.y -= 10;
 
-		var intersections = raycaster.intersectObjects( objects );
-
+		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
-
+		// if(isOnObject&&raycount%100===0){
+		// 	intersections.forEach(function(intersection){
+		// 		console.log(intersection.point);
+		// 	})
+		// 	//console.log(terrain.material);
+		// }
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000;
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
 
-		velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+		//falling from jump?!
+		//velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
 		if ( moveForward ) velocity.z -= 400.0 * delta;
 		if ( moveBackward ) velocity.z += 400.0 * delta;
@@ -213,85 +220,35 @@ function animatePointerLockControls(){
 		if ( moveLeft ) velocity.x -= 400.0 * delta;
 		if ( moveRight ) velocity.x += 400.0 * delta;
 
+		var distToGround;
 		if ( isOnObject === true ) {
-			velocity.y = Math.max( 0, velocity.y );
+			if(raycount%100===0) console.log(intersections);
+			distToGround=intersections[0].distance;
+			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
+			
+			//velocity.y = Math.max( 0, velocity.y );
 
-			canJump = true;
 		}
+		// controls.getObject().position.y=(heightOfGround+10);
+		// if(raycount%100===0) console.log(intersections[0].point.y);
 
 		controls.getObject().translateX( velocity.x * delta );
-		controls.getObject().translateY( velocity.y * delta );
+		//controls.getObject().translateY( velocity.y * delta );
 		controls.getObject().translateZ( velocity.z * delta );
+		// if(raycount%100===0){
+		// 	//console.log(controls.getObject().position);
+		// 	console.log(terrain);
+		// }
+		// if ( controls.getObject().position.y < 10 ) {
 
-		if ( controls.getObject().position.y < 10 ) {
+		// 	velocity.y = 0;
+		// 	controls.getObject().position.y = 10;
 
-			velocity.y = 0;
-			controls.getObject().position.y = 10;
 
-			canJump = true;
-
-		}
+		// }
 
 		prevTime = time;
 
 	}
-
-
-
 }
 
-
-
-
-
-// function animate() {
-
-	// requestAnimationFrame( animate );
-
-	// if ( controlsEnabled ) {
-	// 	raycaster.ray.origin.copy( controls.getObject().position );
-	// 	raycaster.ray.origin.y -= 10;
-
-	// 	var intersections = raycaster.intersectObjects( objects );
-
-	// 	var isOnObject = intersections.length > 0;
-
-	// 	var time = performance.now();
-	// 	var delta = ( time - prevTime ) / 1000;
-
-	// 	velocity.x -= velocity.x * 10.0 * delta;
-	// 	velocity.z -= velocity.z * 10.0 * delta;
-
-	// 	velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-
-	// 	if ( moveForward ) velocity.z -= 400.0 * delta;
-	// 	if ( moveBackward ) velocity.z += 400.0 * delta;
-
-	// 	if ( moveLeft ) velocity.x -= 400.0 * delta;
-	// 	if ( moveRight ) velocity.x += 400.0 * delta;
-
-	// 	if ( isOnObject === true ) {
-	// 		velocity.y = Math.max( 0, velocity.y );
-
-	// 		canJump = true;
-	// 	}
-
-	// 	controls.getObject().translateX( velocity.x * delta );
-	// 	controls.getObject().translateY( velocity.y * delta );
-	// 	controls.getObject().translateZ( velocity.z * delta );
-
-	// 	if ( controls.getObject().position.y < 10 ) {
-
-	// 		velocity.y = 0;
-	// 		controls.getObject().position.y = 10;
-
-	// 		canJump = true;
-
-	// 	}
-
-	// 	prevTime = time;
-
-	// }
-
-
-// }
