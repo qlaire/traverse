@@ -182,8 +182,11 @@ function initPointerLockControls(){
 	document.addEventListener( 'keyup', onKeyUp, false );
 
 	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 3001 );
-	//make this make sense
+	//Set positions
+	controls.getObject().position.z=0;
+	controls.getObject().position.x=xBound;
 	controls.getObject().position.y=600;
+
 
 }
 var raycount=0;
@@ -195,24 +198,17 @@ function animatePointerLockControls(){
 
 		//
 		raycaster.ray.origin.copy( controls.getObject().position );
-		// raycaster.ray.origin.y -= 10;
 
 		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
-		// if(isOnObject&&raycount%100===0){
-		// 	intersections.forEach(function(intersection){
-		// 		console.log(intersection.point);
-		// 	})
-		// 	//console.log(terrain.material);
-		// }
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000;
+		var delta = ( time - prevTime ) / 1000; //real
+		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
 
-		//falling from jump?!
-		//velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+		var currPosition=controls.getObject().position;
 
 		if ( moveForward ) velocity.z -= 400.0 * delta;
 		if ( moveBackward ) velocity.z += 400.0 * delta;
@@ -220,32 +216,50 @@ function animatePointerLockControls(){
 		if ( moveLeft ) velocity.x -= 400.0 * delta;
 		if ( moveRight ) velocity.x += 400.0 * delta;
 
-		var distToGround;
-		if ( isOnObject === true ) {
-			if(raycount%100===0) console.log(intersections);
-			distToGround=intersections[0].distance;
-			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
-			
-			//velocity.y = Math.max( 0, velocity.y );
+		//Prevent overstepping world bounds
+		if(currPosition.x>=xBound){
+			velocity.x=0;
+			velocity.z=0;
+			controls.getObject().position.x=xBound-1;
 
 		}
-		// controls.getObject().position.y=(heightOfGround+10);
-		// if(raycount%100===0) console.log(intersections[0].point.y);
+		else if(currPosition.x<=-xBound){
+			velocity.x=0;
+			velocity.z=0;
+			controls.getObject().position.x=-xBound+1;
+		}
+		if(currPosition.z>=zBound){
+			velocity.x=0;
+			velocity.z=0;
+			controls.getObject().position.z=zBound-1;
+
+		}
+		else if(currPosition.z<=-zBound){
+			velocity.x=0;
+			velocity.z=0;
+			controls.getObject().position.z=-zBound+1;
+		}
+
+		//COLORING
+		renderColors(currPosition);
+		
+		var distToGround;
+		if ( isOnObject === true ) {
+			if(raycount%100===0){
+				console.log(controls.getObject().position.z);
+
+			};
+			distToGround=intersections[0].distance;
+			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
+
+		}
+
 
 		controls.getObject().translateX( velocity.x * delta );
 		//controls.getObject().translateY( velocity.y * delta );
 		controls.getObject().translateZ( velocity.z * delta );
-		// if(raycount%100===0){
-		// 	//console.log(controls.getObject().position);
-		// 	console.log(terrain);
-		// }
-		// if ( controls.getObject().position.y < 10 ) {
-
-		// 	velocity.y = 0;
-		// 	controls.getObject().position.y = 10;
 
 
-		// }
 
 		prevTime = time;
 
