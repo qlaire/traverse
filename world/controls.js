@@ -202,7 +202,8 @@ function animatePointerLockControls(){
 		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000;
+		var delta = ( time - prevTime ) / 1000; //real
+		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -225,7 +226,7 @@ function animatePointerLockControls(){
 		else if(currPosition.x<=-xBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.x=xBound+1;
+			controls.getObject().position.x=-xBound+1;
 		}
 		if(currPosition.z>=zBound){
 			velocity.x=0;
@@ -236,13 +237,16 @@ function animatePointerLockControls(){
 		else if(currPosition.z<=-zBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.z=zBound+1;
+			controls.getObject().position.z=-zBound+1;
 		}
+
+		//COLORING
+		renderColors(currPosition);
 		
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				console.log('world',controls.getObject());
+				console.log(controls.getObject().position.z);
 
 			};
 			distToGround=intersections[0].distance;

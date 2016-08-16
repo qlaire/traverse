@@ -51,6 +51,10 @@ function padArray(arr,paddingSize){
 
 var xBound;
 var zBound;
+var zoneWidth;
+var paddingX;
+var paddingZ;
+var zoneMarkers=[];
 function makeTerrain(paths){
     var paddingSize=5;
     // var paths=[[0,0,0,.5,.6,.4,.5,.1,.9],
@@ -68,7 +72,7 @@ function makeTerrain(paths){
     
     //YOU START AT THE END
     var paths=[[1,.5,.7,.2,.9,.8,.4,.1,0,0,.2,0,1,0,1,.2,.4,.6,.6,1],
-        [0,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,0],
+        [1,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,0],
         [1,0,0,0,0,0,0,.4,0,.3,.2,0,0,0,0,0,0,0,0,1]]
     // var paths=[[1,1,1,1,1],
     //     [0,0,0,0,0],
@@ -91,8 +95,24 @@ function makeTerrain(paths){
     xBound=terrainWidth/2-(paddingX/2);
     zBound=terrainHeight/2-(paddingZ/2);
 
+    //adjust these!!!
+    zoneWidth=(terrainHeight-(2*paddingZ))/3;
+    zoneMarkers[0]=(-terrainHeight/2)+paddingZ;
+    zoneMarkers[1]=zoneMarkers[0]+zoneWidth;
+    zoneMarkers[2]=zoneMarkers[1]+zoneWidth;
+    zoneMarkers[3]=zoneMarkers[2]+zoneWidth;
+    zoneMarkers[1]+=(zoneWidth/4);
+    zoneMarkers[2]-=(zoneWidth/4);
+    zoneMarkers[0]+=(zoneWidth/3);
+    zoneMarkers[3]-=(zoneWidth/3);
+    console.log(zoneMarkers);
 
-    console.log('paddingX',paddingX,'paddingZ',paddingZ);
+    (zBound*2)/3; //BECAUSE THERE ARE THREE PATHS!!!!
+    console.log('zoneWidth',zoneWidth);
+
+
+    console.log('zBound',zBound);
+    console.log('-zBound+paddingZ',-zBound+paddingZ);
 
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight, wS, hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading });
@@ -128,7 +148,6 @@ function makeTerrain(paths){
     for(var i=0;i<smoothedArr.length;i++){
         flattenedArr=flattenedArr.concat(smoothedArr[i]);
     }
-    console.log('flattenedArr',flattenedArr);
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
     }
