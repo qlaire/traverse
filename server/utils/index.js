@@ -6,14 +6,11 @@ var alchemy_language = watson.alchemy_language({
 
 var emotionAnalysis = Q.denodeify(alchemy_language.emotion.bind(alchemy_language));
 
-var myDiary = "We started to talk and I realized that we really had a lot in common and had really good chemistry. Now during this whole thing she had a boyfriend. I had no problem being her friend despite liking her but it was painfully obvious that she wasn't happy with this guy. Eventually she broke up with him and then not too long after that she told me that much like myself she started having feelings for me pretty much the first day we met.";
-
 function processEntry(entry) {
   let endOfSen = /\.\s|\!\s|\?\s/;
   let entrySentences = entry.split(endOfSen);
   let senPerChunk = Math.floor(entrySentences.length / 3);
   if (entrySentences.length < 3) {
-    console.log('the entry to return', entry);
     return entry;
   } else {
     // split the entry into three parts
@@ -21,13 +18,11 @@ function processEntry(entry) {
     results.push(entrySentences.slice(0, senPerChunk).join('. '), 
     entrySentences.slice(senPerChunk, senPerChunk * 2).join('. '),
     entrySentences.slice(senPerChunk * 2).join('. '));
-    console.log('the results of processing the entry', results);
     return results;
   }
 }
 
 function sendToWatson(text) {
-  console.log('the text in the sendtowatson func', text);
   if (!Array.isArray(text)) {
     return emotionAnalysis({text: text})
     .then(response => response.docEmotions);
@@ -37,36 +32,37 @@ function sendToWatson(text) {
     });
     return Q.all(promiseArr)
     .then(results => {
-      console.log('the results from watson', results);
       results = results.map(result => result.docEmotions);
-      console.log('the results after processing', results);
       return results;
     });
   }
 }
 
+// this function returns a promise.
+// Resolves to results, which will be either a single object of emotion numbers or an array of three
+// objects of emotion numbers
 function analyzeEmotion(entry) {
   return sendToWatson(processEntry(entry));
 }
 
-function convertToArr(results) {
-  let resultArr = [[], [], []];
-  results.forEach(result => {
-    resultArr[0].push(Number(result.anger).toFixed(1));
-    resultArr[1].push(Number(result.fear).toFixed(1));
-    resultArr[2].push(Number(result.joy).toFixed(1));
-  })
-  return resultArr;
-}
+// I dont think we actually want to use this function in the app. it was just for temporary
+// data mining purposes. Keeping it here in case we want to use it again.
 
-analyzeEmotion(myDiary)
-.then(results => {
-  console.log(convertToArr(results));
-  return convertToArr(results);
-})
-.catch(err => console.log(err));
-
-
+// function convertToArr(results) {
+//   let resultArr = [[], [], []];
+//   results.forEach(result => {
+//     resultArr[0].push(Number(result.anger).toFixed(1));
+//     resultArr[1].push(Number(result.fear).toFixed(1));
+//     resultArr[2].push(Number(result.joy).toFixed(1));
+//   })
+//   return resultArr;
+// }
+// analyzeEmotion(myDiary)
+// .then(results => {
+//   console.log(convertToArr(results));
+//   return convertToArr(results);
+// })
+// .catch(err => console.log(err));
 
 module.exports = {
   analyzeEmotion: analyzeEmotion

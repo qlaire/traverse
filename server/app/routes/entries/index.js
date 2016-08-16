@@ -5,8 +5,10 @@ module.exports = router;
 
 router.post('/analyze', function (req, res, next) {
   console.log('I\'m in the route---------');
-  let data = analyzeEmotion(req.body.entry);
-  console.log(data);
-  res.send(data);
-  
+  analyzeEmotion(req.body.entry)
+  .then(results => {
+    // save the results to the database
+    res.send(results);
+  })
+  .catch(next);
 })
