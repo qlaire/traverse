@@ -241,13 +241,13 @@ function animatePointerLockControls(){
 		}
 
 		//COLORING
-		renderColors(currPosition);
+		// renderColors(currPosition);
 		
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				console.log(controls.getObject().position.z);
-
+				// console.log('hi');
+				console.log(getLocation(intersections[0].point));
 			};
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
@@ -266,3 +266,21 @@ function animatePointerLockControls(){
 	}
 }
 
+//worldCoords will be intersections[0].point
+function getLocation(worldCoords){
+	var toReturn={};
+	var localCoords=terrain.worldToLocal(worldCoords);
+	var xCoord=customFloor(localCoords.x,distanceX);
+	var yCoord=customFloor(localCoords.y,distanceY);
+	var locationInfo=vertexDict[[xCoord,yCoord]];
+	if(!locationInfo){
+		return {path: -1, entry: -1};
+	}
+	toReturn.path=locationInfo[0];
+	toReturn.entry=locationInfo[locationInfo.length-1];
+	return toReturn;	
+}
+
+function customFloor(num,factor){
+  return factor * Math.floor(num/factor);
+}
