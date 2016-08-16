@@ -241,41 +241,12 @@ function animatePointerLockControls(){
 		}
 
 		//COLORING
-		renderColors(currPosition);
+		// renderColors(currPosition);
 		
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				//console.log(controls.getObject().position);
-				//console.log(intersections[0]);
-				var worldCoords=intersections[0].point;
-				//console.log('in vertex dict world',vertexDict[worldCoords]);
-				var localCoords=terrain.worldToLocal(worldCoords);
-				//console.log('local coords',localCoords);
-				//console.log('in vertex dict local');
-				console.log(localCoords.x);
-				console.log(distanceX);
-				var xCoord=customFloor(localCoords.x,distanceX);
-				var yCoord=customFloor(localCoords.y,distanceY);
-				console.log(xCoord,yCoord);
-				console.log(vertexDict[[xCoord,yCoord]]);
-
-				// for(var i=0;i<wS;i++){
-				// 	for(var j=0;j<hS;j++){
-				// 		xCoord+=j;
-				// 		yCoord+=i;
-				// 		//console.log('trying',xCoord,yCoord);
-
-				// 		if(vertexDict[[xCoord,yCoord]]){
-				// 			console.log('found it');
-				// 			break;
-				// 		}
-				// 	}
-				// }
-				//console.log(xCoord,yCoord);
-				//console.log(vertexDict[[-645,-648]]);
-				//console.log(vertexDict[[xCoord,yCoord]]);
-
+				console.log(getLocation(intersections[0].point));
 			};
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
@@ -292,6 +263,21 @@ function animatePointerLockControls(){
 		prevTime = time;
 
 	}
+}
+
+//worldCoords will be intersections[0].point
+function getLocation(worldCoords){
+	var toReturn={};
+	var localCoords=terrain.worldToLocal(worldCoords);
+	var xCoord=customFloor(localCoords.x,distanceX);
+	var yCoord=customFloor(localCoords.y,distanceY);
+	var locationInfo=vertexDict[[xCoord,yCoord]];
+	if(!locationInfo){
+		return {path: -1, entry: -1};
+	}
+	toReturn.path=locationInfo[0];
+	toReturn.entry=locationInfo[locationInfo.length-1];
+	return toReturn;	
 }
 
 function customFloor(num,factor){
