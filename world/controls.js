@@ -203,7 +203,7 @@ function animatePointerLockControls(){
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; //real
-		var delta = 10 * ( time - prevTime ) / 1000; //testing
+		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -249,9 +249,32 @@ function animatePointerLockControls(){
 				//console.log(controls.getObject().position);
 				//console.log(intersections[0]);
 				var worldCoords=intersections[0].point;
-				console.log('in vertex dict world',vertexDict[worldCoords]);
+				//console.log('in vertex dict world',vertexDict[worldCoords]);
 				var localCoords=terrain.worldToLocal(worldCoords);
-				console.log('in vertex dict local',vertexDict[localCoords]);
+				//console.log('local coords',localCoords);
+				//console.log('in vertex dict local');
+				console.log(localCoords.x);
+				console.log(distanceX);
+				var xCoord=customFloor(localCoords.x,distanceX);
+				var yCoord=customFloor(localCoords.y,distanceY);
+				console.log(xCoord,yCoord);
+				console.log(vertexDict[[xCoord,yCoord]]);
+
+				// for(var i=0;i<wS;i++){
+				// 	for(var j=0;j<hS;j++){
+				// 		xCoord+=j;
+				// 		yCoord+=i;
+				// 		//console.log('trying',xCoord,yCoord);
+
+				// 		if(vertexDict[[xCoord,yCoord]]){
+				// 			console.log('found it');
+				// 			break;
+				// 		}
+				// 	}
+				// }
+				//console.log(xCoord,yCoord);
+				//console.log(vertexDict[[-645,-648]]);
+				//console.log(vertexDict[[xCoord,yCoord]]);
 
 			};
 			distToGround=intersections[0].distance;
@@ -271,3 +294,6 @@ function animatePointerLockControls(){
 	}
 }
 
+function customFloor(num,factor){
+  return factor * Math.floor(num/factor);
+}
