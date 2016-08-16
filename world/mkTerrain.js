@@ -72,7 +72,7 @@ function makeTerrain(paths){
     
     //YOU START AT THE END
     var paths=[[1,.5,.7,.2,.9,.8,.4,.1,0,0,.2,0,1,0,1,.2,.4,.6,.6,1],
-        [0,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,0],
+        [1,.1,.5,.8,.5,.5,.6,.5,.5,.5,.5,.7,.5,.5,.1,.5,.5,.9,.5,0],
         [1,0,0,0,0,0,0,.4,0,.3,.2,0,0,0,0,0,0,0,0,1]]
     // var paths=[[1,1,1,1,1],
     //     [0,0,0,0,0],
@@ -94,12 +94,17 @@ function makeTerrain(paths){
     paddingZ=(paddingSize/(paths.length+paddingSize))*terrainHeight;
     xBound=terrainWidth/2-(paddingX/2);
     zBound=terrainHeight/2-(paddingZ/2);
-    
+
+    //adjust these!!!
     zoneWidth=(terrainHeight-(2*paddingZ))/3;
     zoneMarkers[0]=(-terrainHeight/2)+paddingZ;
     zoneMarkers[1]=zoneMarkers[0]+zoneWidth;
     zoneMarkers[2]=zoneMarkers[1]+zoneWidth;
     zoneMarkers[3]=zoneMarkers[2]+zoneWidth;
+    zoneMarkers[1]+=(zoneWidth/4);
+    zoneMarkers[2]-=(zoneWidth/4);
+    zoneMarkers[0]+=(zoneWidth/3);
+    zoneMarkers[3]-=(zoneWidth/3);
     console.log(zoneMarkers);
 
     (zBound*2)/3; //BECAUSE THERE ARE THREE PATHS!!!!
@@ -143,7 +148,6 @@ function makeTerrain(paths){
     for(var i=0;i<smoothedArr.length;i++){
         flattenedArr=flattenedArr.concat(smoothedArr[i]);
     }
-    console.log('flattenedArr',flattenedArr);
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
     }

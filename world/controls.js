@@ -202,7 +202,8 @@ function animatePointerLockControls(){
 		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
-		var delta = 10 * ( time - prevTime ) / 1000; //TODO: decrease speed by 10!
+		var delta = ( time - prevTime ) / 1000; //real
+		var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -240,27 +241,7 @@ function animatePointerLockControls(){
 		}
 
 		//COLORING
-		//THIS IS NOT SYMMETRICAL, cRYYYYYY
-		if(raycount%100===0){
-			console.log(currPosition.z);
-			console.log(zoneMarkers)
-		}
-		if(currPosition.z>=(zoneMarkers[0])&&currPosition.z<(zoneMarkers[1])){
-			console.log('zone 1')
-			effect.uniforms[ 'color' ].value = new THREE.Color(0xcc66ff); //purple
-		}
-		else if(currPosition.z>=(zoneMarkers[1])&&currPosition.z<(zoneMarkers[2])){
-			console.log('zone2')
-			effect.uniforms[ 'color'].value = new THREE.Color(0xff0000); //red
-		}			
-		else if(currPosition.z>=(zoneMarkers[2])&&currPosition.z<(zoneMarkers[3])){
-			console.log('zone3')
-			effect.uniforms[ 'color' ].value = new THREE.Color(0x33cc33); //green
-		}
-		else{
-			effect.uniforms[ 'color' ].value = new THREE.Color( 0xffffff);
-	
-		}
+		renderColors(currPosition);
 		
 		var distToGround;
 		if ( isOnObject === true ) {
