@@ -1,8 +1,10 @@
 <nav>
-    <div class="nav-wrapper black">
+    <div class="nav-wrapper black" style="background-color:black;">
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/signup" ng-show="!user">SIGN UP</a></li>
-        <li><a href="/login">LOG IN</a></li>
+      <li><a ui-sref="signup">Signup</a></li>
+      <li><a ui-sref="login">Login</a></li>
+<!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
+        <button id="navbtn" ui-sref="login">LOG IN</button> -->
       </ul>
     </div>
   </nav>
@@ -21,8 +23,8 @@
         </div>
     </div>
     <div style="position:relative;">
-        <div style="color:#ffa69e;background-color:black;text-align:center;padding:50px 80px;text-align: justify;">
-            <h3 style="text-align:center;color:#8493b5;">When was the last time you peered down the rabbit hole?</h3>
+        <div style="background-color:black;text-align:center;padding:50px 80px;text-align: justify;">
+            <h3 style="text-align:center;color:#faf3dd;">When was the last time you peered down the rabbit hole?</h3>
         </div>
     </div>
     <div class="bgimg-3">
@@ -47,9 +49,9 @@
                 <div class="col l4 offset-l2 s12">
                     <h5>LINKS</h5>
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="/login">Login</a></li>
-                        <li><a class="grey-text text-lighten-3" href="/signup">Signup</a></li>
-                        <li><a class="grey-text text-lighten-3" href="/about">About</a></li>
+                        <li><a ui-sref="login">Login</a></li>
+                        <li><a ui-sref="signup">Signup</a></li>
+                        <li><a href="/about">About</a></li>
                     </ul>
                 </div>
             </div>
