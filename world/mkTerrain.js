@@ -30,11 +30,8 @@ function makeTerrain(paths){
     xBound=terrainData.xBound;
     zBound=terrainData.zBound;
 
-    console.log(terrainData);
-
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight, wS, hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, shading: THREE.FlatShading });
-    console.log(geometry);
     vertexDict={};
 
     var vertexDictX;
@@ -43,17 +40,12 @@ function makeTerrain(paths){
 
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     distanceY=Math.abs(Math.round(geometry.vertices[terrainData.scaledArr[0].length].y-geometry.vertices[0].y));
-    console.log('distX',distanceX,'distY',distanceY);
 
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
         vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
         vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
         vertexDict[[vertexDictX,vertexDictY]]=helperArrFlat[i];
-        // if(i>100&&i<200){
-        //     console.log(vertexDictX,vertexDictY)
-        //     console.log(vertexDict[[vertexDictX,vertexDictY]]);
-        // }
     }
 
     geometry.computeFaceNormals();
@@ -67,23 +59,23 @@ function makeTerrain(paths){
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
     //numify
     paths=numifyData(paths);
-    //get wS and hS
-    var wS=(paths[0].length*scaleUp)-1;
-    var hS=(paths.length*scaleUp)-1;
-    //get terrainWidth and terrainHeight
-    var terrainWidth=paths.length*200;
-    var terrainHeight=paths[0].length*200;
-    //padding and bounds
-    var paddingX=(paddingSize/(paths[0].length+paddingSize))*terrainWidth;
-    var paddingZ=(paddingSize/(paths.length+paddingSize))*terrainHeight;
-    var xBound=terrainWidth/2-(paddingX/2);
-    var zBound=terrainHeight/2-(paddingZ/2);
+
     //create helper
     var helperArr=generateHelperArr(paths);
     //pad both
     padArray(paths,paddingSize);
     padArray(helperArr,paddingSize,[-1,-1]);
-
+    //get terrainWidth and terrainHeight
+    var terrainWidth=paths.length*200;
+    var terrainHeight=paths[0].length*200;
+    //get wS and hS
+    var wS=(paths[0].length*scaleUp)-1;
+    var hS=(paths.length*scaleUp)-1;
+    //padding and bounds
+    var paddingX=(paddingSize/(paths[0].length+paddingSize))*terrainWidth;
+    var paddingZ=(paddingSize/(paths.length+paddingSize))*terrainHeight;
+    var xBound=terrainWidth/2-(paddingX/2);
+    var zBound=terrainHeight/2-(paddingZ/2);
     //magnify
     var scaledArr=magnifyArray(paths,scaleUp);
     var helperArr=magnifyArray(helperArr,scaleUp);
@@ -202,3 +194,5 @@ function padArray(arr,paddingSize,paddingElt){
     arr.push(arrOfZero)
   }
 }
+
+

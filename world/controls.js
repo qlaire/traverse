@@ -246,6 +246,7 @@ function animatePointerLockControls(){
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
+				// console.log('hi');
 				console.log(getLocation(intersections[0].point));
 			};
 			distToGround=intersections[0].distance;
