@@ -29,31 +29,33 @@ function makeTerrain(paths){
     paddingZ=terrainData.paddingZ;
     xBound=terrainData.xBound;
     zBound=terrainData.zBound;
+    scaledArr=terrainData.scaledArr;
 
-    var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight, wS, hS);
+    return generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat)
+
+}
+
+function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
+    var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, shading: THREE.FlatShading });
     vertexDict={};
-
     var vertexDictX;
     var vertexDictY;
-
-
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
-    distanceY=Math.abs(Math.round(geometry.vertices[terrainData.scaledArr[0].length].y-geometry.vertices[0].y));
-
+    distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
         vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
         vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
         vertexDict[[vertexDictX,vertexDictY]]=helperArrFlat[i];
     }
-
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
-
     return plane
+
+
 }
 
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
