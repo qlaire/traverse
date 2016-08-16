@@ -203,7 +203,7 @@ function animatePointerLockControls(){
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; //real
-		// var delta = 10 * ( time - prevTime ) / 1000; //testing
+		var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -246,7 +246,12 @@ function animatePointerLockControls(){
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				console.log(controls.getObject().position.z);
+				//console.log(controls.getObject().position);
+				//console.log(intersections[0]);
+				var worldCoords=intersections[0].point;
+				console.log('in vertex dict world',vertexDict[worldCoords]);
+				var localCoords=terrain.worldToLocal(worldCoords);
+				console.log('in vertex dict local',vertexDict[localCoords]);
 
 			};
 			distToGround=intersections[0].distance;

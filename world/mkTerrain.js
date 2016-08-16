@@ -52,9 +52,12 @@ function padArray(arr,paddingSize){
 var xBound;
 var zBound;
 var zoneWidth;
+var entryDepth;
 var paddingX;
 var paddingZ;
 var zoneMarkers=[];
+var entryMarkers=[];
+var vertexDict;
 function makeTerrain(paths){
     var paddingSize=5;
     // var paths=[[0,0,0,.5,.6,.4,.5,.1,.9],
@@ -77,6 +80,7 @@ function makeTerrain(paths){
     // var paths=[[1,1,1,1,1],
     //     [0,0,0,0,0],
     //     [1,1,1,1,1]]
+
     padArray(paths,paddingSize);
     var scaleUp=4;
     var wS=(paths[0].length*scaleUp)-1;
@@ -88,6 +92,7 @@ function makeTerrain(paths){
     //TODO: width and height change according to array dimensions NONLINEARLY
     var terrainWidth=paths.length*200;
     var terrainHeight=paths[0].length*200;
+    console.log('width x height',terrainWidth,terrainHeight)
 
     //IT'S POSSIBLE tHESE ARE SWITCHED AROUND
     paddingX=(paddingSize/(paths[0].length+paddingSize))*terrainWidth;
@@ -95,7 +100,7 @@ function makeTerrain(paths){
     xBound=terrainWidth/2-(paddingX/2);
     zBound=terrainHeight/2-(paddingZ/2);
 
-    //adjust these!!!
+    //CREATE path zones
     zoneWidth=(terrainHeight-(2*paddingZ))/3;
     zoneMarkers[0]=(-terrainHeight/2)+paddingZ;
     zoneMarkers[1]=zoneMarkers[0]+zoneWidth;
@@ -106,13 +111,15 @@ function makeTerrain(paths){
     zoneMarkers[0]+=(zoneWidth/3);
     zoneMarkers[3]-=(zoneWidth/3);
     console.log(zoneMarkers);
+    //CREATE journal entry zones
+    entryDepth=((terrainWidth-(2*paddingX))/paths[0].length);
+    console.log(entryDepth);
+    entryMarkers[0]=(terrainWidth/2)-paddingX;
+    for (var i=1; i<paths[0].length; i++){
+        entryMarkers.push(entryMarkers[i-1]+entryDepth);
+    }
+    console.log('entryMarkers',entryMarkers);
 
-    (zBound*2)/3; //BECAUSE THERE ARE THREE PATHS!!!!
-    console.log('zoneWidth',zoneWidth);
-
-
-    console.log('zBound',zBound);
-    console.log('-zBound+paddingZ',-zBound+paddingZ);
 
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight, wS, hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading });
@@ -148,8 +155,12 @@ function makeTerrain(paths){
     for(var i=0;i<smoothedArr.length;i++){
         flattenedArr=flattenedArr.concat(smoothedArr[i]);
     }
+    vertexDict={};
+    //WHEEE OMG SO CLOSE JUST DO SOME MATH
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
+        vertexDict[geometry.vertices[i]]='zone1';
+        //console.log(geometry.vertices[i]);
     }
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
@@ -165,3 +176,9 @@ function findMean(arr){
     })
     return sum/arr.length;
 }
+
+// function findEntry(currPosition){
+//     for(var i=0;i<entryMarkers.length;i++){
+//         if(currPosition.x<entryMarkers[i-1]&&)
+//     }
+// }
