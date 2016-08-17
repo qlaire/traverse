@@ -11,12 +11,12 @@ function init() {
     // Add scene elements
     terrain=makeTerrain();
     scene.add(terrain)
-
-    //scene.fog = new THREE.FogExp2('blue', 1);
    
-    //MOVE TO OWN FILE
     mainLights();
     pointLights();
+
+    //words
+    placeWords();
 
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
