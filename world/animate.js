@@ -4,5 +4,6 @@ function animate() {
     //animateOrbitControls();
     animatePointerLockControls();
     animatePointLights();
+    animateWords();
     //composer.render();
 }

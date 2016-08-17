@@ -18,7 +18,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(yZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(yZones[i],Math.random()*300,xCoord,'red','brown'));
+		pointLights.push(singlePointLight(yZones[i],Math.random()*300,xCoord,'red','brown'));	
 	}
 
 	//PATH 1 - JOY
