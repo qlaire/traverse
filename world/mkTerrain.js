@@ -6,17 +6,17 @@ var paddingX;
 var paddingZ;
 var vertexDict;
 var distanceX, distanceY;
+var xZones,yZones;
 
 function makeTerrain(paths){
-    //TODO: REFACTOR LIKE HELLLLLLLL1
     var paddingSize=5;
     var scaleUp=4;
     var smoothingRadius=2;
     //TODO: Make sure we can get this from outside;
     var paths=[ [ '0.3', '0.4', '0.2', '0.3', '0.3', '0.7', '0.3', '0.3', '0.3', '0.5', '0.5', '0.1', '0.6', '0.4', '0.1', '0.3', '0.3', '0.7', '0.8', '0.8', '0.8', '0.5', '0.8', '0.8', '0.3', '0.7', '0.6', '0.7', '0.7', '0.4' ],
-  [ '0.1', '0.1', '0.1', '0.2', '0.1', '0.3', '0.1', '0.1', '0.0', '0.3', '0.4', '0.3', '0.1', '0.3', '0.1', '0.3', '0.2', '0.4', '0.1', '0.2', '0.0', '0.4', '0.2', '0.2', '0.2', '0.2', '0.3', '0.2', '0.0', '0.4' ],
-  [ '0.2', '0.1', '0.5', '0.2', '0.3', '0.0', '0.2', '0.4', '0.8', '0.0', '0.0', '0.3', '0.0', '0.1', '0.6', '0.4', '0.3', '0.0', '0.0', '0.0', '0.0', '0.1', '0.0', '0.0', '0.1', '0.0', '0.0', '0.0', '0.0', '0.1' ] ]
-
+  [ '0.2', '0.1', '0.5', '0.2', '0.3', '0.0', '0.2', '0.4', '0.8', '0.0', '0.0', '0.3', '0.0', '0.1', '0.6', '0.4', '0.3', '0.0', '0.0', '0.0', '0.0', '0.1', '0.0', '0.0', '0.1', '0.0', '0.0', '0.0', '0.0', '0.1' ],[ '0.1', '0.1', '0.1', '0.2', '0.1', '0.3', '0.1', '0.1', '0.0', '0.3', '0.4', '0.3', '0.1', '0.3', '0.1', '0.3', '0.2', '0.4', '0.1', '0.2', '0.0', '0.4', '0.2', '0.2', '0.2', '0.2', '0.3', '0.2', '0.0', '0.4' ]]
+    //anger, joy, fear
+    //higher number -> higher emotion
     var terrainData=generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius);
     //unpack
     var flattenedArr=terrainData.flattenedArr;
@@ -37,14 +37,14 @@ function makeTerrain(paths){
 
 function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
-    var material = new THREE.MeshLambertMaterial({ color: 0xdddddd, shading: THREE.FlatShading });
+    var material = new THREE.MeshLambertMaterial({ color: 0x8493b5, shading: THREE.FlatShading });
     vertexDict={};
     var vertexDictX;
     var vertexDictY;
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
-    var xZones={};
-    var yZones={};
+    xZones={};
+    yZones={};
     var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;

@@ -3,5 +3,6 @@ function animate() {
     requestAnimationFrame( animate );
     //animateOrbitControls();
     animatePointerLockControls();
-    composer.render();
+    animatePointLights();
+    //composer.render();
 }
