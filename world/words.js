@@ -3,10 +3,20 @@ var words=[{"dank memes":"0.9","new girl":"0.9","good chemistry":"0.8","number":
 
 
 function placeWords(){
-	// for(var i=0;i<words.length;i++){
-	// 	for(var j=0;j<)
-	// }
-	placeAWord();
+	var word;
+	var wordsInChunk;
+	var xCoord, yCoord, zCoord;
+	for(var i=0;i<words.length; i++){
+		wordsInChunk=Object.keys(words[i]);
+		for(var j=0; j<wordsInChunk.length; j++){
+			word=wordsInChunk[j];
+			xCoord=Math.random()*1000;
+			zCoord=Math.random()*1000;
+			yCoord=100+Math.random()*200;
+			placeAWord(word,xCoord,yCoord,zCoord);
+		}
+	}
+
 }
 
 function placeAWord(word, x, y, z){
@@ -15,7 +25,7 @@ function placeAWord(word, x, y, z){
 	var context1 = canvas1.getContext('2d');
 	context1.font = "40px Arial";
 	context1.fillStyle = "rgba(255,255,255,0.95)";
-    context1.fillText('Hello, world!', 0, 50);
+    context1.fillText(word, 0, 50);
     
 	// canvas contents will be used for a texture
 	var texture1 = new THREE.Texture(canvas1) 
@@ -28,7 +38,7 @@ function placeAWord(word, x, y, z){
         new THREE.PlaneGeometry(100, 100),
         material1
       );
-	mesh1.position.set(400,200,400);
+	mesh1.position.set(x,y,z);
 	mesh1.rotation.y=Math.PI/2;
 	scene.add( mesh1 );
 }
