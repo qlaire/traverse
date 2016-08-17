@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <base href="/" />
     <title>Emoscape</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
+    <!--Import materialize.css-->
+    <link rel="stylesheet" type="text/css" href="/materialize-css/dist/css/materialize.min.css" media="screen,projection" />
     <script src="/lodash/index.js"></script>
     <script src="/angular/angular.js"></script>
     <script src="/angular-animate/angular-animate.js"></script>
@@ -13,9 +16,17 @@
     <script src="/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="/socket.io-client/socket.io.js"></script>
     <script src="/main.js"></script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
+
 <body ng-app="FullstackGeneratedApp">
-<!-- <navbar></navbar>
- -->    <div id="main" ui-view></div>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/materialize-css/dist/js/materialize.min.js"></script>
+    <!-- <navbar></navbar>
+ -->
+    <div id="main" ui-view></div>
 </body>
+
 </html>

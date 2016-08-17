@@ -1,13 +1,3 @@
-function initOrbitControls(){
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.target = new THREE.Vector3(0, 100, 0);
-}
-
-function animateOrbitControls(){
-	controls.update();
-}
-
-
 var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
@@ -23,38 +13,27 @@ var instructions = document.getElementById( 'instructions' );
 
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
+
+//POINTERLOCCK CONTROLS
 function initPointerLockControls(){
 	if ( havePointerLock ) {
-
 		var element = document.body;
-
 		var pointerlockchange = function ( event ) {
-
 			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-
 				controlsEnabled = true;
 				controls.enabled = true;
-
 				blocker.style.display = 'none';
 
 			} else {
-
 				controls.enabled = false;
-
 				blocker.style.display = '-webkit-box';
 				blocker.style.display = '-moz-box';
 				blocker.style.display = 'box';
-
 				instructions.style.display = '';
-
 			}
-
 		};
-
 		var pointerlockerror = function ( event ) {
-
 			instructions.style.display = '';
-
 		};
 
 		// Hook pointer lock state change events
@@ -189,6 +168,8 @@ function initPointerLockControls(){
 
 
 }
+
+
 var raycount=0;
 function animatePointerLockControls(){
 
@@ -202,7 +183,8 @@ function animatePointerLockControls(){
 		var intersections = raycaster.intersectObjects([terrain]);
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000;
+		var delta = ( time - prevTime ) / 1000; //real
+		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -225,7 +207,7 @@ function animatePointerLockControls(){
 		else if(currPosition.x<=-xBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.x=xBound+1;
+			controls.getObject().position.x=-xBound+1;
 		}
 		if(currPosition.z>=zBound){
 			velocity.x=0;
@@ -236,14 +218,13 @@ function animatePointerLockControls(){
 		else if(currPosition.z<=-zBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.z=zBound+1;
+			controls.getObject().position.z=-zBound+1;
 		}
 		
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
-				console.log('world',controls.getObject());
-
+				console.log(getLocation(intersections[0].point));
 			};
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
@@ -252,7 +233,6 @@ function animatePointerLockControls(){
 
 
 		controls.getObject().translateX( velocity.x * delta );
-		//controls.getObject().translateY( velocity.y * delta );
 		controls.getObject().translateZ( velocity.z * delta );
 
 
@@ -262,3 +242,36 @@ function animatePointerLockControls(){
 	}
 }
 
+//worldCoords will be intersections[0].point
+function getLocation(worldCoords){
+	var toReturn={};
+	var localCoords=terrain.worldToLocal(worldCoords);
+	console.log('localCoords',localCoords);
+	var xCoord=customFloor(localCoords.x,distanceX);
+	var yCoord=customFloor(localCoords.y,distanceY);
+	var locationInfo=vertexDict[[xCoord,yCoord]];
+	if(!locationInfo){
+		return {path: -1, entry: -1};
+	}
+	toReturn.path=locationInfo[0];
+	toReturn.entry=locationInfo[locationInfo.length-1];
+	return toReturn;	
+}
+
+//make sure we don't have more tha one of these!!!
+function customFloor(num,factor){
+  return factor * Math.floor(num/factor);
+}
+
+
+
+//ORBIT CONTROLS
+
+function initOrbitControls(){
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target = new THREE.Vector3(0, 100, 0);
+}
+
+function animateOrbitControls(){
+	controls.update();
+}
