@@ -43,21 +43,49 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     var vertexDictY;
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
+    var xZones={};
+    var yZones={};
+    var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
-        vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
-        vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
-        vertexDict[[vertexDictX,vertexDictY]]=helperArrFlat[i];
     }
+    buildZonesDict(xZones,yZones,vertexDictX,vertexDictY,helperArrFlat,geometry,i);
+    //final touches
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
     return plane
-
-
 }
 
+function buildZonesDict(xZones,yZones,vertexDictX,vertexDictY,helperArrFlat,geometry){
+        for(var i=0; i<geometry.vertices.length; i++){
+            vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
+            vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
+            vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
+
+            if(!xZones[helperArrFlat[i][0]]){
+                xZones[helperArrFlat[i][0]]=vertexDictY;
+            }
+            else if(vertexDictY<xZones[helperArrFlat[i][0]]){
+                xZones[helperArrFlat[i][0]]=vertexDictY;
+            }
+
+            if(!yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
+            }
+            else if(vertexDictX<yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
+            }
+        }
+        //get last padding zones
+        var toAdd=xZones[0]-xZones[1];
+        xZones[999]=xZones[0]+toAdd;
+        var keys=Object.keys(yZones);
+        toAdd=yZones[1]-yZones[0];
+        yZones[999]=yZones[keys.length-2]+toAdd;
+        // console.log(xZones,yZones)
+}
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
     //numify
     paths=numifyData(paths);
