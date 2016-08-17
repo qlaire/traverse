@@ -43,12 +43,29 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     var vertexDictY;
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
+    var xZones={};
+    var yZones={};
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
         vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
         vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
-        vertexDict[[vertexDictX,vertexDictY]]=helperArrFlat[i];
+        vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
+        //seems to work, but missing one of the padding zones
+        if(!xZones[helperArrFlat[i][0]]){
+            xZones[helperArrFlat[i][0]]=vertexDictY;
+        }
+        else if(vertexDictY<xZones[helperArrFlat[i][0]]){
+            xZones[helperArrFlat[i][0]]=vertexDictY;
+        }
+        if(!yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+            yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
+        }
+        else if(vertexDictX<yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+            yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
+        }
     }
+    console.log(xZones);
+    console.log(yZones);
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
     var plane = new THREE.Mesh(geometry, material);
