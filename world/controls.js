@@ -184,7 +184,7 @@ function animatePointerLockControls(){
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; //real
-		var delta = 10 * ( time - prevTime ) / 1000; //testing
+		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
