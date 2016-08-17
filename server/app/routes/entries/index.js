@@ -1,6 +1,7 @@
 'use strict';
 var router = require('express').Router();
 var analyzeEmotion = require('../../../utils').analyzeEmotion;
+var convertWatsonDataToArr = require('../../../utils').convertWatsonDataToArr;
 var authenticator = require('../utils');
 var db = require('../../../db/_db');
 var Entry = db.model('entry');
@@ -16,21 +17,30 @@ router.post('/analyze', function (req, res, next) {
   .catch(next);
 })
 
-module.exports = router;
-
-
-
 router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
   res.sendStatus(200);
 })
 
-router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
-    Entry.create(req.body)
-    .then(function(savedEntry){
-      return savedEntry.setAuthor(req.user.id)
-    }).then(function(){
-        res.sendStatus(201);
-    })
+router.post('/', /*authenticator.ensureAuthenticated,*/ function(req, res, next){
+  let joyArr;
+  let angerArr;
+  let fearArr;
+  analyzeEmotion(req.body.entry)
+  .then(results => {
+    let resultArr = convertWatsonDataToArr(results);
+    joyArr = resultArr[2];
+    angerArr = resultArr[0];
+    fearArr = resultArr[1];
+    res.send(joyArr);
+  })
+  .catch(next);
+  
+  // Entry.create(req.body)
+  // .then(function(savedEntry){
+  //   return savedEntry.setAuthor(req.user.id)
+  // }).then(function(){
+  //     res.sendStatus(201);
+  // })
 
 })
 

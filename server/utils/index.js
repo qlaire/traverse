@@ -45,18 +45,18 @@ function analyzeEmotion(entry) {
   return sendToWatson(processEntry(entry));
 }
 
-// I dont think we actually want to use this function in the app. it was just for temporary
-// data mining purposes. Keeping it here in case we want to use it again.
-
-// function convertToArr(results) {
-//   let resultArr = [[], [], []];
-//   results.forEach(result => {
-//     resultArr[0].push(Number(result.anger).toFixed(1));
-//     resultArr[1].push(Number(result.fear).toFixed(1));
-//     resultArr[2].push(Number(result.joy).toFixed(1));
-//   })
-//   return resultArr;
-// }
+function convertWatsonDataToArr(results) {
+  let resultArr = [[], [], []];
+  if (!Array.isArray(results)) {
+    results = [results];
+  }
+  results.forEach(result => {
+    resultArr[0].push(Number(result.anger).toFixed(1));
+    resultArr[1].push(Number(result.fear).toFixed(1));
+    resultArr[2].push(Number(result.joy).toFixed(1));
+  })
+  return resultArr;
+}
 // analyzeEmotion(myDiary)
 // .then(results => {
 //   console.log(convertToArr(results));
@@ -65,5 +65,6 @@ function analyzeEmotion(entry) {
 // .catch(err => console.log(err));
 
 module.exports = {
-  analyzeEmotion: analyzeEmotion
+  analyzeEmotion: analyzeEmotion,
+  convertWatsonDataToArr: convertWatsonDataToArr
 };
