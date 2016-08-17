@@ -51,12 +51,14 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
         vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
         vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
         //seems to work, but missing one of the padding zones
+
         if(!xZones[helperArrFlat[i][0]]){
             xZones[helperArrFlat[i][0]]=vertexDictY;
         }
         else if(vertexDictY<xZones[helperArrFlat[i][0]]){
             xZones[helperArrFlat[i][0]]=vertexDictY;
         }
+
         if(!yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
             yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
         }
@@ -64,6 +66,17 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
             yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
         }
     }
+    //get last padding zones
+    var toAdd=xZones[0]-xZones[1];
+    xZones[999]=xZones[0]+toAdd;
+
+    var keys=Object.keys(yZones);
+    console.log(keys)
+    toAdd=yZones[1]-yZones[0];
+    console.log(toAdd);
+    console.log(yZones[keys.length-2])
+    yZones[999]=yZones[keys.length-2]+toAdd;
+
     console.log(xZones);
     console.log(yZones);
     geometry.computeFaceNormals();
