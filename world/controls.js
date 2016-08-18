@@ -245,6 +245,7 @@ function animatePointerLockControls(){
 //worldCoords will be intersections[0].point
 function getLocation(worldCoords){
 	var toReturn={};
+	console.log(worldCoords);
 	var localCoords=terrain.worldToLocal(worldCoords);
 	console.log('localCoords',localCoords);
 	var xCoord=customFloor(localCoords.x,distanceX);
