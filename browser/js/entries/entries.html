@@ -32,9 +32,11 @@
     <div class="background">
         <h1>HI</h1>
         <!-- <textarea id="entry" placeholder="Dear Diary,"></textarea> -->
-        <form method="post" ng-controller="EntriesCtrl">
-            <button ng-click="getContent()">Get content</button>
-            <button ng-click="setContent()">Set content</button>
-            <button id="post" class="btn btn-default">Post</button>
+        <div ng-controller="EntriesCtrl">
+          <div ng-repeat="entry in entries">
+          {{entry}}
+          </div>
+        </div>
+
     </div>
 </section>
