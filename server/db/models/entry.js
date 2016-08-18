@@ -28,6 +28,10 @@ module.exports = db.define('entry', {
   fear: {
     type: Sequelize.ARRAY(Sequelize.FLOAT),
     allowNull: false,
+  },
+  keywords: {
+    type: Sequelize.JSON,
+    allowNull: false
   }
 }, {
   instanceMethods: {},
