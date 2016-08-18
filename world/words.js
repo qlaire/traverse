@@ -10,13 +10,13 @@ function placeWords(){
 	var xCoord, yCoord, zCoord;
 	for(var i=0;i<words.length; i++){
 		wordsInChunk=Object.keys(words[i]);
-		console.log('entry start',yZones[i], 'entry end',yZones[i-1])
+		console.log('entry start',xZones[i], 'entry end',xZones[i-1])
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
 			//xCoord=Math.random()*1000;
-			xCoord=yZones[i]+Math.random()*(yZones[1]-yZones[0]);
+			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
 			zCoord=-1000+Math.random()*3000;
-			yCoord=xZones[0]+Math.random()*xZones[999]-xZones[0];
+			yCoord=zZones[0]+Math.random()*zZones[999]-zZones[0];
 			wordMeshes.push(placeAWord(word,xCoord,yCoord,zCoord,words[i][word]));
 		}
 	}

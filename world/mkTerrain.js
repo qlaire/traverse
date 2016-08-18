@@ -6,7 +6,7 @@ var paddingX;
 var paddingZ;
 var vertexDict;
 var distanceX, distanceY;
-var xZones,yZones;
+var zZones,xZones;
 
 function makeTerrain(paths){
     var paddingSize=5;
@@ -43,13 +43,13 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     var vertexDictY;
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
+    zZones={};
     xZones={};
-    yZones={};
     var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*150;
     }
-    buildZonesDict(xZones,yZones,vertexDictX,vertexDictY,helperArrFlat,geometry,i);
+    buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry,i);
     //final touches
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
@@ -58,33 +58,33 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     return plane
 }
 
-function buildZonesDict(xZones,yZones,vertexDictX,vertexDictY,helperArrFlat,geometry){
+function buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry){
         for(var i=0; i<geometry.vertices.length; i++){
             vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
             vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
             vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
 
-            if(!xZones[helperArrFlat[i][0]]){
-                xZones[helperArrFlat[i][0]]=vertexDictY;
+            if(!zZones[helperArrFlat[i][0]]){
+                zZones[helperArrFlat[i][0]]=vertexDictY;
             }
-            else if(vertexDictY<xZones[helperArrFlat[i][0]]){
-                xZones[helperArrFlat[i][0]]=vertexDictY;
+            else if(vertexDictY<zZones[helperArrFlat[i][0]]){
+                zZones[helperArrFlat[i][0]]=vertexDictY;
             }
 
-            if(!yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
+            if(!xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
             }
-            else if(vertexDictX<yZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                yZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
+            else if(vertexDictX<xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
             }
         }
         //get last padding zones
-        var toAdd=xZones[0]-xZones[1];
-        xZones[999]=xZones[0]+toAdd;
-        var keys=Object.keys(yZones);
-        toAdd=yZones[1]-yZones[0];
-        yZones[999]=yZones[keys.length-2]+toAdd;
-        // console.log(xZones,yZones)
+        var toAdd=zZones[0]-zZones[1];
+        zZones[999]=zZones[0]+toAdd;
+        var keys=Object.keys(xZones);
+        toAdd=xZones[1]-xZones[0];
+        xZones[999]=xZones[keys.length-2]+toAdd;
+        // console.log(zZones,xZones)
 }
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
     //numify
