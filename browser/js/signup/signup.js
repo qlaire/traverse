@@ -6,19 +6,33 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('SignupCtrl', function ($scope, AuthService, $state) {
+app.controller('SignupCtrl', function($scope, AuthFactory, $state, AuthService) {
+  $scope.sendSignup = function(info) {
+    console.log('info', info);
+    AuthFactory.signup($scope.signup)
+    .then(function() {
+      return AuthService.login(info)
+    })
+    .then(function() {
+      $state.go('entries');
+    });
+  }
+});
 
-    $scope.signup = {};
-    $scope.error = null;
+app.factory('AuthFactory', function($http, $state) {
+  var authObj = {};
 
-    $scope.sendSignup = function (signupInfo) {
+  authObj.currentUser = {};
+  authObj.currentUser.loggedIn = false;
 
-        $scope.error = null;
+  authObj.signup = function(data) {
+    return $http.post('/api/users', data)
+      // .catch($log.error);
+  };
 
-        AuthService.signup(signupInfo).then(function () {
-            $state.go('entry');
-        }).catch(function () {
-            $scope.error = 'Invalid signup credentials.';
-        });
-    };
+  authObj.isLoggedIn = function() {
+    return authObj.currentUser.loggedIn;
+  };
+
+  return authObj;
 });
