@@ -2,7 +2,7 @@ var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
-var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp, onPlane;
+var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp, onPlane,moveDown, starWalked, backToEarth;
 
 var objects=[];
 
@@ -94,6 +94,7 @@ function initPointerLockControls(){
 	moveLeft = false;
 	moveRight = false;
 	speedUp = false;
+	starWalked=false;
 
 	prevTime = performance.now();
 	velocity = new THREE.Vector3();
@@ -198,17 +199,48 @@ function animatePointerLockControls(){
 
 		console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
-		if(checkIfInColumn(intersections)){
+		var inColumn=checkIfInColumn(intersections);
+
+		if(inColumn&&!starWalked&&!backToEarth){
+			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
+				console.log(1);
 				moveForward=false;
 				moveBackward=false;
 				moveLeft=false;
 				moveRight=false;
 				moveUp=true;		
 			}
+			//in column, on plane
 			else{
+				console.log(2);
 				onPlane=true;
 			}
+		} 
+		//on plane, not in column - registers that you've walked the stars
+		if(onPlane&&!inColumn&&!starWalked){
+			console.log(3);
+			starWalked=true;
+		}
+
+		//already starwalked
+		if(starWalked&&inColumn){
+			//you're not on the terrain yet
+			if(controls.getObject().position.y>(intersections[0].point.y+20)){
+				console.log(4);
+				moveDown=true;
+				onPlane=false;
+			}
+			//you're on the terrain 
+			else{
+				console.log(5);
+				moveDown=false;
+				backToEarth=true;
+				starWalked=false;
+			}
+		}
+		if(!inColumn){
+			backToEarth=false;
 		}
 
 
@@ -249,8 +281,10 @@ function animatePointerLockControls(){
 			}
 		}
 		if (moveUp) {
-			console.log('moving up!!!')
-			controls.getObject().position.y +=1;
+			controls.getObject().position.y +=50;
+		}
+		if (moveDown) {
+			controls.getObject().position.y -=1;
 		}
 
 		//Prevent overstepping world bounds
@@ -278,7 +312,7 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
-		if ( isOnObject === true && !moveUp && !onPlane) { //TODO: not when on interstellar plane
+		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
 			if(raycount%100===0){
 				// console.log('in column???',checkIfInColumn(intersections[0].point));
 				console.log('in column???',checkIfInColumn(intersections));
