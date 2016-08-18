@@ -6,39 +6,39 @@ function mainLights(){
 
 var pointLights;
 function pointLights(){
-	console.log('xZones and yZones')
+	console.log('zZones and xZones')
+	console.log(zZones);
 	console.log(xZones);
-	console.log(yZones);
 	pointLights=[];
 
 	//PATH 0 - ANGER
-	console.log(Object.keys(xZones));
-	var bound1=xZones[2];
-	var bound2=xZones[1];
+	console.log(Object.keys(zZones));
+	var bound1=zZones[2];
+	var bound2=zZones[1];
 	var xCoord;
-	for(var i=0; i<Object.keys(yZones).length; i++){
+	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(yZones[i],Math.random()*300,xCoord,'red','brown'));	
+		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'red','brown'));	
 	}
 
 	//PATH 1 - JOY
-	console.log(Object.keys(xZones));
-	var bound1=xZones[1];
-	var bound2=xZones[0];
+	console.log(Object.keys(zZones));
+	var bound1=zZones[1];
+	var bound2=zZones[0];
 	var xCoord;
-	for(var i=0; i<Object.keys(yZones).length; i++){
+	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(yZones[i],Math.random()*300,xCoord,'orange','yellow'));
+		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'orange','yellow'));
 	}
 
 	//PATH 2 - FEAR
-	console.log(Object.keys(xZones));
-	var bound1=xZones[0];
-	var bound2=xZones[999];
+	console.log(Object.keys(zZones));
+	var bound1=zZones[0];
+	var bound2=zZones[999];
 	var xCoord;
-	for(var i=0; i<Object.keys(yZones).length; i++){
+	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(yZones[i],Math.random()*350,xCoord,'purple', '#9494b8'
+		pointLights.push(singlePointLight(xZones[i],Math.random()*350,xCoord,'purple', '#9494b8'
 ));
 	}
 
