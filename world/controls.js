@@ -2,7 +2,7 @@ var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
-var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp;
+var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp, onPlane;
 
 var objects=[];
 
@@ -182,7 +182,7 @@ function initPointerLockControls(){
 
 var raycount=0;
 function animatePointerLockControls(){
-
+	moveUp=false;
 	if ( controlsEnabled ) {
 		//for console.logging
 		raycount++;
@@ -196,14 +196,21 @@ function animatePointerLockControls(){
 		var delta = ( time - prevTime ) / 1000; //real
 		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
+		console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
 		if(checkIfInColumn(intersections)){
-			moveForward=false;
-			moveBackward=false;
-			moveLeft=false;
-			moveRight=false;
-			moveUp=true;
+			if(controls.getObject().position.y<planeHeight+20){
+				moveForward=false;
+				moveBackward=false;
+				moveLeft=false;
+				moveRight=false;
+				moveUp=true;		
+			}
+			else{
+				onPlane=true;
+			}
 		}
+
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -271,7 +278,7 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
-		if ( isOnObject === true && !moveUp) { //TODO: not when on interstellar plane
+		if ( isOnObject === true && !moveUp && !onPlane) { //TODO: not when on interstellar plane
 			if(raycount%100===0){
 				// console.log('in column???',checkIfInColumn(intersections[0].point));
 				console.log('in column???',checkIfInColumn(intersections));
