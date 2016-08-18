@@ -4,7 +4,6 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/signup/signup.html',
         controller: 'SignupCtrl'
     });
-
 });
 
 app.controller('SignupCtrl', function ($scope, AuthService, $state) {
@@ -17,7 +16,7 @@ app.controller('SignupCtrl', function ($scope, AuthService, $state) {
         $scope.error = null;
 
         AuthService.signup(signupInfo).then(function () {
-            $state.go('home');
+            $state.go('entry');
         }).catch(function () {
             $scope.error = 'Invalid signup credentials.';
         });

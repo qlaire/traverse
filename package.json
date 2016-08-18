@@ -68,5 +68,8 @@
     "supertest": "^0.15.0",
     "three.terrain.js": "^1.4.0",
     "watson-developer-cloud": "^2.1.0"
+  },
+  "devDependencies": {
+    "angular-ui-tinymce": "0.0.16"
   }
 }

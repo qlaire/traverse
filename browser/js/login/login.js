@@ -1,11 +1,9 @@
 app.config(function ($stateProvider) {
-
     $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'js/login/login.html',
         controller: 'LoginCtrl'
     });
-
 });
 
 app.controller('LoginCtrl', function ($scope, AuthService, $state) {
@@ -18,7 +16,7 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state) {
         $scope.error = null;
 
         AuthService.login(loginInfo).then(function () {
-            $state.go('home');
+            $state.go('entries');
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
         });
