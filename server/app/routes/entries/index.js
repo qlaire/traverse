@@ -8,7 +8,9 @@ var Entry = db.model('entry');
 module.exports = router;
 
 router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
-  Entry.findAll({where: {authorId: req.user.id}})
+  Entry.findAll({where: {authorId: req.user.id},
+                order: [['date', 'DESC']]
+              })
   .then(function(entries){
     res.status(200).send(entries);
   })
@@ -36,9 +38,9 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   .then(savedEntry => {
     return savedEntry.setAuthor(req.user.id)
   }).then(function(entry){
-    res.status(201);
+    res.status(201).entry;
   })
-  .next;
+  .then(null, next);
 })
 
 router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
@@ -47,28 +49,26 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
   let angerArr;
   let fearArr;
 
-  Entry.findById(req.params.id)
-  .then(function(entry){
-    if(entry.authorId === req.user.id){
-      status = 200;
-      analyzeEmotion(req.body.entry)
-      .spread((emoResults, keywordResults) => {
+  analyzeEmotion(req.body.entry)
+    .spread((emoResults, keywordResults) => {
       let resultArr = convertWatsonDataToArr(emoResults);
       joyArr = resultArr[2];
       angerArr = resultArr[0];
       fearArr = resultArr[1];
-    return Entry.update({
-      body: req.body.entry,
-      joy: joyArr,
-      anger: angerArr,
-      fear: fearArr,
-      keywords: keywordResults
-    }, {where: {id: req.params.id}})
-      })
+      return Entry.update({
+        body: req.body.entry || 'not really updated',
+        joy: joyArr,
+        anger: angerArr,
+        fear: fearArr,
+        keywords: keywordResults
+      }, {where: {id: req.params.id, authorId: req.user.id}})
+    }).then(function(result){
+      console.log(result)
+    if(result[0] === 1){
+      status = 200;
     }
-    }).then(function(){
     res.sendStatus(status);
-  }).next;
+  }).then(null, next);
 })
 
 router.delete('/:id', authenticator.ensureAuthenticated,
