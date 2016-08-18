@@ -9,7 +9,10 @@ module.exports = router;
 
 
 router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
-  res.sendStatus(200);
+  Entry.findAll({where: {authorId: req.user.id}})
+  .then(function(entries){
+    res.status(200).send(entries);
+  })
 })
 
 router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
@@ -23,10 +26,26 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
 })
 
 router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
-  res.sendStatus(200);
+  var status = 401;
+
+  Entry.findById(req.params.id)
+  .then(function(entry){
+    if(entry.authorId === req.user.id){
+      status = 200;
+      return Entry.update(req.body, { where: {id: req.params.id}})
+    }
+  }).then(function(){
+    res.sendStatus(status);
+  }).next;
+
 })
 
 router.delete('/:id', authenticator.ensureAuthenticated,
               function(req, res, next){
-  res.sendStatus(200);
+  if(!req.user.isAdmin){
+    res.sendStatus(401);
+  }
+  else{
+    res.sendStatus(200);
+  }
 })
