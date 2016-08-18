@@ -2,7 +2,7 @@ var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
-var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity;
+var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp;
 
 var objects=[];
 
@@ -93,6 +93,7 @@ function initPointerLockControls(){
 	moveBackward = false;
 	moveLeft = false;
 	moveRight = false;
+	speedUp = false;
 
 	prevTime = performance.now();
 	velocity = new THREE.Vector3();
@@ -105,6 +106,10 @@ function initPointerLockControls(){
 
 		switch ( event.keyCode ) {
 
+			case 16: // shift
+				// increase speed
+				speedUp = true;
+			
 			case 38: // up
 			case 87: // w
 				moveForward = true;
@@ -123,8 +128,7 @@ function initPointerLockControls(){
 			case 68: // d
 				moveRight = true;
 				break;
-
-
+			
 		}
 
 	};
@@ -133,6 +137,10 @@ function initPointerLockControls(){
 
 		switch( event.keyCode ) {
 
+			case 16: // shift
+				// slow back down
+				speedUp = false;
+			
 			case 38: // up
 			case 87: // w
 				moveForward = false;
@@ -191,11 +199,37 @@ function animatePointerLockControls(){
 
 		var currPosition=controls.getObject().position;
 
-		if ( moveForward ) velocity.z -= 400.0 * delta;
-		if ( moveBackward ) velocity.z += 400.0 * delta;
+		if (moveForward) {
+			if (speedUp) {
+				velocity.z -= 1600.0 * delta;
+			} else {
+				velocity.z -= 400.0 * delta;
+			}
+		}
 
-		if ( moveLeft ) velocity.x -= 400.0 * delta;
-		if ( moveRight ) velocity.x += 400.0 * delta;
+		if (moveBackward) {
+			if (speedUp) {
+				velocity.z += 1600.0 * delta;
+			} else {
+				velocity.z += 400.0 * delta;
+			}
+		}
+
+		if (moveLeft) {
+			if (speedUp) {
+				velocity.x -= 1600.0 * delta;
+			} else {
+				velocity.x -= 400.0 * delta;
+			}
+		}
+
+		if (moveRight) {
+			if (speedUp) {
+				velocity.x += 1600.0 * delta;
+			} else {
+				velocity.x += 400.0 * delta;
+			}
+		}
 
 		//Prevent overstepping world bounds
 		if(currPosition.x>=xBound){
@@ -262,17 +296,4 @@ function getLocation(worldCoords){
 //make sure we don't have more tha one of these!!!
 function customFloor(num,factor){
   return factor * Math.floor(num/factor);
-}
-
-
-
-//ORBIT CONTROLS
-
-function initOrbitControls(){
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.target = new THREE.Vector3(0, 100, 0);
-}
-
-function animateOrbitControls(){
-	controls.update();
 }
