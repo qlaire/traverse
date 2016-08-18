@@ -190,7 +190,7 @@ function animatePointerLockControls(){
 		//
 		raycaster.ray.origin.copy( controls.getObject().position );
 
-		var intersections = raycaster.intersectObjects([terrain]);
+		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; //real
@@ -260,6 +260,9 @@ function animatePointerLockControls(){
 		var distToGround;
 		if ( isOnObject === true ) {
 			if(raycount%100===0){
+				// console.log('in column???',checkIfInColumn(intersections[0].point));
+				console.log('in column???',checkIfInColumn(intersections));
+				console.log('intersections',intersections);
 				console.log(getLocation(intersections[0].point));
 			};
 			distToGround=intersections[0].distance;
@@ -276,6 +279,19 @@ function animatePointerLockControls(){
 		prevTime = time;
 
 	}
+}
+
+
+function checkIfInColumn(intersections){
+	var inColumn=false;
+	intersections.forEach(intersection=>{
+		console.log('isDisk?',intersection.object.isDisk);
+		if(intersection.object.isDisk){
+			inColumn=true;
+		}
+	});
+	return inColumn;
+
 }
 
 //worldCoords will be intersections[0].point
