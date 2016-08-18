@@ -109,6 +109,7 @@ function initPointerLockControls(){
 			case 16: // shift
 				// increase speed
 				speedUp = true;
+				break;
 			
 			case 38: // up
 			case 87: // w
@@ -140,6 +141,7 @@ function initPointerLockControls(){
 			case 16: // shift
 				// slow back down
 				speedUp = false;
+				break;
 			
 			case 38: // up
 			case 87: // w
