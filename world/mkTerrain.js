@@ -7,6 +7,8 @@ var paddingZ;
 var vertexDict;
 var distanceX, distanceY;
 var zZones,xZones;
+var terrainWidth;
+var terrainHeight;
 
 function makeTerrain(paths){
     var paddingSize=5;
@@ -23,8 +25,8 @@ function makeTerrain(paths){
     var helperArrFlat=terrainData.helperArrFlat;
     var wS=terrainData.wS;
     var hS=terrainData.hS;
-    var terrainWidth=terrainData.terrainWidth;
-    var terrainHeight=terrainData.terrainHeight;
+    terrainWidth=terrainData.terrainWidth;
+    terrainHeight=terrainData.terrainHeight;
     paddingX=terrainData.paddingX;
     paddingZ=terrainData.paddingZ;
     xBound=terrainData.xBound;
