@@ -163,7 +163,7 @@ function initPointerLockControls(){
 	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 3001 );
 	//Set positions
 	controls.getObject().position.z=0;
-	controls.getObject().position.x=yZones[Object.keys(yZones).length-3];
+	controls.getObject().position.x=xZones[Object.keys(xZones).length-3];
 	controls.getObject().position.y=600;
 
 
@@ -245,6 +245,7 @@ function animatePointerLockControls(){
 //worldCoords will be intersections[0].point
 function getLocation(worldCoords){
 	var toReturn={};
+	console.log(worldCoords);
 	var localCoords=terrain.worldToLocal(worldCoords);
 	console.log('localCoords',localCoords);
 	var xCoord=customFloor(localCoords.x,distanceX);
