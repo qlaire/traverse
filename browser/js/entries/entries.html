@@ -28,15 +28,9 @@
     </form>
 </div>
  -->
-<section id="entry">
-    <div class="background">
-        <h1>HI</h1>
-        <!-- <textarea id="entry" placeholder="Dear Diary,"></textarea> -->
-        <div ng-controller="EntriesCtrl">
-          <div ng-repeat="entry in entries">
-          {{entry}}
-          </div>
-        </div>
-
+<section id="entries">
+<div ng-repeat="entry in entries | orderBy : 'id': 'reverse'">
+       <p>{{entry.body}}</p>
+       <p><{{entry.id}}</p>
     </div>
 </section>

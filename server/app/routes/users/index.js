@@ -9,14 +9,14 @@ router.get('/', function(req, res, next) {
     User.findAll({})
     .then(function(users) {
         res.json(users);
-    });
+    }).catch(next)
 });
 
 router.get('/:id', function(req, res, next) {
     User.findById(req.params.id)
     .then(function(user) {
         res.send(user);
-    });
+    }).catch(next)
 });
 
 router.post('/', function(req, res, next) {
@@ -24,7 +24,7 @@ router.post('/', function(req, res, next) {
    .then(function(user) {
 		    res.status(201).json(user);
     })
-   .catch(next);
+   .catch(next).catch(next)
 });
 
 router.put('/:id', function(req, res, next) {
@@ -38,7 +38,7 @@ router.put('/:id', function(req, res, next) {
   .then(function(updatedUser) {
     res.send(updatedUser);
   })
-  .catch(next);
+  .catch(next).catch(next)
 });
 
 

@@ -1,15 +1,14 @@
-app.factory('EntriesFactory', function($http) {
+app.factory('EntriesFactory', function($http, $log, Session) {
+  var EntriesFactory = {};
 
-   function getData (response) {
+  function getData (response) {
     return response.data;
   }
 
-  function getAllEntries (){
-    $http.get('/api/entries')
-    .then(getData)
-  }
+  EntriesFactory.getAll = function () {
+      return $http.get('/api/entries')
+      .then(getData)
+    }
 
-  return {
-    getAllEntries: getAllEntries,
-  };
+  return EntriesFactory;
 });
