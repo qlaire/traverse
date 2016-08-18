@@ -170,7 +170,7 @@ describe('Entries Route', function() {
         return User.create(userInfo).then(function(){
                 return User.create(user2);
               }).then(function(user) {
-                return entryArr[0].setAuthor(user.id)
+                return entryArr[0].setAuthor(2)
               }).then(function(){
                 entryArr[1].setAuthor(1);
                 done();
@@ -229,7 +229,7 @@ describe('Entries Route', function() {
       });
 
     it('Try to edit own entry get 200', function (done){
-        loggedInAgent.put('/api/entries/1').send({body: 'purple'})
+        loggedInAgent.put('/api/entries/1').send({entry: 'purple. I love purple. It is the best of colors. I enjoy it ever so much. I hate dogs though. Dogs are terrible. I love purple.'})
         .expect(200)
         .end(function(err, res){
           if(err) return done(err);
@@ -244,10 +244,11 @@ describe('Entries Route', function() {
             expect(arr[0].body).to.contain('purple');
             expect(arr[1].body).to.contain(entryArr[1].body);
             expect(arr[2].body).to.contain(entryArr[2].body);
-            done();
+            }).catch(function(error){
+              done(error);
             })
-
-          });
+          })
+        done();
       });
 
         it('Try to edit someone else\'s entry get 401', function (done){

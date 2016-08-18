@@ -38,22 +38,37 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   }).then(function(entry){
     res.status(201);
   })
-  .catch(next);
+  .next;
 })
 
 router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
   var status = 401;
+  let joyArr;
+  let angerArr;
+  let fearArr;
 
   Entry.findById(req.params.id)
   .then(function(entry){
     if(entry.authorId === req.user.id){
       status = 200;
-      return Entry.update(req.body, { where: {id: req.params.id}})
+      analyzeEmotion(req.body.entry)
+      .spread((emoResults, keywordResults) => {
+      let resultArr = convertWatsonDataToArr(emoResults);
+      joyArr = resultArr[2];
+      angerArr = resultArr[0];
+      fearArr = resultArr[1];
+    return Entry.update({
+      body: req.body.entry,
+      joy: joyArr,
+      anger: angerArr,
+      fear: fearArr,
+      keywords: keywordResults
+    }, {where: {id: req.params.id}})
+      })
     }
-  }).then(function(){
+    }).then(function(){
     res.sendStatus(status);
-  }).catch(next);
-
+  }).next;
 })
 
 router.delete('/:id', authenticator.ensureAuthenticated,
