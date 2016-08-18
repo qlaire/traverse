@@ -281,7 +281,7 @@ function animatePointerLockControls(){
 			}
 		}
 		if (moveUp) {
-			controls.getObject().position.y +=50;
+			controls.getObject().position.y +=1;
 		}
 		if (moveDown) {
 			controls.getObject().position.y -=1;
