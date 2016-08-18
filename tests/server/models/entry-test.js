@@ -17,7 +17,8 @@ describe('Entry Model', function () {
         body: 'Migratory Birds',
         joy: [],
         fear: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function (savedEntry) {
         expect(savedEntry.body).to.equal('Migratory Birds');
       });
@@ -40,7 +41,8 @@ describe('Entry Model', function () {
         body: '',
         joy: [],
         fear: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       });
 
       return entry.validate()
@@ -59,7 +61,8 @@ describe('Entry Model', function () {
         body: 'Migratory Birds',
         joy: [],
         fear: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function (savedEntry) {
         expect(savedEntry.subject).to.equal('Test');
       });
@@ -73,7 +76,8 @@ describe('Entry Model', function () {
         body: 'Migratory Birds',
         joy: [],
         fear: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function (savedEntry) {
         expect(savedEntry.date + '').to.equal(new Date() + '');
       });
@@ -86,7 +90,8 @@ describe('Entry Model', function () {
         body: 'Migratory Birds',
         joy: [5],
         fear: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function (savedEntry) {
         expect(savedEntry.joy).is.an('array');
         expect(savedEntry.joy[0]).to.equal(5);
@@ -97,7 +102,8 @@ describe('Entry Model', function () {
       return Entry.create({
         body: 'Migratory Birds',
         fear: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function(response){
         expect(response).to.be.an.instanceOf(Error);
         expect(response.message).to.contain('notNull');
@@ -113,7 +119,8 @@ describe('Entry Model', function () {
         body: 'Migratory Birds',
         joy: [],
         fear: [11],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function (savedEntry) {
         expect(savedEntry.fear).is.an('array');
         expect(savedEntry.fear[0]).to.equal(11);
@@ -124,7 +131,8 @@ describe('Entry Model', function () {
       return Entry.create({
         body: 'Migratory Birds',
         joy: [],
-        anger: []
+        anger: [],
+        keywords: 'apple'
       }).then(function(response){
         expect(response).to.be.an.instanceOf(Error);
         expect(response.message).to.contain('notNull');
@@ -140,7 +148,8 @@ describe('Entry Model', function () {
         body: 'Migratory Birds',
         joy: [],
         fear: [],
-        anger: [6]
+        anger: [6],
+        keywords: 'apple'
       }).then(function (savedEntry) {
         expect(savedEntry.anger).is.an('array');
         expect(savedEntry.anger[0]).to.equal(6);
@@ -151,7 +160,8 @@ describe('Entry Model', function () {
       return Entry.create({
         body: 'Migratory Birds',
         joy: [],
-        fear: []
+        fear: [],
+        keywords: 'apple'
       }).then(function(response){
         expect(response).to.be.an.instanceOf(Error);
         expect(response.message).to.contain('notNull');
