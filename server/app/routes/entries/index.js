@@ -7,28 +7,19 @@ var db = require('../../../db/_db');
 var Entry = db.model('entry');
 module.exports = router;
 
-router.post('/analyze', function (req, res, next) {
-  console.log('I\'m in the route---------');
-  analyzeEmotion(req.body.entry)
-  .then(results => {
-    // save the results to the database
-    res.send(results);
-  })
-  .catch(next);
-})
-
 router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
   res.sendStatus(200);
 })
 
+// authentication check commented out for testing purposes.
+// need to add this back in.
 router.post('/', /*authenticator.ensureAuthenticated,*/ function(req, res, next){
   let joyArr;
   let angerArr;
   let fearArr;
   analyzeEmotion(req.body.entry)
-  .then(results => {
-    console.log('here are the results', results);
-    let resultArr = convertWatsonDataToArr(results[0]);
+  .spread((emoResults, keywordResults) => {
+    let resultArr = convertWatsonDataToArr(emoResults);
     joyArr = resultArr[2];
     angerArr = resultArr[0];
     fearArr = resultArr[1];
@@ -38,7 +29,7 @@ router.post('/', /*authenticator.ensureAuthenticated,*/ function(req, res, next)
       joy: joyArr,
       anger: angerArr,
       fear: fearArr,
-      keywords: results[1]
+      keywords: keywordResults
     });
   })
   .then(savedEntry => {
