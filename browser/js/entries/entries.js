@@ -5,3 +5,7 @@ app.config(function ($stateProvider) {
         controller: 'EntriesCtrl'
     });
 });
+
+app.controller('EntriesCtrl', function($scope, EntriesFactory) {
+  $scope.entries = EntriesFactory.getAllEntries();
+});
