@@ -1,7 +1,3 @@
-var camera;
-var scene;
-var renderer;
-var controls;
 init();
 animate();
           

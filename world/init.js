@@ -1,4 +1,9 @@
 var terrain;
+var camera;
+var scene;
+var renderer;
+var controls;
+
 function init() {
   
     // Create a scene
