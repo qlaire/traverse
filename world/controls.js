@@ -209,7 +209,7 @@ function animatePointerLockControls(){
 
 		if (moveBackward) {
 			if (speedUp) {
-				velocity.z += 1600.0 * delta;
+				velocity.z += 800.0 * delta;
 			} else {
 				velocity.z += 400.0 * delta;
 			}
