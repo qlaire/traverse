@@ -13,10 +13,9 @@ function placeWords(){
 		console.log('entry start',xZones[i], 'entry end',xZones[i-1])
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
-			//xCoord=Math.random()*1000;
 			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
-			zCoord=-1000+Math.random()*3000;
-			yCoord=zZones[0]+Math.random()*zZones[999]-zZones[0];
+			zCoord = zZones[999]-Math.random()*(zZones[999]-zZones[2]);
+			yCoord = 50 + Math.random() * 600;
 			wordMeshes.push(placeAWord(word,xCoord,yCoord,zCoord,words[i][word]));
 		}
 	}

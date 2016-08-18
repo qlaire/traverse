@@ -24,7 +24,7 @@ function init() {
     placeWords();
 
     //columns
-    createColumn();
+    placeColumns();
 
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
