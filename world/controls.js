@@ -2,7 +2,7 @@ var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
-var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp;
+var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp;
 
 var objects=[];
 
@@ -196,6 +196,15 @@ function animatePointerLockControls(){
 		var delta = ( time - prevTime ) / 1000; //real
 		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
+		//tweak this logic later, only works for lifting
+		if(checkIfInColumn(intersections)){
+			moveForward=false;
+			moveBackward=false;
+			moveLeft=false;
+			moveRight=false;
+			moveUp=true;
+		}
+
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
 
@@ -232,6 +241,10 @@ function animatePointerLockControls(){
 				velocity.x += 400.0 * delta;
 			}
 		}
+		if (moveUp) {
+			console.log('moving up!!!')
+			controls.getObject().position.y +=1;
+		}
 
 		//Prevent overstepping world bounds
 		if(currPosition.x>=xBound){
@@ -258,12 +271,10 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
-		if ( isOnObject === true ) {
+		if ( isOnObject === true && !moveUp) { //TODO: not when on interstellar plane
 			if(raycount%100===0){
 				// console.log('in column???',checkIfInColumn(intersections[0].point));
 				console.log('in column???',checkIfInColumn(intersections));
-				console.log('intersections',intersections);
-				console.log(getLocation(intersections[0].point));
 			};
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
@@ -273,6 +284,7 @@ function animatePointerLockControls(){
 
 		controls.getObject().translateX( velocity.x * delta );
 		controls.getObject().translateZ( velocity.z * delta );
+		//controls.getObject().translateY( velocity.y * delta );
 
 
 
@@ -285,7 +297,6 @@ function animatePointerLockControls(){
 function checkIfInColumn(intersections){
 	var inColumn=false;
 	intersections.forEach(intersection=>{
-		console.log('isDisk?',intersection.object.isDisk);
 		if(intersection.object.isDisk){
 			inColumn=true;
 		}
