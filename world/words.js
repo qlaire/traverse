@@ -6,25 +6,33 @@ var wordMeshes=[];
 function placeWords(){
 	var word;
 	var wordsInChunk;
+	var xBound1,xBound2, yBound1, yBound2;
 	var xCoord, yCoord, zCoord;
 	for(var i=0;i<words.length; i++){
 		wordsInChunk=Object.keys(words[i]);
+		console.log('entry start',yZones[i], 'entry end',yZones[i-1])
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
-			xCoord=Math.random()*1000;
+			//xCoord=Math.random()*1000;
+			xCoord=yZones[i]+Math.random()*(yZones[1]-yZones[0]);
 			zCoord=-1000+Math.random()*3000;
-			yCoord=100+Math.random()*300;
-			wordMeshes.push(placeAWord(word,xCoord,yCoord,zCoord));
+			yCoord=xZones[0]+Math.random()*xZones[999]-xZones[0];
+			wordMeshes.push(placeAWord(word,xCoord,yCoord,zCoord,words[i][word]));
 		}
 	}
 
 }
 
-function placeAWord(word, x, y, z){
+function placeAWord(word, x, y, z,score){
 	// create a canvas element
 	var canvas1 = document.createElement('canvas');
+	//canvas1.style="width:256;height:128";
 	var context1 = canvas1.getContext('2d');
-	context1.font = "40px Arial";
+	var fontSize=Math.floor(50*score);
+	console.log(score);
+	console.log(fontSize)
+	context1.font = fontSize+"px Arial";
+	console.log(context1.font)
 	context1.fillStyle = "rgba(255,255,255,0.95)";
     context1.fillText(word, 0, 50);
     
@@ -62,6 +70,7 @@ function animateWords(){
 		if(word.position.y<=200){
 			word.goingUp=true;
 		}
+		//word.rotation.y+=.01*Math.random();
 	}
 }
 
