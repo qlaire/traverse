@@ -81,9 +81,11 @@ function buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geom
         //get last padding zones
         var toAdd=zZones[0]-zZones[1];
         zZones[999]=zZones[0]+toAdd;
+        zZones[-1] = zZones[2] - toAdd;
         var keys=Object.keys(xZones);
         toAdd=xZones[1]-xZones[0];
         xZones[999]=xZones[keys.length-2]+toAdd;
+        xZones[-1] = xZones[0] - toAdd;
         // console.log(zZones,xZones)
 }
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
