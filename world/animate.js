@@ -3,4 +3,7 @@ function animate() {
     requestAnimationFrame( animate );
     //animateOrbitControls();
     animatePointerLockControls();
+    animatePointLights();
+    animateWords();
+    //composer.render();
 }

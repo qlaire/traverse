@@ -4,7 +4,7 @@
     <title>Mindscape</title>
     <style>
       body {
-        background: linear-gradient(black, gray);
+        background: linear-gradient(black,#8493b5);
         margin: 0px;
         overflow: hidden;
       }
@@ -46,7 +46,6 @@
         cursor: pointer;
 
       }
-
     </style>
   </head>
   <body>
@@ -57,17 +56,31 @@
           (W, A, S, D = Move, MOUSE = Look around)
         </div>
     </div>
-   <!--  <canvas id='wordart'></canvas> -->
-    <script src="/../three.js/build/three.min.js"></script>
-    <script src="/../three.js/examples/js/controls/OrbitControls.js"></script>
+    <script src="three.js/build/three.min.js"></script>
+
+    <script src="three.js/examples/js/shaders/CopyShader.js"></script>
+    <script src="three.js/examples/js/shaders/DotScreenShader.js"></script>
+    <script src="three.js/examples/js/shaders/RGBShiftShader.js"></script>
+    <script src="three.js/examples/js/shaders/SepiaShader.js"></script>
+    <script src="three.js/examples/js/shaders/FilmShader.js"></script>
+    <script src="three.js/examples/js/shaders/ColorifyShader.js"></script>
+
+    <script src="three.js/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="three.js/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="three.js/examples/js/postprocessing/MaskPass.js"></script>
+    <script src="three.js/examples/js/postprocessing/ShaderPass.js"></script>
+
+
     <script src="pointerlock.js"></script>
-<!--     <script src='shaders.glsl'></script> -->
+    <script src='lights.js'></script>
+    <script src='words.js'></script>
+
+    <script src='postprocessing.js'></script>
     <script src="mkTerrain.js"></script>
     <script src='controls.js'></script>
-<!--     <script src="clouds.js"></script> -->
     <script src="init.js"></script>
     <script src="animate.js"></script>
-    <script src="main.js"></script>
+    <script src="worldMain.js"></script>
 
   </body>
 </html>

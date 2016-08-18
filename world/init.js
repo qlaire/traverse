@@ -11,13 +11,12 @@ function init() {
     // Add scene elements
     terrain=makeTerrain();
     scene.add(terrain)
-
-    //scene.fog = new THREE.FogExp2('blue', 1);
    
-    //MOVE TO OWN FILE
-    var dirLight = new THREE.DirectionalLight('0xffffff', .5);
-    dirLight.position.set(0, 200, 0);
-    scene.add(dirLight);
+    mainLights();
+    pointLights();
+
+    //words
+    placeWords();
 
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
@@ -34,5 +33,6 @@ function init() {
     // Add the orbit controls
     //initOrbitControls();
     initPointerLockControls();
+    //postProcess();
 
 }
