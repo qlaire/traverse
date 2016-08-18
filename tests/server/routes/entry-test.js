@@ -25,7 +25,8 @@ describe('Entries Route', function() {
           body: 'banana',
           joy: [],
           anger:[],
-          fear: []
+          fear: [],
+          keywords: 'apple'
       })
       .then(function(entry) {
           entryArr.push(entry);
@@ -33,7 +34,8 @@ describe('Entries Route', function() {
               body: 'apple',
           joy: [],
           anger:[],
-          fear: []
+          fear: [],
+          keywords: 'apple'
           })
       })
       .then(function(entry) {
@@ -42,7 +44,8 @@ describe('Entries Route', function() {
               body: 'pie',
           joy: [],
           anger:[],
-          fear: []
+          fear: [],
+          keywords: 'apple'
           })
       })
       .then(function(entry) {
@@ -169,6 +172,7 @@ describe('Entries Route', function() {
               }).then(function(user) {
                 return entryArr[0].setAuthor(user.id)
               }).then(function(){
+                entryArr[1].setAuthor(1);
                 done();
               }).catch(done)
       });
@@ -200,8 +204,7 @@ describe('Entries Route', function() {
       });
 
       it('Try to add an entry', function (done){
-        loggedInAgent.post('/api/entries/').send({body: 'cheese', joy: [], anger:[],
-                                             fear: []})
+        loggedInAgent.post('/api/entries/').send({entry: 'cheese. it is yummy. bananas. i like things. Every act of cheese is an act of sadness. why dost thou cry little one?'})
         .expect(201)
         .end(function(err, res){
           if(err) return done(err);
@@ -219,10 +222,10 @@ describe('Entries Route', function() {
             expect(arr[3].body).to.contain('cheese');
             expect(arr[3].authorId).to.equal(2);
           }).catch(function(error){
-                done(error);
+            done(error);
           })
+        })
           done();
-          });
       });
 
     it('Try to edit own entry get 200', function (done){
@@ -241,10 +244,9 @@ describe('Entries Route', function() {
             expect(arr[0].body).to.contain('purple');
             expect(arr[1].body).to.contain(entryArr[1].body);
             expect(arr[2].body).to.contain(entryArr[2].body);
-            }).catch(function(error){
-                done(error);
-            })
             done();
+            })
+
           });
       });
 

@@ -16,7 +16,7 @@ function processEntry(entry) {
   } else {
     // split the entry into three parts
     let results = [];
-    results.push(entrySentences.slice(0, senPerChunk).join('. '), 
+    results.push(entrySentences.slice(0, senPerChunk).join('. '),
     entrySentences.slice(senPerChunk, senPerChunk * 2).join('. '),
     entrySentences.slice(senPerChunk * 2).join('. '));
     return results;

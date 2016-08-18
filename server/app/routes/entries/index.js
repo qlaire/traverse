@@ -14,9 +14,7 @@ router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
   })
 })
 
-// authentication check commented out for testing purposes.
-// need to add this back in.
-router.post('/', /*authenticator.ensureAuthenticated,*/ function(req, res, next){
+router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   let joyArr;
   let angerArr;
   let fearArr;
@@ -36,19 +34,11 @@ router.post('/', /*authenticator.ensureAuthenticated,*/ function(req, res, next)
     });
   })
   .then(savedEntry => {
-    // this is where we would set the author
-    res.send(savedEntry);
+    return savedEntry.setAuthor(req.user.id)
+  }).then(function(entry){
+    res.status(201);
   })
   .catch(next);
-
-  
-  // Entry.create(req.body)
-  // .then(function(savedEntry){
-  //   return savedEntry.setAuthor(req.user.id)
-  // }).then(function(){
-  //     res.sendStatus(201);
-  // })
-
 })
 
 router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
@@ -62,7 +52,7 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
     }
   }).then(function(){
     res.sendStatus(status);
-  }).next;
+  }).catch(next);
 
 })
 
