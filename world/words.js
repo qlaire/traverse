@@ -10,7 +10,7 @@ function placeWords(){
 	var xCoord, yCoord, zCoord;
 	for(var i=0;i<words.length; i++){
 		wordsInChunk=Object.keys(words[i]);
-		console.log('entry start',xZones[i], 'entry end',xZones[i-1])
+		// console.log('entry start',xZones[i], 'entry end',xZones[i-1])
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
 			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
@@ -28,10 +28,10 @@ function placeAWord(word, x, y, z,score){
 	//canvas1.style="width:256;height:128";
 	var context1 = canvas1.getContext('2d');
 	var fontSize=Math.floor(50*score);
-	console.log(score);
-	console.log(fontSize)
+	// console.log(score);
+	// console.log(fontSize)
 	context1.font = fontSize+"px Arial";
-	console.log(context1.font)
+	// console.log(context1.font)
 	context1.fillStyle = "rgba(255,255,255,0.95)";
     context1.fillText(word, 0, 50);
     

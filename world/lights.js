@@ -55,7 +55,7 @@ function singlePointLight(x,y,z,lightColor,meshColor){
 	var cylinder = new THREE.Mesh( geometry, material );
 	cylinder.position.set(x,y,z);
 	scene.add( cylinder );
-	console.log(cylinder)
+	// console.log(cylinder)
 	return cylinder;
 	//scene.add(new THREE.PointLightHelper(point, 3));
 }
