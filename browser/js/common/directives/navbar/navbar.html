@@ -14,4 +14,23 @@
             <a ng-click="logout()">Logout</a>
         </div>
     </div>
-</nav> -->
+</nav>
+ -->
+<nav class="navbar">
+    <div class="nav-wrapper black" style="background-color:black;">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <fullstack-logo></fullstack-logo>
+<!--             <li><a ui-sref="signup">Signup</a></li>
+            <li><a ui-sref="login">Login</a></li>
+            <li><a ng-click="logout()">Logout</a></li> -->
+            <li><a ng-hide="isLoggedIn()" ui-sref="home">Home</a></li>
+            <li><a ng-hide="isLoggedIn()" ui-sref="about">About</a></li>
+            <li><a ng-show="!user" ui-sref="login" style="float: right;">Login</a></li>
+            <li><a ng-show="isLoggedIn()" ui-sref="entries">Your Journal</a></li>
+            <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">Logout</a></li>
+            <li><a ng-hide="isLoggedIn()" ui-sref="signup" style="float: right;">Signup</a></li>
+            <!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
+        <button id="navbtn" ui-sref="login">LOG IN</button> -->
+        </ul>
+    </div>
+</nav>
