@@ -20,7 +20,7 @@ describe('Entries Route', function() {
       entryArr = [];
   })
 
-  beforeEach('Seed category database', function() {
+  beforeEach('Seed entry database', function(done) {
     Entry.create({
           body: 'banana',
           joy: [],
@@ -50,7 +50,7 @@ describe('Entries Route', function() {
       })
       .then(function(entry) {
           entryArr.push(entry);
-      })
+      }).then(done)
     });
   describe('Unauthenticated user request', function() {
 
@@ -228,30 +228,7 @@ describe('Entries Route', function() {
           done();
       });
 
-    it('Try to edit own entry get 200', function (done){
-        loggedInAgent.put('/api/entries/1').send({entry: 'purple. I love purple. It is the best of colors. I enjoy it ever so much. I hate dogs though. Dogs are terrible. I love purple.'})
-        .expect(200)
-        .end(function(err, res){
-          if(err) return done(err);
-          expect(res.body).to.be.empty;
-
-          Entry.findAll({
-                order: [['id', 'ASC']]
-              })
-          .then(function(arr){
-            expect(arr).to.be.an('array');
-            expect(arr).to.have.lengthOf(3);
-            expect(arr[0].body).to.contain('purple');
-            expect(arr[1].body).to.contain(entryArr[1].body);
-            expect(arr[2].body).to.contain(entryArr[2].body);
-            }).catch(function(error){
-              done(error);
-            })
-          })
-        done();
-      });
-
-        it('Try to edit someone else\'s entry get 401', function (done){
+    it('Try to edit someone else\'s entry get 401', function (done){
         loggedInAgent.put('/api/entries/2').send({body: 'sleep'})
         .expect(401)
         .end(function(err, res){
@@ -296,6 +273,31 @@ describe('Entries Route', function() {
           done();
           });
     });
+
+
+    it('Try to edit own entry get 200', function (done){
+        loggedInAgent.put('/api/entries/1').send({entry: 'purple. I love purple. It is the best of colors. I enjoy it ever so much. I hate dogs though. Dogs are terrible. I love purple.'})
+        .expect(200)
+        .end(function(err, res){
+          if(err) return done(err);
+          expect(res.body).to.be.empty;
+
+          Entry.findAll({
+                order: [['id', 'ASC']]
+              })
+          .then(function(arr){
+            expect(arr).to.be.an('array');
+            expect(arr).to.have.lengthOf(3);
+            expect(arr[0].body).to.contain('purple');
+            expect(arr[1].body).to.contain(entryArr[1].body);
+            expect(arr[2].body).to.contain(entryArr[2].body);
+            }).catch(function(error){
+              done(error);
+            })
+          })
+        done();
+    });
+
   });
 });
 
