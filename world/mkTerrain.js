@@ -37,7 +37,7 @@ function makeTerrain(paths){
 
 function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
-    var material = new THREE.MeshLambertMaterial({ color: 0x8493b5, shading: THREE.FlatShading });
+    var material = new THREE.MeshLambertMaterial({ color: '0x8493b5', shading: THREE.FlatShading });
     vertexDict={};
     var vertexDictX;
     var vertexDictY;
@@ -96,7 +96,7 @@ function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
     padArray(paths,paddingSize);
     padArray(helperArr,paddingSize,[-1,-1]);
     //get terrainWidth and terrainHeight
-    var terrainWidth=paths.length*200;
+    var terrainWidth=paths.length*250;
     var terrainHeight=paths[0].length*200;
     //get wS and hS
     var wS=(paths[0].length*scaleUp)-1;
