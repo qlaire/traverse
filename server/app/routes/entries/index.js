@@ -38,7 +38,7 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   .then(savedEntry => {
     return savedEntry.setAuthor(req.user.id)
   }).then(function(entry){
-    res.status(201).entry;
+    res.status(201).send(entry);
   })
   .then(null, next);
 })
@@ -63,7 +63,6 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
         keywords: keywordResults
       }, {where: {id: req.params.id, authorId: req.user.id}})
     }).then(function(result){
-      console.log(result)
     if(result[0] === 1){
       status = 200;
     }
