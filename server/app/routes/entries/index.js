@@ -27,13 +27,26 @@ router.post('/', /*authenticator.ensureAuthenticated,*/ function(req, res, next)
   let fearArr;
   analyzeEmotion(req.body.entry)
   .then(results => {
-    let resultArr = convertWatsonDataToArr(results);
+    console.log('here are the results', results);
+    let resultArr = convertWatsonDataToArr(results[0]);
     joyArr = resultArr[2];
     angerArr = resultArr[0];
     fearArr = resultArr[1];
-    res.send(joyArr);
+    return Entry.create({
+      subject: req.body.subject,
+      body: req.body.entry,
+      joy: joyArr,
+      anger: angerArr,
+      fear: fearArr,
+      keywords: results[1]
+    });
+  })
+  .then(savedEntry => {
+    // this is where we would set the author
+    res.send(savedEntry);
   })
   .catch(next);
+
   
   // Entry.create(req.body)
   // .then(function(savedEntry){
