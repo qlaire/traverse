@@ -329,6 +329,9 @@ function animatePointerLockControls(){
 		controls.getObject().translateX( velocity.x * delta );
 		controls.getObject().translateZ( velocity.z * delta );
 		//controls.getObject().translateY( velocity.y * delta );
+		skyBox.position.x=controls.getObject().position.x;
+		skyBox.position.y=controls.getObject().position.y;
+		skyBox.position.z=controls.getObject().position.z;
 
 
 
