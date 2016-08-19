@@ -29,6 +29,9 @@ function init() {
     //plane
     placePlane();
 
+    //sky
+    addSky();
+
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
     renderer.setSize( window.innerWidth, window.innerHeight );
