@@ -5,7 +5,7 @@ var Entry = require('../../../server/db/models/entry');
 var db = require('../../../server/db/_db');
 
 
-describe('Entry Model', function () {
+xdescribe('Entry Model', function () {
 
   before(function () {
     return db.sync({force: true});
