@@ -2,8 +2,12 @@
 
 var router = require('express').Router();
 var User = require('../../../db/models/user');
+var Entry = require('../../../db/models/entry');
+var authenticator = require('../utils');
+
 var _ = require('lodash');
 module.exports = router;
+
 
 router.get('/', function(req, res, next) {
     User.findAll({})
@@ -11,6 +15,17 @@ router.get('/', function(req, res, next) {
         res.json(users);
     }).catch(next)
 });
+
+router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
+  console.log('HITTING ROUTE');
+  Entry.findAll({where: {authorId: req.user.id},
+                order: [['date', 'ASC']]
+              })
+  .then(function(entries){
+    console.log(entries);
+    res.status(200).send(entries);
+  }).catch(next);
+})
 
 router.get('/:id', function(req, res, next) {
     User.findById(req.params.id)
@@ -40,6 +55,9 @@ router.put('/:id', function(req, res, next) {
   })
   .catch(next).catch(next)
 });
+
+
+
 
 
 var ensureAuthenticated = function(req, res, next) {
