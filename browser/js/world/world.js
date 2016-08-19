@@ -8,7 +8,7 @@ app.controller('WorldCtrl', function ($scope) {
   		]
 	}
 	var worldWindow=worldFrame.contentWindow;
-    document.querySelector('iframe').onload = function(){
+    worldFrame.onload = function(){
         worldWindow.postMessage($scope.worldData,'/')    
     };
 

@@ -8,5 +8,7 @@ var worldData={
 function receiveMessage(event){
     worldData=event.data;
     console.log(worldData);
+    init();
+	animate();
 }
 
