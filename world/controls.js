@@ -200,7 +200,6 @@ function animatePointerLockControls(){
 		console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
 		var inColumn=checkIfInColumn(intersections);
-
 		if(inColumn&&!starWalked&&!backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
@@ -230,6 +229,10 @@ function animatePointerLockControls(){
 				console.log(4);
 				moveDown=true;
 				onPlane=false;
+				moveForward=false;
+				moveBackward=false;
+				moveLeft=false;
+				moveRight=false;
 			}
 			//you're on the terrain 
 			else{
