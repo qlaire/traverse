@@ -1,7 +1,7 @@
 {
   "name": "FullstackGeneratedApp",
   "version": "1.0.0",
-  "description": "A generated project at Fullstack Academy",
+  "description": "Take a trip through your mind, with amazing 3D visualization of your journal entries.",
   "main": "server/start.js",
   "scripts": {
     "start": "nodemon --watch server -e js,html server/start.js",
