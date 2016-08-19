@@ -17,13 +17,28 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
-  console.log('HITTING ROUTE');
   Entry.findAll({where: {authorId: req.user.id},
                 order: [['date', 'ASC']]
               })
   .then(function(entries){
-    console.log(entries);
-    res.status(200).send(entries);
+    var worldData={};
+    worldData.keywords=[];
+    var angerArray=[];
+    var joyArray=[];
+    var fearArray=[];
+    worldData.dates=[];
+    for(var i=0; i<entries.length; i++){
+      for(var j=0; j<entries[i].joy.length; j++){
+        worldData.dates.push(entries[i].date);
+      }
+      angerArray=angerArray.concat(entries[i].anger);
+      joyArray=joyArray.concat(entries[i].joy);
+      fearArray=fearArray.concat(entries[i].fear);
+      worldData.keywords=worldData.keywords.concat(entries[i].keywords);
+
+    }
+    worldData.emoScores=[angerArray,joyArray,fearArray];
+    res.status(200).send(worldData);
   }).catch(next);
 })
 
