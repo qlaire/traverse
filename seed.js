@@ -23,6 +23,7 @@ var User = db.model('user');
 var Entry = db.model('entry');
 var Promise = require('sequelize').Promise;
 
+var createdEntries;
 var seedEntries = function() {
   var entries = [{
     subject: "bananas",
@@ -31,7 +32,7 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'bananas': '0.1' }]
+    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'}]
   }, {
     subject: "cheese",
     body: "I love cheese a bunch.",
@@ -39,7 +40,7 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'cheese': '0.1' }]
+    keywords: [{ 'cheese': '0.1' },{'love':'.2'},{'bunch':'.4'}]
   }, {
     subject: "apples",
     body: "I love apples.",
@@ -47,7 +48,7 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'apples': '0.1' }]
+    keywords: [{ 'apples': '0.1' },{'love':'.2'},{'I':'.4'}]
   }, {
     subject: "sleepy",
     body: "I am very tired",
@@ -55,7 +56,7 @@ var seedEntries = function() {
     joy: [0.1, 0.0, 0.0],
     anger: [0.8, 0.2, 0.3],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'sleepy': '0.1' }]
+    keywords: [{ 'sleepy': '0.1' },{ 'tired': '0.2' },{ 'am': '0.1' }]
   }, {
     subject: "I'm sad",
     body: "I've been depressed since december last year, possibly longer. Before december I had about a month period where I actually felt happy for a change. Before that I just wanted to drink my sorrows away every day and the loneliness was killing me. Now, in january a relationship I was in ended. I've been depressed pretty much ever since, but my depression keeps changing in it's symptoms. For 6 months since January untill I got over her I was severely depressed due to losing a friend among other things as well and I was suicidal, self-harming at some point, etc. When I got over her, I was still depressed, somewhat midly. But then it gets worse. I've read about different kinds of depression and one week I relate completely to one type, while the next week the other. The symptoms change. Now I'm restless and fidgety. I wasn't like that last week. So, it's difficult to decide what to answer to online depression tests. Anyone else with a similar experience?",
@@ -75,11 +76,12 @@ var seedEntries = function() {
   }];
 
   var i = 1;
+  createdEntries=[];
   var creatingEntries = entries.map(function(entryObj) {
     return Entry.create(entryObj).then(function(entry) {
       // return entry.setAuthor(i++ % 2 + 1);
       // temporarily making all entries belong to obama
-      entry.setAuthor(2);
+      createdEntries.push(entry);
     });
   });
 
@@ -100,10 +102,19 @@ var seedUsers = function() {
   var creatingUsers = users.map(function(userObj) {
     return User.create(userObj);
   });
-
+  console.log('HIIII')
   return Promise.all(creatingUsers);
 
 };
+var setRelations=function(){
+  var relationPromises=[];
+  for(var i=0; i<createdEntries.length; i++){
+        relationPromises.push(createdEntries[i].setAuthor(2));
+  }
+  return Promise.all(relationPromises)
+}
+
+
 
 db.sync({ force: true })
   .then(function() {
@@ -111,6 +122,9 @@ db.sync({ force: true })
   })
   .then(function() {
     return seedEntries();
+  })
+  .then(function() {
+    return setRelations();
   })
   .then(function() {
     console.log(chalk.green('Seed successful!'));

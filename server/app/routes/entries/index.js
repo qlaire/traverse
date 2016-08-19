@@ -12,7 +12,6 @@ router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
                 order: [['date', 'DESC']]
               })
   .then(function(entries){
-    console.log(entries);
     res.status(200).send(entries);
   }).catch(next);
 })
