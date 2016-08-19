@@ -6,14 +6,10 @@ function createColumn(x, y, z) {
   cylinder.position.y = y;
   cylinder.position.z = z;
   placeDisk(x,z);
-  console.log('here is the cylinder', cylinder);
   scene.add( cylinder );
 }
 
-// var columnPos=[]; //x, z, radius
-
 function placeColumns() {
-  console.log('i\'m placing columns');
   let numColumns = Math.ceil(Object.keys(xZones).length / 60);
   let zCoord, xCoord;
   let yCoord = 0;
@@ -21,7 +17,6 @@ function placeColumns() {
     console.log('looping', i);
     zCoord = zZones[999]-Math.random()*(zZones[999]-zZones[2]);
     xCoord = xZones[0] + Math.random() * (xZones[999] - xZones[0]);
-    // columnPos.push([xCoord,zCoord]);
     createColumn(xCoord, yCoord, zCoord);
   }
 }
