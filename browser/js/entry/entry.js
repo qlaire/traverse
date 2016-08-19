@@ -2,7 +2,10 @@ app.config(function($stateProvider) {
     $stateProvider.state('entry', {
         url: '/entry',
         templateUrl: 'js/entry/entry.html',
-        controller: 'TinyMceController'
+        controller: 'TinyMceController',
+        data: {
+            bodyClass: 'bg4'
+        }
     });
 });
 
@@ -20,6 +23,8 @@ app.controller('TinyMceController', function($scope) {
     $scope.tinymceOptions = {
         selector: 'div.tinymce',
         theme: 'inlite',
+        plugins: 'autoresize',
+        autoresize_max_height:500,
         selection_toolbar: 'bold italic underline strikethrough | blockquote',
         inline: true,
         paste_data_images: false
