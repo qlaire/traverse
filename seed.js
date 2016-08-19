@@ -27,6 +27,7 @@ var seedEntries = function() {
   var entries = [{
     subject: "bananas",
     body: "I love bananas a lot.",
+    date: "2016-01-18 07:36:21-04",
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
@@ -34,6 +35,7 @@ var seedEntries = function() {
   }, {
     subject: "cheese",
     body: "I love cheese a bunch.",
+    date: "2016-01-31 10:45:20-04",
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
@@ -41,6 +43,7 @@ var seedEntries = function() {
   }, {
     subject: "apples",
     body: "I love apples.",
+    date: "2016-03-15 19:30:05-04",
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
@@ -48,6 +51,7 @@ var seedEntries = function() {
   }, {
     subject: "sleepy",
     body: "I am very tired",
+    date: "2016-04-02 12:15:21-04",
     joy: [0.1, 0.0, 0.0],
     anger: [0.8, 0.2, 0.3],
     fear: [0.3, 0.2, 0.1],
@@ -55,6 +59,7 @@ var seedEntries = function() {
   }, {
     subject: "I'm sad",
     body: "I've been depressed since december last year, possibly longer. Before december I had about a month period where I actually felt happy for a change. Before that I just wanted to drink my sorrows away every day and the loneliness was killing me. Now, in january a relationship I was in ended. I've been depressed pretty much ever since, but my depression keeps changing in it's symptoms. For 6 months since January untill I got over her I was severely depressed due to losing a friend among other things as well and I was suicidal, self-harming at some point, etc. When I got over her, I was still depressed, somewhat midly. But then it gets worse. I've read about different kinds of depression and one week I relate completely to one type, while the next week the other. The symptoms change. Now I'm restless and fidgety. I wasn't like that last week. So, it's difficult to decide what to answer to online depression tests. Anyone else with a similar experience?",
+    date: "2016-05-01 04:36:21-04",
     joy: [0.1,0,0],
     anger: [0.3,0.7,0.6],
     fear: [0.2,0.2,0.3],
@@ -62,6 +67,7 @@ var seedEntries = function() {
   }, {
     subject: "I'm an eagle scout",
     body: "Yesterday, I officially obtained the rank of eagle scout. It is Boy Scouting's highest rank. Only about 5% of boys who join scouting obtain the rank of eagle! I have been working towards this for that past 8 years. After a lot of hard work it feels great to have achieved such an honor. The one thing that I have stuck with for most of my life(I started as a cub scout) has become such a foundation for who I am. The process for the rank is no easy task. I had to earn several merit badges. I also had to plan and lead a service project. For my project I build a dog walking trail for a local animal shelter to walk the shelter dogs on. I just wanted to share this because it is something that finally getting has made me so happy. Also if you are a boy scout and are working towards your eagle scout, keep working for it. It is a wonderful honor. Nothing in my life has made me more happy than being told that I was officially and eagle scout.",
+    date: "2016-08-18 13:36:21-04",
     joy: [0.2,0.4,0.8],
     anger: [0.3,0.3,0.3],
     fear: [0.1,0.1,0],
@@ -71,7 +77,9 @@ var seedEntries = function() {
   var i = 1;
   var creatingEntries = entries.map(function(entryObj) {
     return Entry.create(entryObj).then(function(entry) {
-      return entry.setAuthor(i++ % 2 + 1);
+      // return entry.setAuthor(i++ % 2 + 1);
+      // temporarily making all entries belong to obama
+      entry.setAuthor(2);
     });
   });
 
