@@ -4,17 +4,6 @@ section#entry {
         font: 34px "Dosis", sans-serif;
         color:black;
     }
-    textarea {
-    	font:16px "Dosis", sans-serif;
-    	color:black;
-    	border:none;
-    	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-    	width:60%;
-    	outline:none;
-    	display:block;
-    	background-color:white;
-    	margin: 0 auto;
-    }
     .background {
     	background-image: url("/images/background4.jpg");
     }
@@ -22,12 +11,41 @@ section#entry {
 }
 
 body {
-    height: 100%;
+    width: 100%;
     font: 15px "Dosis", sans-serif;
-    text-transform: uppercase;
-    color: white;
+    color: black;
+    text-transform:none;
+    margin: 0 auto;
     a:hover {
         text-decoration:none;
+    }
+    input {
+        border-bottom: 1px solid #fff;
+        &:focus {
+            box-shadow:0 1px 0 0 #383e4d;
+        }
+    }
+    ::-webkit-input-placeholder {
+        color:#383e4d;
+    }
+
+    .tinymcestyle {
+      background-color:white;
+      color:black;
+      margin: 0 auto;
+      height:500px;
+      width:500px;
+      box-shadow:3px 3px 3px grey;
+      // &:focus {
+      //   outline {
+      //     outline-color:none;
+      //     outline-style:auto;
+      //     outline-width:1px;
+      //   }
+      // }
+      a[href] {
+        text-decoration: underline;
+      }
     }
 }
 

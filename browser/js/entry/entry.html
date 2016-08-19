@@ -1,23 +1,9 @@
 <navbar></navbar>
-<!-- <nav>
-    <div class="nav-wrapper black" style="background-color:black;">
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a ui-sref="signup">Signup</a></li>
-            <li><a ui-sref="login">Login</a></li>
-            <li><a ng-click="logout()">Logout</a></li> -->
-            <!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
-        <button id="navbtn" ui-sref="login">LOG IN</button>
-        </ul>
-    </div>
-</nav> -->
 <section id="entry">
     <div class="background">
         <h2>JOURNAL</h2>
-        <!-- <textarea id="entry" placeholder="Dear Diary,"></textarea> -->
-        <form method="post" class="tinymce" ng-controller="TinyMceController">
-            <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel" id="myeditablediv">Hello, World!</textarea>
-            <!-- <button ng-click="getContent()">Get content</button> -->
-            <!-- <button ng-click="setContent()">Set content</button> -->
-            <button id="post" class="btn btn-default">Post</button>
+        <div class="tinymce tinymcestyle" ui-tinymce="tinymceOptions" ng-model="tinymceModel">
+        </div>
+        <button id="post" class="btn btn-default">Post</button>
     </div>
 </section>

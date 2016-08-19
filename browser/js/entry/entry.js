@@ -1,4 +1,4 @@
-app.config(function ($stateProvider) {
+app.config(function($stateProvider) {
     $stateProvider.state('entry', {
         url: '/entry',
         templateUrl: 'js/entry/entry.html',
@@ -7,22 +7,21 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('TinyMceController', function($scope) {
-  $scope.tinymceModel = 'Dear Diary,';
+    $scope.tinymceModel = 'Dear Diary,';
 
-  $scope.getContent = function() {
-    console.log('Editor content:', $scope.tinymceModel);
-  };
+    $scope.getContent = function() {
+        console.log('Editor content:', $scope.tinymceModel);
+    };
 
-  // $scope.setContent = function() {
-  //   $scope.tinymceModel = 'Time: ' + (new Date());
-  // };
+    $scope.setContent = function() {
+        $scope.tinymceModel = 'Time: ' + (new Date());
+    };
 
-  // $scope.submitEntry = function() {
-  // };
-
-  // $scope.tinymceOptions = {
-  //   plugins: 'link code',
-  //   themes: 'inlite',
-  //   toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright | code'
-  // };
+    $scope.tinymceOptions = {
+        selector: 'div.tinymce',
+        theme: 'inlite',
+        selection_toolbar: 'bold italic underline strikethrough | blockquote',
+        inline: true,
+        paste_data_images: false
+    };
 });

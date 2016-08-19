@@ -20,12 +20,14 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/materialize-css/dist/js/materialize.min.js"></script>
     <!-- TinyMce -->
-    <script type="text/javascript" src="/tinymce/tinymce.js"></script>
-    <script type="text/javascript" src="/angular-ui-tinymce/src/tinymce.js">
-     tinymce.init({
-    selector: '#myeditablediv',
-    inline: true
-  });</script>
+    <script type="text/javascript" src="/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'div.tinymce',
+            height: 300,
+            width: 500
+        });</script>
+    <script type="text/javascript" src="/angular-ui-tinymce/src/tinymce.js"></script>
     <!-- <script type="text/javascript" src="app.js"></script> -->
 
     <!--Let browser know website is optimized for mobile-->
