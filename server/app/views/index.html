@@ -21,7 +21,11 @@
     <script type="text/javascript" src="/materialize-css/dist/js/materialize.min.js"></script>
     <!-- TinyMce -->
     <script type="text/javascript" src="/tinymce/tinymce.js"></script>
-    <script type="text/javascript" src="/angular-ui-tinymce/src/tinymce.js"></script>
+    <script type="text/javascript" src="/angular-ui-tinymce/src/tinymce.js">
+     tinymce.init({
+    selector: '#myeditablediv',
+    inline: true
+  });</script>
     <!-- <script type="text/javascript" src="app.js"></script> -->
 
     <!--Let browser know website is optimized for mobile-->

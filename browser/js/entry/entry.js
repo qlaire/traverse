@@ -7,18 +7,22 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('TinyMceController', function($scope) {
-  $scope.tinymceModel = 'Initial content';
+  $scope.tinymceModel = 'Dear Diary,';
 
   $scope.getContent = function() {
     console.log('Editor content:', $scope.tinymceModel);
   };
 
-  $scope.setContent = function() {
-    $scope.tinymceModel = 'Time: ' + (new Date());
-  };
+  // $scope.setContent = function() {
+  //   $scope.tinymceModel = 'Time: ' + (new Date());
+  // };
 
-  $scope.tinymceOptions = {
-    plugins: 'link image code',
-    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-  };
+  // $scope.submitEntry = function() {
+  // };
+
+  // $scope.tinymceOptions = {
+  //   plugins: 'link code',
+  //   themes: 'inlite',
+  //   toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright | code'
+  // };
 });
