@@ -22,16 +22,23 @@ function placeWords(){
 
 }
 
+function calculateFontSize(word){
+	if(word.length>10){
+		return Math.floor(400*(1/word.length));
+	}
+	else{
+		return "40"
+	}
+
+}
 function placeAWord(word, x, y, z,score){
 	// create a canvas element
 	var canvas1 = document.createElement('canvas');
-	//canvas1.style="width:256;height:128";
+	canvas1.width=256;
+	canvas1.height=256; 
 	var context1 = canvas1.getContext('2d');
-	var fontSize=Math.floor(50*score);
-	// console.log(score);
-	// console.log(fontSize)
+	var fontSize=calculateFontSize(word);
 	context1.font = fontSize+"px Arial";
-	// console.log(context1.font)
 	context1.fillStyle = "rgba(255,255,255,0.95)";
     context1.fillText(word, 0, 50);
     
