@@ -16,6 +16,13 @@ router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
   }).catch(next);
 })
 
+router.get('/:id', authenticator.ensureAuthenticated, function(req, res, next){
+  Entry.findById(req.params.id)
+  .then(function(entry){
+    res.status(200).send(entry);
+  }).catch(next);
+})
+
 router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   let joyArr;
   let angerArr;

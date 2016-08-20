@@ -1,4 +1,4 @@
-app.factory('EntriesFactory', function($http, $log, Session) {
+app.factory('EntriesFactory', function($http, $log) {
   var EntriesFactory = {};
 
   function getData (response) {
@@ -6,6 +6,7 @@ app.factory('EntriesFactory', function($http, $log, Session) {
   }
 
   function entryFormat(entry){
+
     entry.snippet = entry.body.substr(0,200);
 
     if(entry.snippet.length < entry.body.length){
@@ -21,6 +22,15 @@ app.factory('EntriesFactory', function($http, $log, Session) {
       .then(function(entries){
         entries.forEach(entryFormat);
         return entries;
+      })
+    }
+
+    EntriesFactory.getEntry = function (id) {
+      return $http.get('/api/entries/' + id)
+      .then(getData)
+      .then(function(entry){
+        entryFormat(entry);
+        return entry;
       })
     }
 

@@ -1,43 +1,19 @@
 app.config(function($stateProvider) {
-    $stateProvider.state('entry', {
-        params: {
-            entry: null
-        },
-        url: '/singleEntry',
+    $stateProvider.state('singleEntry', {
+        url: '/entry/:entryId',
         templateUrl: 'js/singleEntry/singleEntry.html',
-        controller: 'EntryController',
+        controller: 'singleEntryController',
         data: {
             bodyClass: 'bg4'
+        },
+        resolve: {
+          entry: function(EntriesFactory, $stateParams){
+            return EntriesFactory.getEntry($stateParams.entryId);
+          }
         }
     });
 });
 
-app.controller('EntryController', function($scope) {
-    $scope.tinymceModel = 'How are you feeling today?';
-
-    $scope.getContent = function() {
-        console.log('Editor content:', $scope.tinymceModel);
-    };
-
-    $scope.setContent = function() {
-        $scope.tinymceModel = 'Time: ' + (new Date());
-    };
-
-    $scope.tinymceOptions = {
-        selector: 'div.tinymce',
-        theme: 'inlite',
-        plugins: 'autoresize',
-        autoresize_max_height:500,
-        selection_toolbar: 'bold italic underline strikethrough | blockquote',
-        inline: true,
-        paste_data_images: false
-    };
-});
-
-app.factory('EntryFactory', function ($http) {
-  let entryObj = {};
-  entryObj.analyzeEntry = function (entry) {
-
-  }
-  return entryObj;
+app.controller('singleEntryController', function($scope, $state, entry) {
+    $scope.entry = entry;
 });
