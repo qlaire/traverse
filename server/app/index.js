@@ -30,10 +30,6 @@ module.exports = function (db) {
 
     });
 
-    app.get('/world', function (req, res, next) {
-        res.sendFile(app.get('reminiscePath'));
-    })
-
     app.get('/*', function (req, res) {
         res.sendFile(app.get('indexHTMLPath'));
     });
