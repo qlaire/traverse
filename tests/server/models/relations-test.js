@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var Entry = require('../../../server/db/models/entry');
 var User = require('../../../server/db/models/user');
 
-describe('Relations',function(){
+xdescribe('Relations',function(){
   var obamaEntries, zekeEntries, userObama, userZeke;
 
   beforeEach(function () {

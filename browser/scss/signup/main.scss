@@ -1,4 +1,5 @@
 section#signup {
+    max-height:100px;
     h1 {
         text-align: center;
         font: 35px "Dosis", sans-serif;
@@ -12,12 +13,15 @@ section#signup {
     }
 }
 
+.bg3 {
+    background: url("/images/background3.jpg");
+}
+
 body {
     height: 100%;
     font: 15px "Dosis", sans-serif;
     text-transform: uppercase;
     color: white;
-    background-image: url("/images/background3.jpg");
     a:hover {
         text-decoration:none;
     }

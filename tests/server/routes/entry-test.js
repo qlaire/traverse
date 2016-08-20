@@ -4,7 +4,7 @@ var db = require('../../../server/db');
 
 var supertest = require('supertest');
 
-describe('Entries Route', function() {
+xdescribe('Entries Route', function() {
   var app, User, Entry, entryArr;
 
   beforeEach('Sync DB', function() {

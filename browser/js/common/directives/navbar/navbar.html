@@ -1,36 +1,15 @@
-<!-- <nav class="navbar navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <fullstack-logo></fullstack-logo>
-        </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
-        <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
-            <a ng-click="logout()">Logout</a>
-        </div>
-    </div>
-</nav>
- -->
 <nav class="navbar">
-    <div class="nav-wrapper black" style="background-color:black;">
+    <div class="nav-wrapper black">
+        <fullstack-logo class="pull-left"></fullstack-logo>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <fullstack-logo></fullstack-logo>
-<!--             <li><a ui-sref="signup">Signup</a></li>
-            <li><a ui-sref="login">Login</a></li>
-            <li><a ng-click="logout()">Logout</a></li> -->
-            <li><a ng-hide="isLoggedIn()" ui-sref="home">Home</a></li>
-            <li><a ng-hide="isLoggedIn()" ui-sref="about">About</a></li>
-            <li><a ng-show="!user" ui-sref="login" style="float: right;">Login</a></li>
-            <li><a ng-show="isLoggedIn()" ui-sref="entries">Your Journal</a></li>
-            <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">Logout</a></li>
-            <li><a ng-hide="isLoggedIn()" ui-sref="signup" style="float: right;">Signup</a></li>
-            <!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
-        <button id="navbtn" ui-sref="login">LOG IN</button> -->
+            <li><a ng-hide="isLoggedIn()" ui-sref="home">HOME</a></li>
+            <li><a ng-hide="isLoggedIn()" ui-sref="about">ABOUT</a></li>
+            <li><a ng-show="!user" ui-sref="login" style="float: right;">LOGIN</a></li>
+            <li><a ng-show="isLoggedIn()" ui-sref="entry">NEW ENTRY</a></li>
+            <li><a ng-show="isLoggedIn()" ui-sref="entries">YOUR JOURNAL</a></li>
+            <li><a href="/world" ng-show="isLoggedIn()">YOUR WORLD</a></li>
+            <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">LOGOUT</a></li>
+            <li><a ng-hide="isLoggedIn()" ui-sref="signup" style="float: right;">SIGNUP</a></li>
         </ul>
     </div>
 </nav>

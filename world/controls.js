@@ -2,7 +2,7 @@ var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
-var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp;
+var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp, onPlane,moveDown, starWalked, backToEarth;
 
 var objects=[];
 
@@ -94,6 +94,7 @@ function initPointerLockControls(){
 	moveLeft = false;
 	moveRight = false;
 	speedUp = false;
+	starWalked=false;
 
 	prevTime = performance.now();
 	velocity = new THREE.Vector3();
@@ -175,6 +176,10 @@ function initPointerLockControls(){
 	controls.getObject().position.z=0;
 	controls.getObject().position.x=xZones[Object.keys(xZones).length-3];
 	controls.getObject().position.y=600;
+	//TODO: DRY this up
+	skyBox.position.x=controls.getObject().position.x;
+	skyBox.position.y=controls.getObject().position.y;
+	skyBox.position.z=controls.getObject().position.z;
 
 
 }
@@ -182,7 +187,7 @@ function initPointerLockControls(){
 
 var raycount=0;
 function animatePointerLockControls(){
-
+	moveUp=false;
 	if ( controlsEnabled ) {
 		//for console.logging
 		raycount++;
@@ -190,11 +195,61 @@ function animatePointerLockControls(){
 		//
 		raycaster.ray.origin.copy( controls.getObject().position );
 
-		var intersections = raycaster.intersectObjects([terrain]);
+		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; //real
 		// var delta = 10 * ( time - prevTime ) / 1000; //testing
+
+		console.log('planeHeight',planeHeight);
+		//tweak this logic later, only works for lifting
+		var inColumn=checkIfInColumn(intersections);
+		if(inColumn&&!starWalked&&!backToEarth){
+			//in column, going up, not on plane
+			if(controls.getObject().position.y<planeHeight+20){
+				console.log(1);
+				moveForward=false;
+				moveBackward=false;
+				moveLeft=false;
+				moveRight=false;
+				moveUp=true;		
+			}
+			//in column, on plane
+			else{
+				console.log(2);
+				onPlane=true;
+			}
+		} 
+		//on plane, not in column - registers that you've walked the stars
+		if(onPlane&&!inColumn&&!starWalked){
+			console.log(3);
+			starWalked=true;
+		}
+
+		//already starwalked
+		if(starWalked&&inColumn){
+			//you're not on the terrain yet
+			if(controls.getObject().position.y>(intersections[0].point.y+20)){
+				console.log(4);
+				moveDown=true;
+				onPlane=false;
+				moveForward=false;
+				moveBackward=false;
+				moveLeft=false;
+				moveRight=false;
+			}
+			//you're on the terrain 
+			else{
+				console.log(5);
+				moveDown=false;
+				backToEarth=true;
+				starWalked=false;
+			}
+		}
+		if(!inColumn){
+			backToEarth=false;
+		}
+
 
 		velocity.x -= velocity.x * 10.0 * delta;
 		velocity.z -= velocity.z * 10.0 * delta;
@@ -232,6 +287,12 @@ function animatePointerLockControls(){
 				velocity.x += 400.0 * delta;
 			}
 		}
+		if (moveUp) {
+			controls.getObject().position.y +=1;
+		}
+		if (moveDown) {
+			controls.getObject().position.y -=1;
+		}
 
 		//Prevent overstepping world bounds
 		if(currPosition.x>=xBound){
@@ -258,9 +319,10 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
-		if ( isOnObject === true ) {
+		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
 			if(raycount%100===0){
-				console.log(getLocation(intersections[0].point));
+				// console.log('in column???',checkIfInColumn(intersections[0].point));
+				console.log('in column???',checkIfInColumn(intersections));
 			};
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
@@ -270,12 +332,28 @@ function animatePointerLockControls(){
 
 		controls.getObject().translateX( velocity.x * delta );
 		controls.getObject().translateZ( velocity.z * delta );
+		//controls.getObject().translateY( velocity.y * delta );
+		skyBox.position.x=controls.getObject().position.x;
+		skyBox.position.y=controls.getObject().position.y;
+		skyBox.position.z=controls.getObject().position.z;
 
 
 
 		prevTime = time;
 
 	}
+}
+
+
+function checkIfInColumn(intersections){
+	var inColumn=false;
+	intersections.forEach(intersection=>{
+		if(intersection.object.isDisk){
+			inColumn=true;
+		}
+	});
+	return inColumn;
+
 }
 
 //worldCoords will be intersections[0].point
