@@ -1,22 +1,21 @@
-// #entry {
-//     font-family: 'Dosis', sans-serif;
-//     text-transform: uppercase;
-//     padding-top: 25px;
-//     padding-left: 50px;
-//     padding-bottom: 25px;
-//     width: 40%;
-//     margin: 0 auto;
-//     label {
-//         color: white;
-//         font-size: 1em;
-//     }
-//     input {
-//         border-bottom: 1px solid #fff;
-//         &:focus {
-//             box-shadow:0 1px 0 0 #383e4d;
-//         }
-//     }
-//     ::-webkit-input-placeholder {
-//         color:#383e4d;
-//     }
-// }
+#entry {
+    font-family: 'Dosis', sans-serif;
+    padding-top: 25px;
+    padding-left: 50px;
+    padding-bottom: 25px;
+    width: 40%;
+    margin: 0 auto;
+    label {
+        color: black;
+        font-size: 1em;
+    }
+    input {
+        border-bottom: 1px solid black;
+        &:focus {
+            box-shadow:0 1px 0 0 #383e4d;
+        }
+    }
+    ::-webkit-input-placeholder {
+        color:#383e4d;
+    }
+}

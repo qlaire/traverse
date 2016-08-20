@@ -2,15 +2,16 @@ app.config(function($stateProvider) {
     $stateProvider.state('entry', {
         url: '/entry',
         templateUrl: 'js/entry/entry.html',
-        controller: 'EntryController',
-        data: {
-            bodyClass: 'bg4'
-        }
+        controller: 'EntryController'
     });
 });
 
 app.controller('EntryController', function($scope) {
-    $scope.tinymceModel = 'How are you feeling today?';
+    $scope.entry = {};
+    
+    $scope.entry.body = '';
+
+    $scope.reg = /\s+[^.!?]*[.!?]/;
 
     $scope.getContent = function() {
         console.log('Editor content:', $scope.tinymceModel);
