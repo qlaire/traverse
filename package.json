@@ -1,5 +1,5 @@
 {
-  "name": "FullstackGeneratedApp",
+  "name": "traVerse",
   "version": "1.0.0",
   "description": "Take a trip through your mind, with amazing 3D visualization of your journal entries.",
   "main": "server/start.js",
