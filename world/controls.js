@@ -250,7 +250,7 @@ function animatePointerLockControls(){
 			backToEarth=false;
 		}
 		//MOVE ELSEWHERE
-		if(onPlane){
+		if(onPlane||moveUp){
 			outsideTime();
 		}
 
