@@ -201,7 +201,7 @@ function animatePointerLockControls(){
 		var delta = ( time - prevTime ) / 1000; //real
 		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
-		console.log('planeHeight',planeHeight);
+		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
 		var inColumn=checkIfInColumn(intersections);
 		if(inColumn&&!starWalked&&!backToEarth){
@@ -248,6 +248,11 @@ function animatePointerLockControls(){
 		}
 		if(!inColumn){
 			backToEarth=false;
+		}
+		//MOVE ELSEWHERE
+		if(onPlane){
+			blankDate();
+			blankPath();
 		}
 
 
@@ -320,10 +325,11 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
-			if(raycount%100===0){
-				// console.log('in column???',checkIfInColumn(intersections[0].point));
-				console.log('in column???',checkIfInColumn(intersections));
-			};
+			// if(raycount%100===0){
+			// 	// console.log('in column???',checkIfInColumn(intersections[0].point));
+			// 	console.log('in column???',checkIfInColumn(intersections));
+			// };
+			updateDate(intersections[0].point);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -359,9 +365,9 @@ function checkIfInColumn(intersections){
 //worldCoords will be intersections[0].point
 function getLocation(worldCoords){
 	var toReturn={};
-	console.log(worldCoords);
+	//console.log(worldCoords);
 	var localCoords=terrain.worldToLocal(worldCoords);
-	console.log('localCoords',localCoords);
+	//console.log('localCoords',localCoords);
 	var xCoord=customFloor(localCoords.x,distanceX);
 	var yCoord=customFloor(localCoords.y,distanceY);
 	var locationInfo=vertexDict[[xCoord,yCoord]];
@@ -376,4 +382,52 @@ function getLocation(worldCoords){
 //make sure we don't have more tha one of these!!!
 function customFloor(num,factor){
   return factor * Math.floor(num/factor);
+}
+
+var currEntry=null;
+var currPath=null;
+var months={0:"January",1:"February",2:"March",3:"April",4:"May",5:"June",6:"July",7:"August",8:"September",9:"October",10:"November",11:"December"}
+var paths={0:"Anger",1:"Joy",2:"Fear"};
+function updateDate(worldCoords){
+	locationInfo=getLocation(worldCoords);
+	var newEntry=locationInfo.entry;
+	var newPath=locationInfo.path;
+	if(newPath===-1){
+		blankDate();
+		blankPath();
+		return;	
+	}
+	if(newEntry!==currEntry){
+		if(!worldData.dates[newEntry]){
+			blankDate();
+			blankPath();
+			return;
+		}
+		var date=worldData.dates[newEntry];
+		var d = new Date(date);
+	    var curr_date = d.getDate();
+	    var curr_month = d.getMonth(); //Months are zero based
+	    var curr_year = d.getFullYear();
+	    var dateString=(months[curr_month] +" "+curr_date  + ", " + curr_year);
+		document.getElementById("key").style.display = 'block';
+    	document.getElementById("date").innerHTML = dateString;	
+    	document.getElementById("path").innerHTML = '<i>'+paths[newPath]+'</i>';	
+    	currPath=newPath;
+    	currEntry=newEntry;
+	}
+}
+
+
+//REFACTOR - bundle together!!
+function blankDate(){
+	currEntry=null;	
+	document.getElementById("date").innerHTML = '';
+	document.getElementById("key").style.display = 'none';
+
+	return;	
+}
+function blankPath(){
+	currPath=null;	
+	document.getElementById("path").innerHTML = '';
+	return;	
 }
