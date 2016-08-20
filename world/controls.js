@@ -176,6 +176,10 @@ function initPointerLockControls(){
 	controls.getObject().position.z=0;
 	controls.getObject().position.x=xZones[Object.keys(xZones).length-3];
 	controls.getObject().position.y=600;
+	//TODO: DRY this up
+	skyBox.position.x=controls.getObject().position.x;
+	skyBox.position.y=controls.getObject().position.y;
+	skyBox.position.z=controls.getObject().position.z;
 
 
 }
