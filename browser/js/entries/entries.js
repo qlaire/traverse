@@ -15,6 +15,6 @@ app.controller('EntriesCtrl', function($scope, allEntries, $state) {
   $scope.entries = allEntries;
 
   $scope.goEntry = function (entry){
-        $state.go('singleEntry', {entry: entry});
+        $state.go('singleEntry', {entryId: entry.id});
     }
 });
