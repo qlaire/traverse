@@ -2,14 +2,14 @@ app.config(function($stateProvider) {
     $stateProvider.state('entry', {
         url: '/entry',
         templateUrl: 'js/entry/entry.html',
-        controller: 'TinyMceController',
+        controller: 'EntryController',
         data: {
             bodyClass: 'bg4'
         }
     });
 });
 
-app.controller('TinyMceController', function($scope) {
+app.controller('EntryController', function($scope) {
     $scope.tinymceModel = 'How are you feeling today?';
 
     $scope.getContent = function() {
@@ -29,4 +29,12 @@ app.controller('TinyMceController', function($scope) {
         inline: true,
         paste_data_images: false
     };
+});
+
+app.factory('EntryFactory', function ($http) {
+  let entryObj = {};
+  entryObj.analyzeEntry = function (entry) {
+    
+  }
+  return entryObj;
 });
