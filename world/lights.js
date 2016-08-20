@@ -46,7 +46,7 @@ function pointLights(){
 
 
 function singlePointLight(x,y,z,lightColor,meshColor){
-	var point = new THREE.PointLight(lightColor, .5, 150);
+	var point = new THREE.PointLight(lightColor, .8, 150);
 	point.position.set( x,y,z );
 	scene.add(point);
 	var TILE_SIZE=.5;

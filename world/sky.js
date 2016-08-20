@@ -13,7 +13,7 @@ function addSky(){
 	skyBox.eulerOrder = 'XZY';  
 	skyBox.renderDepth = 1900.0;  
 	scene.add(skyBox);  
-	scene.fog = new THREE.FogExp2( 'tan', 0.0005 );
+	scene.fog = new THREE.FogExp2( 0x264d73, 0.0005 );
 
 }
 
