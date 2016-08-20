@@ -1,3 +1,11 @@
+app.config(function ($stateProvider) {
+	$stateProvider.state('world', {
+		url: '/world',
+		templateUrl: 'js/world/world-template.html',
+		controller: 'WorldCtrl'
+	});
+})
+
 app.controller('WorldCtrl', function ($scope, DataFactory) {
 	DataFactory.getWorldData()
 	.then(function(returnedData){
