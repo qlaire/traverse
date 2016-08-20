@@ -8,11 +8,13 @@ function updateDate(worldCoords){
 	locationInfo=getLocation(worldCoords);
 	var newEntry=locationInfo.entry;
 	var newPath=locationInfo.path;
+
 	if(newPath===-1){
 		outsideTime();
 		return;	
 	}
 	if(newEntry!==currEntry){
+		var emoScore=worldData.originalEmoScores[locationInfo.path][locationInfo.entry];
 		if(!worldData.dates[newEntry]){
 			outsideTime();
 			return;
@@ -25,7 +27,7 @@ function updateDate(worldCoords){
 	    var dateString=(months[curr_month] +" "+curr_date  + ", " + curr_year);
 		document.getElementById("key").style.display = 'block';
     	document.getElementById("date").innerHTML = dateString;	
-    	document.getElementById("path").innerHTML = '<i>'+paths[newPath]+'</i>';	
+    	document.getElementById("path").innerHTML = '<i>'+paths[newPath]+':</i> '+emoScore;	
     	currPath=newPath;
     	currEntry=newEntry;
 	}
