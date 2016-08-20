@@ -1,3 +1,5 @@
 # emoscape
 
-//NOTE: three.js is in .gitignore. Please manually put in folder
+
+CREDITS:
+cloud clipart - http://pngimg.com/img/nature/cloud
