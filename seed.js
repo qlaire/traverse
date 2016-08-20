@@ -32,15 +32,15 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'}]
-  }, {
+    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'},{'white house':.6
+  }, {'first lady':.7},{'underwater nachos':.4},{'grandmother':.7},{'weasle boyfriend':.6},{'cherries':.1},{'racoon dance':.5}],
     subject: "cheese",
     body: "I love cheese a bunch.",
     date: "2016-01-31 10:45:20-04",
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'cheese': '0.1' },{'love':'.2'},{'bunch':'.4'}]
+    keywords: [{"meal":"0.9","cheese":"0.9","devour":"0.8","hunger":"0.7","price":"0.7"},{"unhappy":"1.0","strength":"0.9","doctor":"0.9","protein":"0.8","visitors":"0.8"},{"spatula":"0.9","red apron":"0.8","prom":"0.7","tigers":"0.7"}]
   }, {
     subject: "apples",
     body: "I love apples.",
@@ -48,7 +48,7 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'apples': '0.1' },{'love':'.2'},{'I':'.4'}]
+    keywords: [{"school":"0.9","boys":"0.9","cafeteria":"0.8","homework":"0.7","best friends":"0.7"},{"gratitude":"1.0","growth":"0.9","leave behind":"0.9","job":"0.8","summer vacation":"0.8"},{"pool":"0.9","swimming":"0.8","prom":"0.7","tigers":"0.7"}]
   }, {
     subject: "sleepy",
     body: "I am very tired",
@@ -56,7 +56,7 @@ var seedEntries = function() {
     joy: [0.1, 0.0, 0.0],
     anger: [0.8, 0.2, 0.3],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'sleepy': '0.1' },{ 'tired': '0.2' },{ 'am': '0.1' }]
+    keywords: [{"forests":"0.9","wandering":"0.9","darkness":"0.8","trees":"0.7","shadpws":"0.7"},{"windows":"1.0","deep water":"0.9","injustice":"0.9","existential":"0.8","torrent":"0.8"},{"silver fish":"0.9","rangers":"0.8","mountain cabin":"0.7","freedom":"0.7"}]
   }, {
     subject: "I'm sad",
     body: "I've been depressed since december last year, possibly longer. Before december I had about a month period where I actually felt happy for a change. Before that I just wanted to drink my sorrows away every day and the loneliness was killing me. Now, in january a relationship I was in ended. I've been depressed pretty much ever since, but my depression keeps changing in it's symptoms. For 6 months since January untill I got over her I was severely depressed due to losing a friend among other things as well and I was suicidal, self-harming at some point, etc. When I got over her, I was still depressed, somewhat midly. But then it gets worse. I've read about different kinds of depression and one week I relate completely to one type, while the next week the other. The symptoms change. Now I'm restless and fidgety. I wasn't like that last week. So, it's difficult to decide what to answer to online depression tests. Anyone else with a similar experience?",
