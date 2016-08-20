@@ -7,11 +7,8 @@ section#entry {
     }
 }
 
-.bg4{
-  background: url("/images/background4.jpg");
-}
-
-body {
+body.entry-page {
+   background: url("/images/background4.jpg");
     width: 100%;
     color: black;
     text-transform:none;
@@ -35,13 +32,6 @@ body {
       &:focus {
         outline:none;
       }
-      // &:focus {
-      //   outline {
-      //     outline-color:none;
-      //     outline-style:auto;
-      //     outline-width:1px;
-      //   }
-      // }
       a[href] {
         text-decoration: underline;
       }
