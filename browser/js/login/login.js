@@ -2,7 +2,10 @@ app.config(function ($stateProvider) {
     $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'js/login/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        data: {
+            bodyClass: 'bg3'
+        }
     });
 });
 
