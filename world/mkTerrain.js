@@ -36,6 +36,16 @@ function makeTerrain(paths){
 
 }
 
+function makeBase(terrainWidth,terrainHeight,material){
+    var geometry = new THREE.PlaneGeometry(terrainWidth*2,terrainHeight*2,1,1);
+    //should make the same as in generateGemoetry()
+    // var material = new THREE.MeshLambertMaterial({ color: 'red', shading: THREE.FlatShading }); 
+    var plane = new THREE.Mesh(geometry, material);
+    scene.add(plane);
+    plane.rotation.x = -Math.PI / 2;
+    plane.position.y=-1;
+}
+
 function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
     var material = new THREE.MeshLambertMaterial({ color: '0x8493b5', shading: THREE.FlatShading });
@@ -56,6 +66,7 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     geometry.computeVertexNormals();
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
+    makeBase(terrainWidth,terrainHeight,material);
     return plane
 }
 
