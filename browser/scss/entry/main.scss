@@ -30,6 +30,7 @@ body {
       min-height:300px;
       height:auto;
       width:500px;
+      max-width:500px;
       box-shadow:3px 3px 3px grey;
       &:focus {
         outline:none;

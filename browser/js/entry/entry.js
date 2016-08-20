@@ -10,7 +10,7 @@ app.config(function($stateProvider) {
 });
 
 app.controller('TinyMceController', function($scope) {
-    $scope.tinymceModel = 'Dear Diary,';
+    $scope.tinymceModel = 'How are you feeling today?';
 
     $scope.getContent = function() {
         console.log('Editor content:', $scope.tinymceModel);
