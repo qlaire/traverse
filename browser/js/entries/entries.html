@@ -22,8 +22,9 @@
 </div>
  -->
 <section id="entries">
-<div ng-repeat="entry in entries | orderBy : 'id': 'reverse'">
-       <p>{{entry.body}}</p>
-       <p><{{entry.id}}</p>
+<div ng-repeat="entry in entries | orderBy : 'id': 'reverse'" ng-click="goEntry(entry)">
+       <h4>{{entry.subject}}</h4>
+       <p>{{entry.date}}</p>
+       <p>{{entry.snippet}}</p>
     </div>
 </section>
