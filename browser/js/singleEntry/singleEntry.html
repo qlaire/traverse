@@ -1,30 +1,12 @@
 <navbar></navbar>
-<!-- <nav>
-    <div class="nav-wrapper black" style="background-color:black;">
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a ui-sref="signup">Signup</a></li>
-            <li><a ui-sref="login">Login</a></li>
-            <li><a ng-click="logout()">Logout</a></li> -->
-            <!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
-        <button id="navbtn" ui-sref="login">LOG IN</button>
-        </ul>
-    </div>
-</nav> -->
-<!-- <div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                <label for="textarea1">Textarea</label>
+<div class="container">
+    <div class="col-md-12">
+        <section id="single-entry">
+        <div>
+               <h4 class="center">{{entry.subject}}</h4>
+               <p>{{entry.date}}</p>
+               <p>{{entry.body}}</p>
             </div>
-        </div>
-    </form>
-</div>
- -->
-<section id="entry">
-<div>
-       <h4>{{entry.subject}}</h4>
-       <p>{{entry.date}}</p>
-       <p>{{entry.body}}</p>
+        </section>
     </div>
-</section>
+</div>
