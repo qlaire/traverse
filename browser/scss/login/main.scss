@@ -12,11 +12,8 @@ section#login {
     }
 }
 
-.bg3 {
-    background: url("/images/background3.jpg");
-}
-
-body {
+body.login-page {
+    background-image: url("/images/background3.jpg");
     height: 100%;
     font: 15px "Dosis", sans-serif;
     text-transform: uppercase;

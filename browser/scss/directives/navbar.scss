@@ -1,17 +1,16 @@
-navbar {
+.navbar {
+    font: 15px "Dosis", sans-serif;
+    background-color: black;
     margin-bottom:0px;
-    nav {
-        display: block;
-        background-color: black;
-        ul {
-            a:hover {
-                background-color: rgba(0, 0, 0, 0);
-            }
-        }
+    ul {
+        padding-top:25px;
+        display:block;
         a {
             color: white;
         }
         a:hover {
+            background-color: rgba(0, 0, 0, 0);
+            text-decoration:none;
             color: #b9f3e7;
         }
     }
@@ -19,6 +18,5 @@ navbar {
         width: 40px;
         margin-top: 4px;
         margin-left: 15px;
-        float: left;
     }
 }

@@ -12,10 +12,14 @@ app.config(function ($urlRouterProvider, $locationProvider) {
     });
 });
 
+app.controller('GlobalCtrl', function($scope) {
+    $scope.$on('$stateChangeStart', function(event, toState, toParams) {
+        $scope.bodyClass = toState.name + '-page';
+    });
+});
+
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, AuthService, $state) {
-
-    $rootScope.$state = $state;
 
     // The given state requires an authenticated user.
     var destinationStateRequiresAuth = function (state) {
