@@ -4,8 +4,8 @@ function addSky(){
 	var geometry = new THREE.SphereGeometry(2000, 60, 40);  
 
 
-	var material = new THREE.MeshLambertMaterial( {  
-	  color: 'white', map: THREE.ImageUtils.loadTexture('assets/cloud3.png')
+	var material = new THREE.MeshBasicMaterial( {  
+	  color: 0xffe6cc/*,map: THREE.ImageUtils.loadTexture('assets/cloud3.png')*/
 	});
 
 	skyBox = new THREE.Mesh(geometry, material);  
@@ -13,7 +13,7 @@ function addSky(){
 	skyBox.eulerOrder = 'XZY';  
 	skyBox.renderDepth = 1900.0;  
 	scene.add(skyBox);  
-	scene.fog = new THREE.FogExp2( 'tan', 0.0005 );
+	scene.fog = new THREE.FogExp2( 0xf0f0f5, 0.0005 );
 
 }
 
