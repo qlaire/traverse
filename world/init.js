@@ -23,6 +23,12 @@ function init() {
     //words
     placeWords();
 
+    //columns
+    placeColumns();
+
+    //plane
+    placePlane();
+
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
     renderer.setSize( window.innerWidth, window.innerHeight );

@@ -7,15 +7,16 @@ var paddingZ;
 var vertexDict;
 var distanceX, distanceY;
 var zZones,xZones;
+var terrainWidth;
+var terrainHeight;
 
 function makeTerrain(paths){
     var paddingSize=5;
     var scaleUp=4;
     var smoothingRadius=2;
     //TODO: Make sure we can get this from outside;
-    var paths=[ [ '0.3', '0.4', '0.2', '0.3', '0.3', '0.7', '0.3', '0.3', '0.3', '0.5', '0.5', '0.1', '0.6', '0.4', '0.1', '0.3', '0.3', '0.7', '0.8', '0.8', '0.8', '0.5', '0.8', '0.8', '0.3', '0.7', '0.6', '0.7', '0.7', '0.4' ],
-  [ '0.2', '0.1', '0.5', '0.2', '0.3', '0.0', '0.2', '0.4', '0.8', '0.0', '0.0', '0.3', '0.0', '0.1', '0.6', '0.4', '0.3', '0.0', '0.0', '0.0', '0.0', '0.1', '0.0', '0.0', '0.1', '0.0', '0.0', '0.0', '0.0', '0.1' ],[ '0.1', '0.1', '0.1', '0.2', '0.1', '0.3', '0.1', '0.1', '0.0', '0.3', '0.4', '0.3', '0.1', '0.3', '0.1', '0.3', '0.2', '0.4', '0.1', '0.2', '0.0', '0.4', '0.2', '0.2', '0.2', '0.2', '0.3', '0.2', '0.0', '0.4' ]]
-    //anger, joy, fear
+    var paths=worldData.emoScores;
+       //anger, joy, fear
     //higher number -> higher emotion
     var terrainData=generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius);
     //unpack
@@ -23,8 +24,8 @@ function makeTerrain(paths){
     var helperArrFlat=terrainData.helperArrFlat;
     var wS=terrainData.wS;
     var hS=terrainData.hS;
-    var terrainWidth=terrainData.terrainWidth;
-    var terrainHeight=terrainData.terrainHeight;
+    terrainWidth=terrainData.terrainWidth;
+    terrainHeight=terrainData.terrainHeight;
     paddingX=terrainData.paddingX;
     paddingZ=terrainData.paddingZ;
     xBound=terrainData.xBound;
@@ -81,9 +82,11 @@ function buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geom
         //get last padding zones
         var toAdd=zZones[0]-zZones[1];
         zZones[999]=zZones[0]+toAdd;
+        zZones[-1] = zZones[2] - toAdd;
         var keys=Object.keys(xZones);
         toAdd=xZones[1]-xZones[0];
         xZones[999]=xZones[keys.length-2]+toAdd;
+        xZones[-1] = xZones[0] - toAdd;
         // console.log(zZones,xZones)
 }
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){

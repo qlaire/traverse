@@ -1,7 +1,7 @@
 var watson = require('watson-developer-cloud');
 var Q = require('q');
 var alchemy_language = watson.alchemy_language({
-  api_key: '7f8fdd07f30d9d2fd5ebf11f12c339408abf8555'
+  api_key: 'f97f07525b803b96b20193fa3909c3e454254431'
 });
 
 var emotionAnalysis = Q.denodeify(alchemy_language.emotion.bind(alchemy_language));
@@ -16,7 +16,7 @@ function processEntry(entry) {
   } else {
     // split the entry into three parts
     let results = [];
-    results.push(entrySentences.slice(0, senPerChunk).join('. '), 
+    results.push(entrySentences.slice(0, senPerChunk).join('. '),
     entrySentences.slice(senPerChunk, senPerChunk * 2).join('. '),
     entrySentences.slice(senPerChunk * 2).join('. '));
     return results;

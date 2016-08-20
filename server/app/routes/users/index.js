@@ -2,21 +2,51 @@
 
 var router = require('express').Router();
 var User = require('../../../db/models/user');
+var Entry = require('../../../db/models/entry');
+var authenticator = require('../utils');
+
 var _ = require('lodash');
 module.exports = router;
+
 
 router.get('/', function(req, res, next) {
     User.findAll({})
     .then(function(users) {
         res.json(users);
-    });
+    }).catch(next)
 });
+
+router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
+  Entry.findAll({where: {authorId: req.user.id},
+                order: [['date', 'ASC']]
+              })
+  .then(function(entries){
+    var worldData={};
+    worldData.keywords=[];
+    var angerArray=[];
+    var joyArray=[];
+    var fearArray=[];
+    worldData.dates=[];
+    for(var i=0; i<entries.length; i++){
+      for(var j=0; j<entries[i].joy.length; j++){
+        worldData.dates.push(entries[i].date);
+      }
+      angerArray=angerArray.concat(entries[i].anger);
+      joyArray=joyArray.concat(entries[i].joy);
+      fearArray=fearArray.concat(entries[i].fear);
+      worldData.keywords=worldData.keywords.concat(entries[i].keywords);
+
+    }
+    worldData.emoScores=[angerArray,joyArray,fearArray];
+    res.status(200).send(worldData);
+  }).catch(next);
+})
 
 router.get('/:id', function(req, res, next) {
     User.findById(req.params.id)
     .then(function(user) {
         res.send(user);
-    });
+    }).catch(next)
 });
 
 router.post('/', function(req, res, next) {
@@ -24,7 +54,7 @@ router.post('/', function(req, res, next) {
    .then(function(user) {
 		    res.status(201).json(user);
     })
-   .catch(next);
+   .catch(next).catch(next)
 });
 
 router.put('/:id', function(req, res, next) {
@@ -38,8 +68,11 @@ router.put('/:id', function(req, res, next) {
   .then(function(updatedUser) {
     res.send(updatedUser);
   })
-  .catch(next);
+  .catch(next).catch(next)
 });
+
+
+
 
 
 var ensureAuthenticated = function(req, res, next) {

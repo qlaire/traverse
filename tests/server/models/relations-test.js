@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var Entry = require('../../../server/db/models/entry');
 var User = require('../../../server/db/models/user');
 
-describe('Relations',function(){
+xdescribe('Relations',function(){
   var obamaEntries, zekeEntries, userObama, userZeke;
 
   beforeEach(function () {
@@ -30,28 +30,32 @@ describe('Relations',function(){
           body: 'Migratory Birds',
           joy: [1],
           fear: [2],
-          anger: [3]})
+          anger: [3],
+          keywords: 'apple'})
       }).then(function (savedEntry) {
         obamaEntries.push(savedEntry);
         return Entry.create({
         body: 'number2',
         joy: [0.2],
         fear: [0.4],
-        anger: [0.6]})
+        anger: [0.6],
+        keywords: 'apple'})
       }).then(function (savedEntry) {
         obamaEntries.push(savedEntry);
         return Entry.create({
         body: 'number3',
         joy: [0.3],
         fear: [0.6],
-        anger: [0.9]})
+        anger: [0.9],
+        keywords: 'apple'})
       }).then(function (savedEntry) {
         zekeEntries.push(savedEntry);
         return Entry.create({
         body: 'number4',
         joy: [0.4],
         fear: [0.8],
-        anger: [0.12]})
+        anger: [0.12],
+        keywords: 'apple'})
       }).then(function (savedEntry) {
         zekeEntries.push(savedEntry);
         done();
