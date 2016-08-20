@@ -6,7 +6,7 @@ var controls;
 
 function init() {
   
-    // Create a scene
+      // Create a scene
     scene = new THREE.Scene();
 
     // Add the camera
