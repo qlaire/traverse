@@ -13,7 +13,7 @@ var terrainHeight;
 function makeTerrain(paths){
     var paddingSize=5;
     var scaleUp=4;
-    var smoothingRadius=2;
+    var smoothingRadius=3;
     //TODO: Make sure we can get this from outside;
     var paths=worldData.emoScores;
        //anger, joy, fear
@@ -48,7 +48,12 @@ function makeBase(terrainWidth,terrainHeight,material){
 
 function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
-    var material = new THREE.MeshLambertMaterial({ color: '0x8493b5', shading: THREE.FlatShading });
+    var texture=THREE.ImageUtils.loadTexture('assets/dirt2.png')
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.x = 200;
+    texture.repeat.y = 200;
+    var material = new THREE.MeshLambertMaterial({ color: '0x8493b5', shading: THREE.FlatShading, map: texture});
     vertexDict={};
     var vertexDictX;
     var vertexDictY;
@@ -58,7 +63,7 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     xZones={};
     var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
-        geometry.vertices[i].z =  flattenedArr[i]*150;
+        geometry.vertices[i].z =  flattenedArr[i]*200;
     }
     buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry,i);
     //final touches
