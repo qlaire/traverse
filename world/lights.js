@@ -5,6 +5,28 @@ function mainLights(){
     console.log(dirLight);
 }
 
+
+function randomXInEmotion(emotion){
+	var bound1, bound2;
+	if(emotion==='anger'){
+		bound1=zZones[2];
+		bound2=zZones[1];	
+
+	}
+	if(emotion==='joy'||emotion=='sadness'){
+		bound1=zZones[1];
+		bound2=zZones[0];	
+	}
+	if(emotion==='fear'){
+		bound1=zZones[0];
+		 bound2=zZones[999];	
+
+	}
+	var xCoord=bound1+(Math.random()*(bound2-bound1));
+	return 	xCoord;
+}
+
+
 var pointLights;
 function pointLights(){
 	console.log('zZones and xZones')
