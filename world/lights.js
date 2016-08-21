@@ -19,7 +19,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,0xA8263F,0xA8263F));	
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xA8263F,0xA8263F));	
 	}
 
 	//PATH 1 - JOY
@@ -29,7 +29,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,0xFDAA43,0xFDAA43));
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xFDAA43,0xFDAA43));
 	}
 
 	//PATH 2 - FEAR
@@ -39,7 +39,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*350,xCoord,0x3B3F78, 0x3B3F78
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0x3B3F78, 0x3B3F78
 ));
 	}
 

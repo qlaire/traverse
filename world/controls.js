@@ -349,21 +349,7 @@ function animatePointerLockControls(){
 	}
 }
 
-function changeAudioVolume(worldCoords,musicCoords){
-    var dx = worldCoords.x-(-500);
-    var dy = worldCoords.y-86;
-    var dz = worldCoords.z-164;
-    var distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
-	var audio = document.getElementById("music1");
-	var metric=50/distance;
-	if(metric>1){
-		audio.volume=1;
-	}
-	else{
-		audio.volume = metric;
-	}
-	console.log(audio.volume);
-}
+
 
 function checkIfInColumn(intersections){
 	var inColumn=false;

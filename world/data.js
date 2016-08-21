@@ -5,6 +5,12 @@ var worldData={
 	emoScores: []
 }
 
+//CHANGE TO OPEN SOURCE SONGS!!!!
+var emoToSongSrc={'anger':'The Mountain Goats - This Year.mp3',
+					'joy':'Sigur Ròs - Gobbledigook.mp3',
+					'sadness':'assets/NADLER, Marissa - Diamond Heart.mp3',
+					'fear':'Weirdomusic_-_03_-_Very_Scary_Part_2'}
+
 function receiveMessage(event){
     worldData=event.data;
     saveEmoScores(worldData);
