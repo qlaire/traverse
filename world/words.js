@@ -40,7 +40,7 @@ function placeAWord(word, x, y, z,score){
 	var context1 = canvas1.getContext('2d');
 	var fontSize=calculateFontSize(word);
 	context1.font = fontSize+"px Arial";
-	context1.fillStyle = "rgba(255,255,255,0.95)";
+	Math.random()>.8? context1.fillStyle = "#FDAA43" : context1.fillStyle="#FFFFFF";
     context1.fillText(word, 0, 50);
     
 	// canvas contents will be used for a texture
