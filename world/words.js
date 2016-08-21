@@ -122,17 +122,17 @@ function printEntry(emotion,location){
 	var x = (canvas.width - maxWidth) / 2;
 	var y = 60;
 	//REFACTOR MORE LOGICALLY
-    canvas=wrapText(canvas, text, x, y, maxWidth, lineHeight);
+    canvas=wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion);
 	var texture1 = new THREE.Texture(canvas) 
 	texture1.needsUpdate = true;
     var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
     material.transparent = true;
     var mesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(256, 256),
+        new THREE.SphereGeometry(10,32,32),
         material
       );
 	mesh.position.x=location.x;
-	mesh.position.y=location.y+20;
+	mesh.position.y=location.y;
 	mesh.position.z=location.z;
 	scene.add(mesh);
 	entryMeshes.push(mesh);
@@ -160,16 +160,18 @@ function animateWords(){
 	var entry;
 	for(var i=0; i<entryMeshes.length; i++){
 		entry=entryMeshes[i];
-		entry.position.y+=.1;
+		if(entry.position.y<(planeHeight+10)){
+			entry.position.y+=.3;
+		}
 	}
 
 }
 
 //adapted from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
-function wrapText(canvas, text, x, y, maxWidth, lineHeight) {
+function wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion) {
 	var context=canvas.getContext('2d');
 	context.font = '14px Arial';
-	context.fillStyle = 'gray';
+	context.fillStyle = emotionToColor[emotion];
 	var words = text.split(' ');
 	var line = '';
 

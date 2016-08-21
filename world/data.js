@@ -17,6 +17,13 @@ var emotionToPathNum= {
 	'fear':2,
 	'sadness':1
 }
+
+var emotionToColor={
+	'anger':'red',
+	'joy':'orange',
+	'fear':'purple',
+	'sadness':'blue'
+}
 function receiveMessage(event){
     worldData=event.data;
     saveEmoScores(worldData);
