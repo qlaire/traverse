@@ -48,7 +48,9 @@ function changeAudioVolume(localCoords){
 
 	    distance=Math.sqrt( dx * dx /*+ dy * dy*/ + dz * dz );
 	    // console.log(song.emotion,distance);
-	    // if(distance<=60){
+	    if(distance<=60){
+	    	printEntry(song.emotion,song.locationOnTerrain);
+	    }
 	    // 	var printLocation={};
 	    // 	printLocation.x=song.locationOnTerrain.x;
 	    // 	printLocation.z=song.locationOnTerrain.z;

@@ -105,6 +105,39 @@ var sentenceMeshes=[];
 // 	return mesh1;
 // }
 
+var entryMeshes=[];
+function printEntry(emotion,location){
+	if(worldData.intenseEntries[emotion].complete===true){
+		return;
+	}
+	console.log('DOING IT')
+	worldData.intenseEntries[emotion].complete=true;
+	var text=worldData.intenseEntries[emotion].body;
+	var canvas = document.createElement('canvas');
+	var context = canvas.getContext('2d');
+	canvas.width=512;
+	canvas.height=512; 	
+	var maxWidth = 512;
+	var lineHeight = 25;
+	var x = (canvas.width - maxWidth) / 2;
+	var y = 60;
+	//REFACTOR MORE LOGICALLY
+    canvas=wrapText(canvas, text, x, y, maxWidth, lineHeight);
+	var texture1 = new THREE.Texture(canvas) 
+	texture1.needsUpdate = true;
+    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
+    material.transparent = true;
+    var mesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(256, 256),
+        material
+      );
+	mesh.position.x=location.x;
+	mesh.position.y=location.y+20;
+	mesh.position.z=location.z;
+	scene.add(mesh);
+	entryMeshes.push(mesh);
+}
+
 
 function animateWords(){
 	var word;
@@ -124,22 +157,49 @@ function animateWords(){
 		}
 		//word.rotation.y+=.01*Math.random();
 	}
-	// var sentence;
-	// for(var i=0; i<sentenceMeshes.length;i++){
-	// 	sentence=sentenceMeshes[i];
-	// 	sentence.position.y+=Math.random();
-	// 	if(sentence.minusZ){
-	// 		sentence.position.z-=Math.random()*Math.random();
-	// 	}
-	// 	else{
-	// 		sentence.position.z+=Math.random()*Math.random();
-	// 	}
-	// 	if(sentence.minusX){
-	// 		sentence.position.x-=Math.random()*Math.random();
-	// 	}
-	// 	else{
-	// 		sentence.position.x+=Math.random()*Math.random();
-	// 	}
-	// }
+	var entry;
+	for(var i=0; i<entryMeshes.length; i++){
+		entry=entryMeshes[i];
+		entry.position.y+=.1;
+	}
+
 }
+
+//adapted from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
+function wrapText(canvas, text, x, y, maxWidth, lineHeight) {
+	var context=canvas.getContext('2d');
+	context.font = '14px Arial';
+	context.fillStyle = 'gray';
+	var words = text.split(' ');
+	var line = '';
+
+	for(var n = 0; n < words.length; n++) {
+	  var testLine = line + words[n] + ' ';
+	  var metrics = context.measureText(testLine);
+	  var testWidth = metrics.width;
+	  if (testWidth > maxWidth && n > 0) {
+	    context.fillText(line, x, y);
+	    line = words[n] + ' ';
+	    y += lineHeight;
+	  }
+	  else {
+	    line = testLine;
+	  }
+	}
+	context.fillText(line, x, y);
+	return canvas;
+}
+
+// var canvas = document.getElementById('myCanvas');
+// var context = canvas.getContext('2d');
+// var maxWidth = 512;
+// var lineHeight = 25;
+// var x = (canvas.width - maxWidth) / 2;
+// var y = 60;
+
+
+// context.font = '14px Arial';
+// context.fillStyle = 'gray';
+
+
 
