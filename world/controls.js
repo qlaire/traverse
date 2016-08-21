@@ -350,12 +350,12 @@ function animatePointerLockControls(){
 }
 
 function changeAudioVolume(worldCoords,musicCoords){
-    var dx = worldCoords.x-850;
-    var dy = worldCoords.y-43;
-    var dz = worldCoords.z-90;
+    var dx = worldCoords.x-(-500);
+    var dy = worldCoords.y-86;
+    var dz = worldCoords.z-164;
     var distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
 	var audio = document.getElementById("music1");
-	var metric=100/distance;
+	var metric=50/distance;
 	if(metric>1){
 		audio.volume=1;
 	}
