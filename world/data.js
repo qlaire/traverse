@@ -6,11 +6,17 @@ var worldData={
 }
 
 //CHANGE TO OPEN SOURCE SONGS!!!!
-var emoToSongSrc={'anger':'The Mountain Goats - This Year.mp3',
-					'joy':'Sigur Ròs - Gobbledigook.mp3',
+var emoToSongSrc={'anger':'assets/The Mountain Goats - This Year.mp3',
+					'joy':'assets/Sigur Ròs - Gobbledigook.mp3',
 					'sadness':'assets/NADLER, Marissa - Diamond Heart.mp3',
-					'fear':'Weirdomusic_-_03_-_Very_Scary_Part_2'}
+					'fear':'assets/Weirdomusic_-_03_-_Very_Scary_Part_2'}
 
+var emotionToPathNum= {
+	'anger':0,
+	'joy':1,
+	'fear':2,
+	'sadness':1
+}
 function receiveMessage(event){
     worldData=event.data;
     saveEmoScores(worldData);

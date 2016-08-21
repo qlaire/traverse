@@ -84,10 +84,11 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
     Promise.all([sadEntryPromise,joyEntryPromise,angryEntryPromise,fearEntryPromise])
     .then(function(resultArr){
       worldData.emoScores=[angerArray,joyArray,fearArray];
-      worldData.sadEntry={body: resultArr[0].body, chunkIndex: sadnessChunkIndex}
-      worldData.joyEntry={body: resultArr[1].body, chunkIndex: joyChunkIndex}
-      worldData.angryEntry={body: resultArr[2].body, chunkIndex: angerChunkIndex}
-      worldData.fearEntry={body: resultArr[3].body, chunkIndex: fearChunkIndex}
+      worldData.intenseEntries={};
+      worldData.intenseEntries.sadness={body: resultArr[0].body, chunkIndex: sadnessChunkIndex}
+      worldData.intenseEntries.joy={body: resultArr[1].body, chunkIndex: joyChunkIndex}
+      worldData.intenseEntries.anger={body: resultArr[2].body, chunkIndex: angerChunkIndex}
+      worldData.intenseEntries.fear={body: resultArr[3].body, chunkIndex: fearChunkIndex}
       res.status(200).send(worldData);     
     })
 
