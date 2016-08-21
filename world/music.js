@@ -34,11 +34,12 @@ function placeMusic(){
 }
 
 
-function changeAudioVolume(worldCoords){
+function changeAudioVolume(localCoords){
 	//console.log(worldCoords);
+	var worldCoords=terrain.localToWorld(localCoords);
 	//console.log(terrain.worldToLocal(worldCoords));
 	var song, dx, dz, distance, audio, metric;
-	var volumes={};
+	var distances={}
 	for(var i=0;i<songs.length;i++){
 		song=songs[i];
 	    dx = worldCoords.x-(song.locationOnTerrain.x);
@@ -46,6 +47,7 @@ function changeAudioVolume(worldCoords){
 	    dz = worldCoords.z-(song.locationOnTerrain.z);
 
 	    distance=Math.sqrt( dx * dx /*+ dy * dy*/ + dz * dz );
+	    console.log(song.emotion,distance);
 		// audio = song.audio;
 		var metric=10/distance;
 		if(metric>1){
@@ -54,50 +56,26 @@ function changeAudioVolume(worldCoords){
 		else{
 			song.volume = metric;
 		}
-		volumes[song.emotion]=song.volume;
+		distances[song.emotion]=distance;
 	}
-	//arbitrate conflicts
-	var maxVol=0;
-	var maxVolIndex=-1;
-	var emoList=Object.keys(volumes);
-	// console.log('volumes',volumes);
-	for(var i=0;i<emoList.length;i++){
-		if(volumes[emoList[i]]>maxVol){
-			maxVol=volumes[emoList[i]];
-			maxVolIndex=i;
-		}
-	}
-	// console.log(maxVolIndex);
-	// for(var i=0;i<songs;i++){
-	// 	songs[i].volume=0;
-		
-	// 	if(i!==maxVolIndex){
-	// 		songs[i].volume=songs[i].volume*.01;
-	// 	}
-	// }
-	emphasizeLoudest(volumes,songs);
+	emphasizeLoudest(distances,songs);
 
 }
 
-// function emphasizeLoudest(volumes,songs){
-// 	var maxVol=0;
-// 	var maxVolIndex=-1;
-// 	var emoList=Object.keys(volumes);
-// 	for(var i=0;i<emoList.length;i++){
-// 		if(volumes[emoList[i]]>maxVol){
-// 			maxVol=volumes[i];
-// 			maxVolIndex=i;
-// 		}
-// 	}
-// 	for(var i=0;i<songs;i++){
-// 		songs[i].volume=0;
-// 		/*
-// 		if(i!==maxVolIndex){
-// 			songs[i].volume=songs[i].volume*.01;
-// 		}*/
-// 	}
+function emphasizeLoudest(distances,songs){
+	var minDist=Infinity;
+	var minDistEmo=null;
+	var emoList=Object.keys(distances);
+	// console.log('volumes',volumes);
+	for(var i=0;i<emoList.length;i++){
+		if(distances[emoList[i]]<minDist){
+			minDist=distances[emoList[i]];
+			minDistEmo=emoList[i];
+		}
+	}
+	console.log(minDistEmo);
 
-// }
+}
 
 // function updateVolume(){
 // 	console.log('updating volume')
