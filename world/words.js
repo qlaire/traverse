@@ -61,9 +61,54 @@ function placeAWord(word, x, y, z,score){
 	return mesh1;
 }
 
+var sentenceMeshes=[];
+
+// function placeASentence(sentence, location){
+// 	// create a canvas element
+// 	var canvas1 = document.createElement('canvas');
+// 	canvas1.width=256;
+// 	canvas1.height=256; 
+// 	var context1 = canvas1.getContext('2d');
+// 	// var fontSize=calculateFontSize(word);
+// 	context1.font = "40px Arial";
+// 	context1.fillStyle='red';
+// 	//Math.random()>.8? context1.fillStyle = "#FDAA43" : context1.fillStyle="#FFFFFF";
+//     context1.fillText(sentence,0,50);
+    
+// 	// canvas contents will be used for a texture
+// 	var texture1 = new THREE.Texture(canvas1) 
+// 	texture1.needsUpdate = true;
+      
+//     var material1 = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
+//     material1.transparent = true;
+
+//     var mesh1 = new THREE.Mesh(
+//         new THREE.PlaneGeometry(256, 256),
+//         material1
+//       );
+// 	mesh1.position.x=location.x;
+// 	mesh1.position.y=location.y;
+// 	mesh1.position.z=location.z;
+// 	// set(location);
+// 	mesh1.rotation.y=Math.PI/2;
+// 	mesh1.minusZ=(Math.random()>.5);
+// 	mesh1.minusX=(Math.random()>.5);
+// 	sentenceMeshes.push(mesh1);
+// 	scene.add( mesh1 );
+// 	// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
+// 	// var material = new THREE.MeshBasicMaterial( {color:'red'});
+// 	// var sphere = new THREE.Mesh( geometry, material );
+// 	// sphere.position.x=location.x;
+// 	// sphere.position.z=location.z;
+// 	// sphere.position.y=200;
+// 	// scene.add( sphere );
+// 	return mesh1;
+// }
+
+
 function animateWords(){
 	var word;
-	for(var i=0;i<wordMeshes.length;i++){
+	for(var i=0; i<wordMeshes.length; i++){
 		word=wordMeshes[i];
 		if(word.goingUp){
 			word.position.y+=.1;			
@@ -79,5 +124,22 @@ function animateWords(){
 		}
 		//word.rotation.y+=.01*Math.random();
 	}
+	// var sentence;
+	// for(var i=0; i<sentenceMeshes.length;i++){
+	// 	sentence=sentenceMeshes[i];
+	// 	sentence.position.y+=Math.random();
+	// 	if(sentence.minusZ){
+	// 		sentence.position.z-=Math.random()*Math.random();
+	// 	}
+	// 	else{
+	// 		sentence.position.z+=Math.random()*Math.random();
+	// 	}
+	// 	if(sentence.minusX){
+	// 		sentence.position.x-=Math.random()*Math.random();
+	// 	}
+	// 	else{
+	// 		sentence.position.x+=Math.random()*Math.random();
+	// 	}
+	// }
 }
 

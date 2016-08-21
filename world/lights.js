@@ -5,6 +5,28 @@ function mainLights(){
     console.log(dirLight);
 }
 
+
+function randomXInEmotion(emotion){
+	var bound1, bound2;
+	if(emotion==='anger'){
+		bound1=zZones[2];
+		bound2=zZones[1];	
+
+	}
+	if(emotion==='joy'||emotion=='sadness'){
+		bound1=zZones[1];
+		bound2=zZones[0];	
+	}
+	if(emotion==='fear'){
+		bound1=zZones[0];
+		 bound2=zZones[999];	
+
+	}
+	var xCoord=bound1+(Math.random()*(bound2-bound1));
+	return 	xCoord;
+}
+
+
 var pointLights;
 function pointLights(){
 	console.log('zZones and xZones')
@@ -19,7 +41,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,0xA8263F,0xA8263F));	
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xA8263F,0xA8263F));	
 	}
 
 	//PATH 1 - JOY
@@ -29,7 +51,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,0xFDAA43,0xFDAA43));
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xFDAA43,0xFDAA43));
 	}
 
 	//PATH 2 - FEAR
@@ -39,7 +61,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*350,xCoord,0x3B3F78, 0x3B3F78
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0x3B3F78, 0x3B3F78
 ));
 	}
 
