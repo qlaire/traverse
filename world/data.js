@@ -9,7 +9,7 @@ var worldData={
 var emoToSongSrc={'anger':'assets/The Mountain Goats - This Year.mp3',
 					'joy':'assets/Sigur Ròs - Gobbledigook.mp3',
 					'sadness':'assets/NADLER, Marissa - Diamond Heart.mp3',
-					'fear':'assets/Weirdomusic_-_03_-_Very_Scary_Part_2'}
+					'fear':'assets/mystery_and_suspense.mp3'}
 
 var emotionToPathNum= {
 	'anger':0,

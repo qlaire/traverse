@@ -73,8 +73,18 @@ function emphasizeLoudest(distances,songs){
 			minDistEmo=emoList[i];
 		}
 	}
+	for(var i=0;i<songs.length;i++){
+		var song=songs[i];
+		if(song.emotion!==minDistEmo){
+			song.volume*=0.2;
+		}
+	}
 	console.log(minDistEmo);
 
+}
+
+function printEntry(){
+	
 }
 
 // function updateVolume(){
