@@ -16,20 +16,20 @@ function placeMusic(){
 		song.src=emoToSongSrc[emotion];
 		//NOT SURE WHY THIS TRANSLATION IS NECESSARY, MAKE CONSISTENT
 		// song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: -zZones[emotionToPathNum[emotion]]}
-		song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion)}
+		song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:0}
 
-		console.log(song.emotion,song.locationOnTerrain)
+		// console.log(song.emotion,song.locationOnTerrain)
 
 		song.associatedText=worldData.intenseEntries[emotion].body;
 		songs.push(song);
 		//REMOVE AND REMOVE DICT ABOVE!!
-		var geometry = new THREE.SphereGeometry( 50, 32, 32 );
-		var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
-		var sphere = new THREE.Mesh( geometry, material );
-		sphere.position.x=song.locationOnTerrain.x;
-		sphere.position.z=song.locationOnTerrain.z;
-		sphere.position.y=200;
-		scene.add( sphere );
+		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
+		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
+		// var sphere = new THREE.Mesh( geometry, material );
+		// sphere.position.x=song.locationOnTerrain.x;
+		// sphere.position.z=song.locationOnTerrain.z;
+		// sphere.position.y=200;
+		// scene.add( sphere );
 	}
 }
 
@@ -47,7 +47,14 @@ function changeAudioVolume(localCoords){
 	    dz = worldCoords.z-(song.locationOnTerrain.z);
 
 	    distance=Math.sqrt( dx * dx /*+ dy * dy*/ + dz * dz );
-	    console.log(song.emotion,distance);
+	    // console.log(song.emotion,distance);
+	    // if(distance<=60){
+	    // 	var printLocation={};
+	    // 	printLocation.x=song.locationOnTerrain.x;
+	    // 	printLocation.z=song.locationOnTerrain.z;
+	    // 	printLocation.y=localCoords.y;
+	    // 	printEntry(song.emotion,printLocation);
+	    // }
 		// audio = song.audio;
 		var metric=10/distance;
 		if(metric>1){
@@ -79,13 +86,23 @@ function emphasizeLoudest(distances,songs){
 			song.volume*=0.2;
 		}
 	}
-	console.log(minDistEmo);
 
 }
 
-function printEntry(){
-	
-}
+// function printEntry(emotion,location){
+// 	if(worldData.intenseEntries[emotion].complete===true){
+// 		return;
+// 	}
+// 	console.log('DOING IT')
+// 	worldData.intenseEntries[emotion].complete=true;
+// 	var entryToPrint=worldData.intenseEntries[emotion].body;
+// 	var sentences=entryToPrint.split('. ');
+// 	console.log(sentences)
+// 	var sentenceMesh;
+// 	for(var i=0;i<sentences.length;i++){
+// 		sentenceMesh=placeASentence(sentences[i],location);
+// 	}
+// }
 
 // function updateVolume(){
 // 	console.log('updating volume')
