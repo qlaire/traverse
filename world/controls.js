@@ -324,11 +324,11 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
-			// if(raycount%100===0){
-			// 	// console.log('in column???',checkIfInColumn(intersections[0].point));
-			// 	console.log('in column???',checkIfInColumn(intersections));
-			// };
+			if(raycount%100===0){
+				console.log(intersections[0].point);
+			};
 			updateDate(intersections[0].point);
+			changeAudioVolume(intersections[0].point);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -349,6 +349,21 @@ function animatePointerLockControls(){
 	}
 }
 
+function changeAudioVolume(worldCoords,musicCoords){
+    var dx = worldCoords.x-850;
+    var dy = worldCoords.y-43;
+    var dz = worldCoords.z-90;
+    var distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
+	var audio = document.getElementById("music1");
+	var metric=100/distance;
+	if(metric>1){
+		audio.volume=1;
+	}
+	else{
+		audio.volume = metric;
+	}
+	console.log(audio.volume);
+}
 
 function checkIfInColumn(intersections){
 	var inColumn=false;
