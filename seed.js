@@ -43,10 +43,10 @@ var seedEntries = function() {
     subject: "sleepy",
     body: "I am very tired",
     date: "2016-04-02 12:15:21-04",
-    joy: [0.1, 0.0, 0.0],
+    joy: [0.1, 0.2, 0.2],
     anger: [0.8, 0.2, 0.3],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{"forests":"0.9","wandering":"0.9","darkness":"0.8","trees":"0.7","shadpws":"0.7"},{"windows":"1.0","deep water":"0.9","injustice":"0.9","existential":"0.8","torrent":"0.8"},{"silver fish":"0.9","rangers":"0.8","mountain cabin":"0.7","freedom":"0.7"}]
+    keywords: [{"forests":"0.9","wandering":"0.9","darkness":"0.8","trees":"0.7","shadows":"0.7"},{"windows":"1.0","deep water":"0.9","injustice":"0.9","existential":"0.8","torrent":"0.8"},{"silver fish":"0.9","rangers":"0.8","mountain cabin":"0.7","freedom":"0.7"}]
   }, {
     subject: "I'm sad",
     body: "I've been depressed since december last year, possibly longer. Before december I had about a month period where I actually felt happy for a change. Before that I just wanted to drink my sorrows away every day and the loneliness was killing me. Now, in january a relationship I was in ended. I've been depressed pretty much ever since, but my depression keeps changing in it's symptoms. For 6 months since January untill I got over her I was severely depressed due to losing a friend among other things as well and I was suicidal, self-harming at some point, etc. When I got over her, I was still depressed, somewhat midly. But then it gets worse. I've read about different kinds of depression and one week I relate completely to one type, while the next week the other. The symptoms change. Now I'm restless and fidgety. I wasn't like that last week. So, it's difficult to decide what to answer to online depression tests. Anyone else with a similar experience?",
@@ -63,7 +63,15 @@ var seedEntries = function() {
     anger: [0.3,0.3,0.3],
     fear: [0.1,0.1,0],
     keywords: [{"highest rank":"0.9","eagle scout":"0.8","Boy Scouting":"0.6","boys":"0.3"},{"merit badges":"0.9","cub scout":"0.8","hard work":"0.8","easy task":"0.8","honor":"0.5","thing":"0.5","rank":"0.5","life":"0.4","foundation":"0.4"},{"local animal shelter":"1.0","wonderful honor":"0.9","service project":"0.8","eagle scout":"0.8","boy scout":"0.7","dog":"0.4","trail":"0.4","life":"0.4"}]
-  }];
+  },
+{
+    subject: "Sadness",
+    body: "I'm pretty sad and I don't know what to do.",
+    date: "2016-08-19 07:36:21-04",
+    joy: [0.2, 0.2, 0.2],
+    anger: [0.4, 0.4, 0.5],
+    fear: [0.3, 0.2, 0.3],
+    keywords: [{ 'mom': '0.1' },{'talk':'.6'},{'believe':'.7'},{'unhappy':.6}, {'work':.7},{'schoolwork':.4},{'dreams':.7},{'Friday':.6},{'dance':.1},{'homeroom':.5}] }];
 
   var i = 1;
   createdEntries=[];
