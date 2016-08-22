@@ -188,6 +188,7 @@ function initPointerLockControls(){
 var raycount=0;
 function animatePointerLockControls(){
 	moveUp=false;
+	//moveDown=false;
 	if ( controlsEnabled ) {
 		//for console.logging
 		raycount++;
@@ -203,7 +204,9 @@ function animatePointerLockControls(){
 
 		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
-		var inColumn=checkIfInColumn(intersections);
+		var columnInfo=checkIfInColumn(intersections);
+		var inColumn=columnInfo[0];
+		var columnLocation=columnInfo[1];
 
 		//MOVE THIS
 		// if (inColumn) {
@@ -236,12 +239,15 @@ function animatePointerLockControls(){
 			//you're not on the terrain yet
 			if(controls.getObject().position.y>(intersections[0].point.y+20)){
 				console.log(4);
-				moveDown=true;
 				onPlane=false;
 				moveForward=false;
 				moveBackward=false;
 				moveLeft=false;
 				moveRight=false;
+				moveDown=true;
+				controls.getObject().position.x=columnLocation.x;
+				controls.getObject().position.z=columnLocation.z;
+
 			}
 			//you're on the terrain 
 			else{
@@ -363,12 +369,14 @@ function animatePointerLockControls(){
 
 function checkIfInColumn(intersections){
 	var inColumn=false;
+	var columnLocation=null;
 	intersections.forEach(intersection=>{
 		if(intersection.object.isDisk){
 			inColumn=true;
+			columnLocation=intersection.object.position;
 		}
 	});
-	return inColumn;
+	return [inColumn,columnLocation];
 
 }
 
