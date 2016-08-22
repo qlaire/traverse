@@ -13,6 +13,13 @@
             text-decoration:none;
             color: #b9f3e7;
         }
+        a.active {
+            color: #b9f3e7;
+            text-decoration:none;   
+        }
+        a.current {
+            color: #b9f3e7;
+        }
     }
     fullstack-logo {
         width: 40px;
