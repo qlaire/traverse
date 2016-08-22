@@ -3,6 +3,7 @@ var router = require('express').Router();
 var analyzeEmotion = require('../../../utils').analyzeEmotion;
 var convertWatsonDataToArr = require('../../../utils').convertWatsonDataToArr;
 var authenticator = require('../utils');
+var striptags = require('striptags');
 var db = require('../../../db/_db');
 var Entry = db.model('entry');
 module.exports = router;
@@ -12,8 +13,14 @@ router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
                 order: [['date', 'DESC']]
               })
   .then(function(entries){
-    console.log(entries);
     res.status(200).send(entries);
+  }).catch(next);
+})
+
+router.get('/:id', authenticator.ensureAuthenticated, function(req, res, next){
+  Entry.findById(req.params.id)
+  .then(function(entry){
+    res.status(200).send(entry);
   }).catch(next);
 })
 
@@ -21,14 +28,15 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   let joyArr;
   let angerArr;
   let fearArr;
-  analyzeEmotion(req.body.entry)
+  let strippedEntry = striptags(req.body.entry);
+  analyzeEmotion(strippedEntry)
   .spread((emoResults, keywordResults) => {
     let resultArr = convertWatsonDataToArr(emoResults);
     joyArr = resultArr[2];
     angerArr = resultArr[0];
     fearArr = resultArr[1];
     return Entry.create({
-      subject: req.body.subject,
+      title: req.body.title,
       body: req.body.entry,
       joy: joyArr,
       anger: angerArr,

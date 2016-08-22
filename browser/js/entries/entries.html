@@ -1,36 +1,13 @@
-<nav>
-    <div class="nav-wrapper black" style="background-color:black;">
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a ui-sref="login">Logout</a></li>
-        </ul>
-    </div>
-</nav>
 <navbar></navbar>
-<!-- <nav>
-    <div class="nav-wrapper black" style="background-color:black;">
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a ui-sref="signup">Signup</a></li>
-            <li><a ui-sref="login">Login</a></li>
-            <li><a ng-click="logout()">Logout</a></li> -->
-            <!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
-        <button id="navbtn" ui-sref="login">LOG IN</button>
-        </ul>
-    </div>
-</nav> -->
-<!-- <div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                <label for="textarea1">Textarea</label>
-            </div>
-        </div>
-    </form>
-</div>
- -->
+
 <section id="entries">
-<div ng-repeat="entry in entries | orderBy : 'id': 'reverse'">
-       <p>{{entry.body}}</p>
-       <p><{{entry.id}}</p>
+ <div class="background">
+    <div class="allEntries"
+    <div ng-repeat="entry in entries" ng-click="goEntry(entry)">
+           <h4>{{entry.title}}</h4>
+           <p>{{entry.date}}</p>
+           <p ng-bind-html="entry.snippet"</p>
+        </div>
+        </div>
     </div>
 </section>

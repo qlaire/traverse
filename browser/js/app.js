@@ -1,14 +1,20 @@
 'use strict';
-window.app = angular.module('FullstackGeneratedApp', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ui.tinymce']);
+window.app = angular.module('TraverseApp', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ui.tinymce', 'ngSanitize']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
-    // $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/');
     // Trigger page refresh when accessing an OAuth route
     $urlRouterProvider.when('/auth/:provider', function () {
         window.location.reload();
+    });
+});
+
+app.controller('GlobalCtrl', function($scope) {
+    $scope.$on('$stateChangeStart', function(event, toState, toParams) {
+        $scope.bodyClass = toState.name + '-page';
     });
 });
 

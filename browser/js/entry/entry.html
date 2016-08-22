@@ -1,34 +1,20 @@
 <navbar></navbar>
-<!-- <nav>
-    <div class="nav-wrapper black" style="background-color:black;">
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a ui-sref="signup">Signup</a></li>
-            <li><a ui-sref="login">Login</a></li>
-            <li><a ng-click="logout()">Logout</a></li> -->
-            <!--         <button id="navbtn" ui-sref="signup">SIGN UP</button>
-        <button id="navbtn" ui-sref="login">LOG IN</button>
-        </ul>
-    </div>
-</nav> -->
-<!-- <div class="row">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                <label for="textarea1">Textarea</label>
-            </div>
-        </div>
-    </form>
-</div>
- -->
 <section id="entry">
-    <div class="background">
-        <h1>HI</h1>
-        <!-- <textarea id="entry" placeholder="Dear Diary,"></textarea> -->
-        <form method="post" ng-controller="TinyMceController">
-            <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel" id="mytextarea">Hello, World!</textarea>
-            <button ng-click="getContent()">Get content</button>
-            <button ng-click="setContent()">Set content</button>
-            <button id="post" class="btn btn-default">Post</button>
+    <div class="container">
+        <div class="col-md-12">
+            <h2>JOURNAL</h2>
+            <form name="newEntry" ng-submit="postEntry()" novalidate>
+                <label for="title">Title:</label>
+                <input ng-model="title" id="title" type="text">
+                <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
+                </div>
+                <div>
+                <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
+                <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
+                </div>
+                <button id="post" ng-disabled="!validate()"  class="btn btn-default">Post</button>
+                <br>
+            </form>
+        </div>
     </div>
 </section>

@@ -6,11 +6,11 @@ var controls;
 
 function init() {
   
-    // Create a scene
+      // Create a scene
     scene = new THREE.Scene();
 
     // Add the camera
-    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 3000);
+    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 2000);
     camera.position.set(0,0,0);
   
     // Add scene elements
@@ -28,6 +28,12 @@ function init() {
 
     //plane
     placePlane();
+
+    //sky
+    addSky();
+
+    //music
+    placeMusic();
 
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });

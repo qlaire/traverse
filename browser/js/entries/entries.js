@@ -11,6 +11,10 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('EntriesCtrl', function($scope, allEntries) {
+app.controller('EntriesCtrl', function($scope, allEntries, $state) {
   $scope.entries = allEntries;
+
+  $scope.goEntry = function (entry){
+        $state.go('singleEntry', {entryId: entry.id});
+    }
 });

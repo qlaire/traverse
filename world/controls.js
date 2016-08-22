@@ -176,6 +176,10 @@ function initPointerLockControls(){
 	controls.getObject().position.z=0;
 	controls.getObject().position.x=xZones[Object.keys(xZones).length-3];
 	controls.getObject().position.y=600;
+	//TODO: DRY this up
+	skyBox.position.x=controls.getObject().position.x;
+	skyBox.position.y=controls.getObject().position.y;
+	skyBox.position.z=controls.getObject().position.z;
 
 
 }
@@ -184,6 +188,7 @@ function initPointerLockControls(){
 var raycount=0;
 function animatePointerLockControls(){
 	moveUp=false;
+	//moveDown=false;
 	if ( controlsEnabled ) {
 		//for console.logging
 		raycount++;
@@ -197,9 +202,16 @@ function animatePointerLockControls(){
 		var delta = ( time - prevTime ) / 1000; //real
 		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
-		console.log('planeHeight',planeHeight);
+		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
-		var inColumn=checkIfInColumn(intersections);
+		var columnInfo=checkIfInColumn(intersections);
+		var inColumn=columnInfo[0];
+		var columnLocation=columnInfo[1];
+
+		//MOVE THIS
+		// if (inColumn) {
+		// 	silenceMusic();
+		// }
 		if(inColumn&&!starWalked&&!backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
@@ -227,12 +239,16 @@ function animatePointerLockControls(){
 			//you're not on the terrain yet
 			if(controls.getObject().position.y>(intersections[0].point.y+20)){
 				console.log(4);
-				moveDown=true;
 				onPlane=false;
 				moveForward=false;
 				moveBackward=false;
 				moveLeft=false;
 				moveRight=false;
+				moveDown=true;
+				controls.getObject().position.x=columnLocation.x;
+				controls.getObject().position.z=columnLocation.z;
+				planeGlimmered=false;
+
 			}
 			//you're on the terrain 
 			else{
@@ -244,6 +260,13 @@ function animatePointerLockControls(){
 		}
 		if(!inColumn){
 			backToEarth=false;
+		}
+		//MOVE ELSEWHERE
+		if(onPlane||moveUp){
+			outsideTime();
+		}
+		if(onPlane&&inColumn){
+			glimmerPlane();
 		}
 
 
@@ -315,11 +338,17 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
+		changeAudioVolume(intersections[0].point,onPlane);
+
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
-			if(raycount%100===0){
-				// console.log('in column???',checkIfInColumn(intersections[0].point));
-				console.log('in column???',checkIfInColumn(intersections));
+			if(raycount%200===0){
+				console.log('intersection',intersections[0].point);
+				console.log(getLocation(intersections[0].point));
+				//console.log('world',terrain.localToWorld(intersections[0].point));
 			};
+			//changeAudioVolume(intersections[0].point);
+
+			updateDate(intersections[0].point);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -329,6 +358,9 @@ function animatePointerLockControls(){
 		controls.getObject().translateX( velocity.x * delta );
 		controls.getObject().translateZ( velocity.z * delta );
 		//controls.getObject().translateY( velocity.y * delta );
+		skyBox.position.x=controls.getObject().position.x;
+		skyBox.position.y=controls.getObject().position.y;
+		skyBox.position.z=controls.getObject().position.z;
 
 
 
@@ -338,23 +370,29 @@ function animatePointerLockControls(){
 }
 
 
+
 function checkIfInColumn(intersections){
 	var inColumn=false;
+	var columnLocation=null;
 	intersections.forEach(intersection=>{
 		if(intersection.object.isDisk){
 			inColumn=true;
+			columnLocation=intersection.object.position;
 		}
 	});
-	return inColumn;
+	return [inColumn,columnLocation];
 
 }
 
+
+//for intersection, x goes side to side, y goes up, and z goes backward
+//appears to be the same in the WORLD
 //worldCoords will be intersections[0].point
 function getLocation(worldCoords){
 	var toReturn={};
-	console.log(worldCoords);
+	// console.log('worldCoords',worldCoords);
 	var localCoords=terrain.worldToLocal(worldCoords);
-	console.log('localCoords',localCoords);
+	// console.log('localCoords',localCoords);
 	var xCoord=customFloor(localCoords.x,distanceX);
 	var yCoord=customFloor(localCoords.y,distanceY);
 	var locationInfo=vertexDict[[xCoord,yCoord]];

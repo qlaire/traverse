@@ -12,12 +12,12 @@ section#login {
     }
 }
 
-body {
+body.login-page {
+    background-image: url("/images/background3.jpg");
     height: 100%;
     font: 15px "Dosis", sans-serif;
     text-transform: uppercase;
     color: white;
-    background-image: url("/images/background3.jpg");
     a:hover {
         text-decoration:none;
     }

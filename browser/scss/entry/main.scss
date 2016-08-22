@@ -1,48 +1,39 @@
 section#entry {
-    h1 {
+    h2 {
+        margin-top:75px;
         text-align: center;
-        font: 42px "Dosis", sans-serif;
+        font: 34px "Dosis", sans-serif;
         color:black;
     }
-    textarea {
-    	font:16px "Dosis", sans-serif;
-    	color:black;
-    	border:none;
-    	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-    	width:60%;
-    	outline:none;
-    	display:block;
-    	background-color:white;
-    	margin: 0 auto;
-    }
-    .background {
-    	background-image: url("/images/background4.jpg");
-    }
-
 }
 
-body {
-    height: 100%;
-    font: 15px "Dosis", sans-serif;
-    text-transform: uppercase;
-    color: white;
+body.entry-page {
+   background: url("/images/background4.jpg");
+    width: 100%;
+    color: black;
+    text-transform:none;
+    background-repeat:repeat-x;
+    background-color:#fbf5df;
+    // background-size:100% 100%;
+    background-position:0px 50px;
     a:hover {
         text-decoration:none;
     }
-}
 
-nav {
-  max-height:50px;
-  ul {
-  	a:hover{
-  		background-color:rgba(0,0,0,0);
-  	}
-  }
-  a {
-    color:white;
-  }
-  a:hover{
-    color:#b9f3e7; 
-  }
+    .tinymcestyle {
+      background-color:white;
+      color:black;
+      margin: 0 auto;
+      min-height:300px;
+      height:auto;
+      width:500px;
+      max-width:500px;
+      box-shadow:3px 3px 3px grey;
+      &:focus {
+        outline:none;
+      }
+      a[href] {
+        text-decoration: underline;
+      }
+    }
 }
-
