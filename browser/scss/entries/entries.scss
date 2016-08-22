@@ -32,3 +32,20 @@ body.entries-page {
 	background-position: right top;
 	background-repeat:repeat-y;
 }
+
+section#entries {
+    width: 100%;
+    color: black;
+    text-transform:none;
+    background-repeat:repeat-x;
+    background-color:#fbf5df;
+    // background-size:100% 100%;
+    background-position:0px 50px;
+    a:hover {
+        text-decoration:none;
+    }
+
+    strong {
+      font-weight:bold;
+    }
+}

@@ -1,8 +1,12 @@
 <navbar></navbar>
-<section id="entries" class="entries">
-    <div ng-repeat="entry in entries" class="words">
-        <h4 ng-click="goEntry(entry)" class="pointer">{{entry.title}}</h4>
-        <h6>{{entry.date}}</h6>
-        <p>{{entry.snippet}}</p><br>
+<section id="entries">
+ <div class="background">
+    <div class="allEntries"
+    <div ng-repeat="entry in entries" ng-click="goEntry(entry)">
+           <h4>{{entry.title}}</h4>
+           <p>{{entry.date}}</p>
+           <p ng-bind-html="entry.snippet"></p>
+        </div>
+        </div>
     </div>
 </section>

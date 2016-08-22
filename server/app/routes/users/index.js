@@ -4,6 +4,8 @@ var router = require('express').Router();
 var User = require('../../../db/models/user');
 var Entry = require('../../../db/models/entry');
 var authenticator = require('../utils');
+var striptags = require('striptags');
+
 
 var _ = require('lodash');
 module.exports = router;
@@ -43,7 +45,6 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
       for(var j=0; j<entries[i].joy.length; j++){
         worldData.dates.push(entries[i].date);
       }
-
       // currChunkIndex=getChunkIndex(entries[i].anger);
 
       //check if <emotion>est entry
@@ -73,6 +74,7 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
       angerArray=angerArray.concat(entries[i].anger);
       joyArray=joyArray.concat(entries[i].joy);
       fearArray=fearArray.concat(entries[i].fear);
+      console.log('keywords for entry '+i+': ',entries[i].keywords)
       worldData.keywords=worldData.keywords.concat(entries[i].keywords);
 
       console.log(angerAvg,fearAvg,joyAvg)
@@ -86,10 +88,17 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
     .then(function(resultArr){
       worldData.emoScores=[angerArray,joyArray,fearArray];
       worldData.intenseEntries={};
-      worldData.intenseEntries.sadness={body: resultArr[0].body, chunkIndex: sadnessChunkIndex}
-      worldData.intenseEntries.joy={body: resultArr[1].body, chunkIndex: joyChunkIndex}
-      worldData.intenseEntries.anger={body: resultArr[2].body, chunkIndex: angerChunkIndex}
-      worldData.intenseEntries.fear={body: resultArr[3].body, chunkIndex: fearChunkIndex}
+
+      worldData.intenseEntries.sadness={body: striptags(resultArr[0].body), chunkIndex: sadnessChunkIndex}
+      worldData.intenseEntries.joy={body:  striptags(resultArr[1].body), chunkIndex: joyChunkIndex}
+      worldData.intenseEntries.anger={body:  striptags(resultArr[2].body), chunkIndex: angerChunkIndex}
+      worldData.intenseEntries.fear={body:  striptags(resultArr[3].body), chunkIndex: fearChunkIndex}
+
+      // worldData.intenseEntries.sadness={body: resultArr[0].body, chunkIndex: sadnessChunkIndex}
+      // worldData.intenseEntries.joy={body: resultArr[1].body, chunkIndex: joyChunkIndex}
+      // worldData.intenseEntries.anger={body: resultArr[2].body, chunkIndex: angerChunkIndex}
+      // worldData.intenseEntries.fear={body: resultArr[3].body, chunkIndex: fearChunkIndex}
+      console.log(worldData);
       res.status(200).send(worldData);     
     })
 
