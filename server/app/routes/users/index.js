@@ -38,40 +38,41 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
     var sadnessChunkIndex=-1;
     var angerChunkIndex=-1;
     worldData.dates=[];
-    var currChunkIndex;
+    // var currChunkIndex;
     for(var i=0; i<entries.length; i++){
       for(var j=0; j<entries[i].joy.length; j++){
         worldData.dates.push(entries[i].date);
       }
-      angerArray=angerArray.concat(entries[i].anger);
-      joyArray=joyArray.concat(entries[i].joy);
-      fearArray=fearArray.concat(entries[i].fear);
-      currChunkIndex=getChunkIndex(entries[i].anger);
+
+      // currChunkIndex=getChunkIndex(entries[i].anger);
 
       //check if <emotion>est entry
       angerAvg=avg(entries[i].anger);
       if(avg(entries[i].anger)>maxAnger){
         maxAnger=angerAvg;
         angryEntryId=entries[i].id;
-        angerChunkIndex=getChunkIndex(angerArray)
+        angerChunkIndex=findChunkIndex(angerArray,entries[i].anger);
       }
       fearAvg=avg(entries[i].fear);
       if(avg(entries[i].fear)>maxFear){
         maxFear=fearAvg;
         fearEntryId=entries[i].id;
-        fearChunkIndex=fearArray.length-2;
+        fearChunkIndex=findChunkIndex(fearArray,entries[i].fear);
       }
       joyAvg=avg(entries[i].joy);
       if(avg(entries[i].joy)>maxJoy){
         maxJoy=joyAvg;
         joyEntryId=entries[i].id;
-        joyChunkIndex=joyArray.length-2;
+        joyChunkIndex=findChunkIndex(joyArray,entries[i].joy);
       }
       if(avg(entries[i].joy)<maxJoy){
         minJoy=joyAvg;
         sadEntryId=entries[i].id;
-        sadnessChunkIndex=joyArray.length-2;
+        sadnessChunkIndex=findChunkIndex(joyArray,entries[i].joy);
       }
+      angerArray=angerArray.concat(entries[i].anger);
+      joyArray=joyArray.concat(entries[i].joy);
+      fearArray=fearArray.concat(entries[i].fear);
       worldData.keywords=worldData.keywords.concat(entries[i].keywords);
 
       console.log(angerAvg,fearAvg,joyAvg)
@@ -95,6 +96,22 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
 
   }).catch(next);
 })
+
+function findChunkIndex(largeArr,smallArr){
+  return largeArr.length+maxIndex(smallArr);
+}
+
+function maxIndex(smallArr){
+  var currMax=-1;
+  var currMaxIndex=-1;
+  for(var i=0; i<smallArr.length; i++){
+    if(smallArr[i]>currMax){
+      currMax=smallArr[i];
+      currMaxIndex=i;
+    }
+  }
+  return currMaxIndex;
+}
 
 
 function getChunkIndex(arr){
