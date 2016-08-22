@@ -55,7 +55,7 @@ function changeAudioVolume(localCoords,onPlane){
 	    distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
 	    distanceFlat=Math.sqrt( dx * dx + dz * dz );
 	    // console.log(song.emotion,distance);
-	    if(distanceFlat<=60){
+	    if(distanceFlat<=60&&!onPlane){
 	    	console.log('FOUND IT');
 	    	song.entryMesh.rising=true;
 	    }
