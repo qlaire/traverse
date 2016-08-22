@@ -1,11 +1,13 @@
 <navbar></navbar>
 <section id="entries">
     <div class="background">
+    <h3>Your Journal</h3>
+    <br>
         <div class="allEntries" ng-repeat="entry in entries">
             <h4>{{entry.title}}</h4>
             <p>{{entry.date}}</p>
             <p ng-bind-html="entry.snippet"></p>
-            <a ui-sref="singleEntry({entryId: entry.id})"><b>read more</b></a>
+            <a ui-sref="singleEntry({entryId: entry.id})"><span class="glyphicon glyphicon-arrow-right"></span><br><b>read more</b></a>
             <hr width="40%";>
             <br><br>
         </div>
