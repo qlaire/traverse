@@ -39,7 +39,7 @@ function placeAWord(word, x, y, z,score){
 	canvas1.height=256; 
 	var context1 = canvas1.getContext('2d');
 	var fontSize=calculateFontSize(word);
-	context1.font = fontSize+"px Arial";
+	context1.font = fontSize+"px Dosis";
 	score>.8? context1.fillStyle = "#FDAA43" : context1.fillStyle="#FFFFFF";
     context1.fillText(word, 0, 50);
     
@@ -191,7 +191,7 @@ function generateDiaryCanvas(emotion,location){
 //adapted from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
 function wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion) {
 	var context=canvas.getContext('2d');
-	context.font = '20px Arial';
+	context.font = '20px Dosis';
 	context.fillStyle = emotionToColor[emotion];
 	var words = text.split(' ');
 	var line = '';
