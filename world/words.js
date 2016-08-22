@@ -40,7 +40,7 @@ function placeAWord(word, x, y, z,score){
 	var context1 = canvas1.getContext('2d');
 	var fontSize=calculateFontSize(word);
 	context1.font = fontSize+"px Arial";
-	Math.random()>.8? context1.fillStyle = "#FDAA43" : context1.fillStyle="#FFFFFF";
+	score>.8? context1.fillStyle = "#FDAA43" : context1.fillStyle="#FFFFFF";
     context1.fillText(word, 0, 50);
     
 	// canvas contents will be used for a texture
@@ -106,26 +106,19 @@ var sentenceMeshes=[];
 // }
 
 var entryMeshes=[];
-function printEntry(emotion,location){
+function createEntryBall(emotion,location){
 	if(worldData.intenseEntries[emotion].complete===true){
 		return;
 	}
-	console.log('DOING IT')
 	worldData.intenseEntries[emotion].complete=true;
-	var text=worldData.intenseEntries[emotion].body;
-	var canvas = document.createElement('canvas');
-	var context = canvas.getContext('2d');
-	canvas.width=512;
-	canvas.height=512; 	
-	var maxWidth = 512;
-	var lineHeight = 25;
-	var x = (canvas.width - maxWidth) / 2;
-	var y = 60;
-	//REFACTOR MORE LOGICALLY
-    canvas=wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion);
+	return createEntryBallMesh(emotion,location);
+}
+
+function createEntryBallMesh(emotion,location){
+    var canvas=generateDiaryCanvas(emotion,location);
 	var texture1 = new THREE.Texture(canvas) 
 	texture1.needsUpdate = true;
-    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
+    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide, opacity:0} );
     material.transparent = true;
     var mesh = new THREE.Mesh(
         new THREE.SphereGeometry(60,32,32),
@@ -134,12 +127,19 @@ function printEntry(emotion,location){
 	mesh.position.x=location.x;
 	mesh.position.y=location.y;
 	mesh.position.z=location.z;
+	mesh.rising=false;
 	scene.add(mesh);
 	entryMeshes.push(mesh);
+	return mesh;
 }
 
 
 function animateWords(){
+	animateSingleWords();
+	animateEntries();
+}
+
+function animateSingleWords(){
 	var word;
 	for(var i=0; i<wordMeshes.length; i++){
 		word=wordMeshes[i];
@@ -157,17 +157,35 @@ function animateWords(){
 		}
 		//word.rotation.y+=.01*Math.random();
 	}
+}
+
+function animateEntries(){
 	var entry;
 	for(var i=0; i<entryMeshes.length; i++){
 		entry=entryMeshes[i];
-		if(entry.position.y<(planeHeight+10)){
+		if(entry.rising){
+			entry.material.opacity=1;
+		}
+		if(entry.rising&&entry.position.y<(planeHeight+10)){
 			entry.position.y+=.3;
 		}
 		entry.rotation.z+=.001;
 		entry.rotation.x+=.001;
 		entry.rotation.y+=.001;
 	}
+}
 
+function generateDiaryCanvas(emotion,location){
+	var text=worldData.intenseEntries[emotion].body;
+	var canvas = document.createElement('canvas');
+	var context = canvas.getContext('2d');
+	canvas.width=512;
+	canvas.height=512; 	
+	var maxWidth = 512;
+	var lineHeight = 25;
+	var x = (canvas.width - maxWidth) / 2;
+	var y = 60;
+	return wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion);
 }
 
 //adapted from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
@@ -194,17 +212,6 @@ function wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion) {
 	context.fillText(line, x, y);
 	return canvas;
 }
-
-// var canvas = document.getElementById('myCanvas');
-// var context = canvas.getContext('2d');
-// var maxWidth = 512;
-// var lineHeight = 25;
-// var x = (canvas.width - maxWidth) / 2;
-// var y = 60;
-
-
-// context.font = '14px Arial';
-// context.fillStyle = 'gray';
 
 
 

@@ -206,9 +206,9 @@ function animatePointerLockControls(){
 		var inColumn=checkIfInColumn(intersections);
 
 		//MOVE THIS
-		if (inColumn) {
-			silenceMusic();
-		}
+		// if (inColumn) {
+		// 	silenceMusic();
+		// }
 		if(inColumn&&!starWalked&&!backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
@@ -328,14 +328,17 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
+		changeAudioVolume(intersections[0].point,onPlane);
+
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
 			if(raycount%200===0){
 				console.log('intersection',intersections[0].point);
 				console.log(getLocation(intersections[0].point));
 				//console.log('world',terrain.localToWorld(intersections[0].point));
 			};
+			//changeAudioVolume(intersections[0].point);
+
 			updateDate(intersections[0].point);
-			changeAudioVolume(intersections[0].point);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
