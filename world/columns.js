@@ -1,17 +1,28 @@
 function createColumn(x, y, z) {
   var geometry = new THREE.CylinderGeometry( 5, 5, 4000, 32 );
-  var material = new THREE.MeshBasicMaterial( {color: 0x7bbdec} );
+  var material = new THREE.MeshBasicMaterial( {color: new THREE.Color('gray')} );
   var cylinder = new THREE.Mesh( geometry, material );
+  scene.add( cylinder );
 
   // create the glowMesh
   var glowMesh = new THREEx.GeometricGlowMesh(cylinder);
   cylinder.add(glowMesh.object3d);
 
+  // customize the glowMesh
+	var insideUniforms	= glowMesh.insideMesh.material.uniforms;
+	insideUniforms.glowColor.value.set('hotpink');
+	var outsideUniforms	= glowMesh.outsideMesh.material.uniforms;
+	outsideUniforms.glowColor.value.set('hotpink');
+
+  // // dat.GUI for fine tuning
+	// var datGUI	= new dat.GUI();
+	// new THREEx.addAtmosphereMaterial2DatGui(glowMesh.insideMesh.material, datGUI);	
+	// new THREEx.addAtmosphereMaterial2DatGui(glowMesh.outsideMesh.material, datGUI);
+
   cylinder.position.x = x;
   cylinder.position.y = y;
   cylinder.position.z = z;
   placeDisk(x,z);
-  scene.add( cylinder );
 }
 
 function placeColumns() {
