@@ -174,7 +174,7 @@ function initPointerLockControls(){
 	raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 3001 );
 	//Set positions
 	controls.getObject().position.z=0;
-	controls.getObject().position.x=xZones[Object.keys(xZones).length-3];
+	controls.getObject().position.x=xBound-paddingX/4; //xZones[Object.keys(xZones).length-3];
 	controls.getObject().position.y=600;
 	//TODO: DRY this up
 	skyBox.position.x=controls.getObject().position.x;
