@@ -13,6 +13,7 @@ function placeMusic(){
 		song.autoplay=true;
 		song.volume=0;
 		song.loop=true;
+		song.leftEarth=false;
 		song.src=emoToSongSrc[emotion];
 		//NOT SURE WHY THIS TRANSLATION IS NECESSARY, MAKE CONSISTENT
 		// song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: -zZones[emotionToPathNum[emotion]]}
@@ -33,14 +34,13 @@ function placeMusic(){
 	}
 }
 
-
 function changeAudioVolume(localCoords){
 	//console.log(worldCoords);
 	var worldCoords=terrain.localToWorld(localCoords);
 	//console.log(terrain.worldToLocal(worldCoords));
 	var song, dx, dz, distance, audio, metric;
 	var distances={}
-	for(var i=0;i<songs.length;i++){
+	for(var i=0; i<songs.length; i++){
 		song=songs[i];
 	    dx = worldCoords.x-(song.locationOnTerrain.x);
 	    //var dy = worldCoords.y-86;
