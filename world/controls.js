@@ -247,6 +247,7 @@ function animatePointerLockControls(){
 				moveDown=true;
 				controls.getObject().position.x=columnLocation.x;
 				controls.getObject().position.z=columnLocation.z;
+				planeGlimmered=false;
 
 			}
 			//you're on the terrain 
@@ -263,6 +264,9 @@ function animatePointerLockControls(){
 		//MOVE ELSEWHERE
 		if(onPlane||moveUp){
 			outsideTime();
+		}
+		if(onPlane&&inColumn){
+			glimmerPlane();
 		}
 
 
