@@ -15,14 +15,15 @@ var Promise = require('sequelize').Promise;
 
 var createdEntries;
 var seedEntries = function() {
-  var entries = [{
+  var entries = [
+  {
     title: "bananas",
     body: "I love bananas a lot.",
     date: "2016-01-18 07:36:21-04",
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'},{'white house':.6}, {'first lady':.7},{'underwater nachos':.4},{'grandmother':.7},{'weasle boyfriend':.6},{'cherries':.1},{'racoon dance':.5}]
+    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'}]
   }, {
     title: "cheese",
     body: "I love cheese a bunch.",
@@ -70,7 +71,7 @@ var seedEntries = function() {
     joy: [0.2, 0.2, 0.2],
     anger: [0.4, 0.4, 0.5],
     fear: [0.3, 0.2, 0.3],
-    keywords: [{ 'mom': '0.1' },{'talk':'.6'},{'believe':'.7'},{'unhappy':.6}, {'work':.7},{'schoolwork':.4},{'dreams':.7},{'Friday':.6},{'dance':.1},{'homeroom':.5}] 
+    keywords: [{ 'mom': '0.1', 'cry':'0.2','weep':'.07','despair':'.9'},{'talk':'.6', 'therapist':'.6','unknown':'.2','hidden':'.3'},{'believe':'.7','God':'.3','heaven':'.5'}] 
 }];
 
   var i = 1;
