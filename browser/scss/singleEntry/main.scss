@@ -1,8 +1,8 @@
-body.entries-page {
-	background-image: url('/images/background5.png');
+body.singleEntry-page {
+  background-image: url('/images/background5.png');
 }
 
-section#entries {
+section#singleEntry {
     width: 100%;
     color: black;
     text-transform:none;
@@ -14,8 +14,8 @@ section#entries {
         text-decoration:none;
     }
 
-    strong {
-      font-weight:bold;
-    }
 }
 
+strong {
+      font-weight:bold;
+    }
