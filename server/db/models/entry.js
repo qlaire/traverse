@@ -3,7 +3,7 @@ var Sequelize = require('sequelize');
 var db = require('../_db');
 
 module.exports = db.define('entry', {
-  subject: {
+  title: {
     type: Sequelize.STRING
   },
   body: {
