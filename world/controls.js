@@ -111,7 +111,7 @@ function initPointerLockControls(){
 				// increase speed
 				speedUp = true;
 				break;
-			
+
 			case 38: // up
 			case 87: // w
 				moveForward = true;
@@ -130,7 +130,7 @@ function initPointerLockControls(){
 			case 68: // d
 				moveRight = true;
 				break;
-			
+
 		}
 
 	};
@@ -143,7 +143,7 @@ function initPointerLockControls(){
 				// slow back down
 				speedUp = false;
 				break;
-			
+
 			case 38: // up
 			case 87: // w
 				moveForward = false;
@@ -163,6 +163,11 @@ function initPointerLockControls(){
 			case 68: // d
 				moveRight = false;
 				break;
+
+      case 88: // x
+        renderer.render(scene, camera);
+        console.log(renderer.domElement.toDataURL());
+      break;
 
 		}
 
@@ -187,7 +192,7 @@ function initPointerLockControls(){
 var worldVec = new THREE.Vector3(0, 0, 0)
 
 function getWorldCoords(localCoords){
-	return terrain.worldToLocal(worldVec.copy(localCoords))	
+	return terrain.worldToLocal(worldVec.copy(localCoords))
 }
 
 
@@ -209,7 +214,7 @@ function animatePointerLockControls(){
 
 
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000; 
+		var delta = ( time - prevTime ) / 1000;
 
 
 
@@ -232,14 +237,14 @@ function animatePointerLockControls(){
 				moveBackward=false;
 				moveLeft=false;
 				moveRight=false;
-				moveUp=true;		
+				moveUp=true;
 			}
 			//in column, on plane
 			else{
 				console.log(2);
 				onPlane=true;
 			}
-		} 
+		}
 		//on plane, not in column - registers that you've walked the stars
 		if(onPlane&&!inColumn&&!starWalked){
 			console.log(3);
@@ -262,7 +267,7 @@ function animatePointerLockControls(){
 				planeGlimmered=false;
 
 			}
-			//you're on the terrain 
+			//you're on the terrain
 			else{
 				console.log(5);
 				moveDown=false;
@@ -348,7 +353,7 @@ function animatePointerLockControls(){
 			velocity.z=0;
 			controls.getObject().position.z=-zBound+1;
 		}
-		
+
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
 		changeAudioVolume(worldCoords,onPlane);
@@ -417,7 +422,7 @@ var getLocation = (function() {
 		}
 		toReturn.path=locationInfo[0];
 		toReturn.entry=locationInfo[locationInfo.length-1];
-		return toReturn;	
+		return toReturn;
 }})()
 
 
@@ -436,7 +441,7 @@ var getLocation = (function() {
 // 	}
 // 	toReturn.path=locationInfo[0];
 // 	toReturn.entry=locationInfo[locationInfo.length-1];
-// 	return toReturn;	
+// 	return toReturn;
 // }
 
 //make sure we don't have more tha one of these!!!
