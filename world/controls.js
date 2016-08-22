@@ -249,7 +249,7 @@ function animatePointerLockControls(){
 		//already starwalked
 		if(starWalked&&inColumn){
 			//you're not on the terrain yet
-			if(controls.getObject().position.y>(intersections[0].point.y+20)){
+			if(controls.getObject().position.y>(worldCoords.y+20)){
 				console.log(4);
 				onPlane=false;
 				moveForward=false;
@@ -351,14 +351,14 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
-		changeAudioVolume(intersections[0].point,onPlane);
+		changeAudioVolume(worldCoords,onPlane);
 
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
-			if(raycount%200===0){
-				console.log('intersection',intersections[0].point);
-				console.log(getLocation(intersections[0].point));
-				//console.log('world',terrain.localToWorld(intersections[0].point));
-			};
+			// if(raycount%200===0){
+			// 	console.log('intersection',intersections[0].point);
+			// 	console.log(getLocation(intersections[0].point));
+			// 	//console.log('world',terrain.localToWorld(intersections[0].point));
+			// };
 			//changeAudioVolume(intersections[0].point);
 
 			updateDate(intersections[0].point);
