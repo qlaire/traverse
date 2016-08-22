@@ -65,7 +65,7 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
         joyEntryId=entries[i].id;
         joyChunkIndex=findChunkIndex(joyArray,entries[i].joy);
       }
-      if(avg(entries[i].joy)<maxJoy){
+      if(avg(entries[i].joy)<minJoy){
         minJoy=joyAvg;
         sadEntryId=entries[i].id;
         sadnessChunkIndex=findChunkIndex(joyArray,entries[i].joy,true);
