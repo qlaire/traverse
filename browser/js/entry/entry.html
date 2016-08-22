@@ -9,6 +9,7 @@
                 <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
                 </div>
                 <div>
+                <div> {{newEntry.body.$modelValue}}</div>
                 <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
                 <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
                 </div>

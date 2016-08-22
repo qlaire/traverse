@@ -6,8 +6,7 @@ app.factory('EntriesFactory', function($http, $log) {
   }
 
   function entryFormat(entry){
-
-    entry.snippet = entry.body.substr(0,200);
+    entry.snippet = entry.body.substr(0,300);
 
     if(entry.snippet.length < entry.body.length){
       entry.snippet += '...';
