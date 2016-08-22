@@ -2,39 +2,62 @@ app.config(function($stateProvider) {
     $stateProvider.state('entry', {
         url: '/entry',
         templateUrl: 'js/entry/entry.html',
-        controller: 'EntryController',
-        data: {
-            bodyClass: 'bg4'
-        }
+        controller: 'EntryController'
     });
 });
 
-app.controller('EntryController', function($scope) {
-    $scope.tinymceModel = 'How are you feeling today?';
+app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
+  $scope.tinymceModel = '';
+  $scope.errorMessage = {};
 
-    $scope.getContent = function() {
-        console.log('Editor content:', $scope.tinymceModel);
-    };
+  var reg = /[^.!?]*[.!?]/gi;
 
-    $scope.setContent = function() {
-        $scope.tinymceModel = 'Time: ' + (new Date());
-    };
+  $scope.validate = function (){
 
-    $scope.tinymceOptions = {
-        selector: 'div.tinymce',
-        theme: 'inlite',
-        plugins: 'autoresize',
-        autoresize_max_height:500,
-        selection_toolbar: 'bold italic underline strikethrough | blockquote',
-        inline: true,
-        paste_data_images: false
-    };
+    if($scope.tinymceModel){
+        if($scope.tinymceModel.length < 17){
+            $scope.errorMessage.length = 'Your post is too short.';
+        } else {
+            $scope.errorMessage.length = '';
+        }
+
+        if($scope.tinymceModel.match(reg)){
+            $scope.errorMessage.reg = '';
+        } else {
+            $scope.errorMessage.reg = 'Your post must contain at least a one sentence. Sentences have punctuation!';
+        }
+    }
+    else{
+        $scope.errorMessage.length = 'Your post is too short.';
+        $scope.errorMessage.reg = 'Your post must contain at least a one sentence. Sentences have punctuation!';
+    }
+    return $scope.tinymceModel.length > 17 && $scope.tinymceModel.match(reg)
+  }
+
+  $scope.postEntry = function () {
+    EntryFactory.postEntry($scope.tinymceModel, $scope.title)
+    .then(data => {
+      $state.go('entries');
+    })
+    .catch($log.error);
+  }
+  
+  $scope.tinymceOptions = {
+      selector: 'div.tinymce',
+      theme: 'inlite',
+      plugins: 'autoresize',
+      autoresize_max_height:500,
+      selection_toolbar: 'bold italic underline strikethrough | blockquote',
+      inline: true,
+      paste_data_images: false
+  };
 });
 
 app.factory('EntryFactory', function ($http) {
   let entryObj = {};
-  entryObj.analyzeEntry = function (entry) {
-    
+  entryObj.postEntry = function (body, title) {
+    return $http.post('/api/entries/', {entry: body, title: title})
+    .then(res => res.data);
   }
   return entryObj;
 });

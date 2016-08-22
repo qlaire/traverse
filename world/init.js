@@ -6,7 +6,7 @@ var controls;
 
 function init() {
   
-    // Create a scene
+      // Create a scene
     scene = new THREE.Scene();
 
     // Add the camera
@@ -31,6 +31,9 @@ function init() {
 
     //sky
     addSky();
+
+    //music
+    placeMusic();
 
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });

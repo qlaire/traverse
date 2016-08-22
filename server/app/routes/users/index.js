@@ -26,21 +26,123 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
     var angerArray=[];
     var joyArray=[];
     var fearArray=[];
+    //consolidate all this into objects!!!
+    var sadEntryId, joyEntryId, angryEntryId, fearEntryId;
+    var angerAvg,fearAvg,joyAvg;
+    var maxJoy =  -1;
+    var minJoy = 2;
+    var maxAnger = -1;
+    var maxFear=-1;
+    var joyChunkIndex=-1;
+    var fearChunkIndex=-1;
+    var sadnessChunkIndex=-1;
+    var angerChunkIndex=-1;
     worldData.dates=[];
+    // var currChunkIndex;
     for(var i=0; i<entries.length; i++){
       for(var j=0; j<entries[i].joy.length; j++){
         worldData.dates.push(entries[i].date);
+      }
+
+      // currChunkIndex=getChunkIndex(entries[i].anger);
+
+      //check if <emotion>est entry
+      angerAvg=avg(entries[i].anger);
+      if(avg(entries[i].anger)>maxAnger){
+        maxAnger=angerAvg;
+        angryEntryId=entries[i].id;
+        angerChunkIndex=findChunkIndex(angerArray,entries[i].anger);
+      }
+      fearAvg=avg(entries[i].fear);
+      if(avg(entries[i].fear)>maxFear){
+        maxFear=fearAvg;
+        fearEntryId=entries[i].id;
+        fearChunkIndex=findChunkIndex(fearArray,entries[i].fear);
+      }
+      joyAvg=avg(entries[i].joy);
+      if(avg(entries[i].joy)>maxJoy){
+        maxJoy=joyAvg;
+        joyEntryId=entries[i].id;
+        joyChunkIndex=findChunkIndex(joyArray,entries[i].joy);
+      }
+      if(avg(entries[i].joy)<minJoy){
+        minJoy=joyAvg;
+        sadEntryId=entries[i].id;
+        sadnessChunkIndex=findChunkIndex(joyArray,entries[i].joy,true);
       }
       angerArray=angerArray.concat(entries[i].anger);
       joyArray=joyArray.concat(entries[i].joy);
       fearArray=fearArray.concat(entries[i].fear);
       worldData.keywords=worldData.keywords.concat(entries[i].keywords);
 
+      console.log(angerAvg,fearAvg,joyAvg)
+      console.log(sadEntryId,joyEntryId,angryEntryId,fearEntryId);
     }
-    worldData.emoScores=[angerArray,joyArray,fearArray];
-    res.status(200).send(worldData);
+    var sadEntryPromise=Entry.findById(sadEntryId);
+    var joyEntryPromise=Entry.findById(joyEntryId);
+    var angryEntryPromise=Entry.findById(angryEntryId);
+    var fearEntryPromise=Entry.findById(fearEntryId);
+    Promise.all([sadEntryPromise,joyEntryPromise,angryEntryPromise,fearEntryPromise])
+    .then(function(resultArr){
+      worldData.emoScores=[angerArray,joyArray,fearArray];
+      worldData.intenseEntries={};
+      worldData.intenseEntries.sadness={body: resultArr[0].body, chunkIndex: sadnessChunkIndex}
+      worldData.intenseEntries.joy={body: resultArr[1].body, chunkIndex: joyChunkIndex}
+      worldData.intenseEntries.anger={body: resultArr[2].body, chunkIndex: angerChunkIndex}
+      worldData.intenseEntries.fear={body: resultArr[3].body, chunkIndex: fearChunkIndex}
+      res.status(200).send(worldData);     
+    })
+
+
   }).catch(next);
 })
+
+function findChunkIndex(largeArr,smallArr,isNegative){
+  if(isNegative){
+    return largeArr.length+minIndex(smallArr);
+  }
+  return largeArr.length+maxIndex(smallArr);
+}
+
+function maxIndex(smallArr){
+  var currMax=-1;
+  var currMaxIndex=-1;
+  for(var i=0; i<smallArr.length; i++){
+    if(smallArr[i]>currMax){
+      currMax=smallArr[i];
+      currMaxIndex=i;
+    }
+  }
+  return currMaxIndex;
+}
+
+function minIndex(smallArr){
+  var currMin=Infinity;
+  var currMinIndex=Infinity;
+  for(var i=0; i<smallArr.length; i++){
+    if(smallArr[i]<currMin){
+      currMin=smallArr[i];
+      currMinIndex=i;
+    }
+  }
+  return currMinIndex;
+}
+
+function getChunkIndex(arr){
+  var chunkIndex=arr.length-2;
+  if(chunkIndex<0){
+    chunkIndex=arr.length-1;
+  }
+  return chunkIndex;
+}
+
+function avg(arr){
+  var sum=0;
+  arr.forEach(function(elt){
+    sum+=elt;
+  })
+  return sum/arr.length;
+}
 
 router.get('/:id', function(req, res, next) {
     User.findById(req.params.id)

@@ -1,8 +1,31 @@
 function mainLights(){
-    var dirLight = new THREE.DirectionalLight('#5E6472', .5);
+    var dirLight = new THREE.DirectionalLight(0xE6D8AF, .1);
     dirLight.position.set(0, 200, 0);
     scene.add(dirLight);
+    console.log(dirLight);
 }
+
+
+function randomXInEmotion(emotion){
+	var bound1, bound2;
+	if(emotion==='anger'){
+		bound1=zZones[2];
+		bound2=zZones[1];	
+
+	}
+	if(emotion==='joy'||emotion=='sadness'){
+		bound1=zZones[1];
+		bound2=zZones[0];	
+	}
+	if(emotion==='fear'){
+		bound1=zZones[0];
+		 bound2=zZones[999];	
+
+	}
+	var xCoord=bound1+(Math.random()*(bound2-bound1));
+	return 	xCoord;
+}
+
 
 var pointLights;
 function pointLights(){
@@ -18,7 +41,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'red','brown'));	
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xA8263F,0xA8263F));	
 	}
 
 	//PATH 1 - JOY
@@ -28,7 +51,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'orange','yellow'));
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xFDAA43,0xFDAA43));
 	}
 
 	//PATH 2 - FEAR
@@ -38,7 +61,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*350,xCoord,'purple', '#9494b8'
+		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0x3B3F78, 0x3B3F78
 ));
 	}
 
@@ -46,18 +69,57 @@ function pointLights(){
 
 
 function singlePointLight(x,y,z,lightColor,meshColor){
-	var point = new THREE.PointLight(lightColor, .5, 150);
-	point.position.set( x,y,z );
-	scene.add(point);
-	var TILE_SIZE=.5;
-	var geometry = new THREE.CylinderGeometry(1, TILE_SIZE, TILE_SIZE, 4 );
-	var material = new THREE.MeshBasicMaterial( {color: meshColor} );
-	var cylinder = new THREE.Mesh( geometry, material );
-	cylinder.position.set(x,y,z);
-	scene.add( cylinder );
-	// console.log(cylinder)
-	return cylinder;
+	var geometry = new THREE.SphereGeometry(.6,32,32 );
+	var material=new THREE.MeshBasicMaterial( {color: meshColor} )
+	var sphere = new THREE.Mesh( geometry, material );
+	sphere.position.set(x,y,z);
+	scene.add( sphere);
+
+	var point = new THREE.PointLight(lightColor, .8, 150);
+	// point.position.set( x,y,z );
+	sphere.add(point);
+
+	geometry = new THREE.SphereGeometry(.7,32,32 );
+	// var material = new THREE.MeshBasicMaterial( {color: meshColor} );
+	material=getGlowMaterial();
+	var glow = new THREE.Mesh( geometry, material );
+	// sphere.position.set(x,y,z);
+	sphere.add( glow );
+
+	return sphere;
 	//scene.add(new THREE.PointLightHelper(point, 3));
+}
+
+
+var vertexShaderGlow=
+`
+varying vec3 vNormal;
+void main() 
+{
+    vNormal = normalize( normalMatrix * normal );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+`
+var fragmentShaderGlow=
+`
+varying vec3 vNormal;
+void main() 
+{
+	float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 ); 
+    gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;
+}
+`
+function getGlowMaterial(){
+	return customMaterial = new THREE.ShaderMaterial( 
+	{
+	    uniforms: {  },
+		vertexShader:   vertexShaderGlow,
+		fragmentShader: fragmentShaderGlow,
+		side: THREE.BackSide,
+		blending: THREE.AdditiveBlending,
+		transparent: true
+	}   );
+
 }
 
 function animatePointLights(){

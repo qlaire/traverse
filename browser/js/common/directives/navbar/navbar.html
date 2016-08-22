@@ -1,6 +1,6 @@
 <nav class="navbar">
     <div class="nav-wrapper black">
-        <a ui-sref="home"><fullstack-logo class="pull-left"></fullstack-logo></a>
+        <a ui-sref="home"><traverse-logo class="pull-left"></traverse-logo></a>
          <ul id="nav-mobile" class="right hide-on-med-and-down" ng-show="!isLoggedIn()">
             <li ng-repeat="item in loggedOutitems">
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
@@ -12,16 +12,5 @@
             </li>
             <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">LOGOUT</a></li>
         </ul>
-
-<!--         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a ng-hide="isLoggedIn()" ui-sref="home">HOME</a></li>
-            <li><a ng-hide="isLoggedIn()" ui-sref="about">ABOUT</a></li>
-            <li><a ng-show="!user" ui-sref="login" style="float: right;">LOGIN</a></li>
-            <li><a ng-show="isLoggedIn()" ui-sref="entry">NEW ENTRY</a></li>
-            <li><a ng-show="isLoggedIn()" ui-sref="entries">YOUR JOURNAL</a></li>
-            <li><a ng-show="isLoggedIn()" ui-sref="/world">YOUR WORLD</a></li>
-            <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">LOGOUT</a></li>
-            <li><a ng-hide="isLoggedIn()" ui-sref="signup" style="float: right;">SIGNUP</a></li>
-        </ul> -->
     </div>
 </nav>
