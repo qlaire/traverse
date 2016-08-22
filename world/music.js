@@ -48,7 +48,9 @@ function changeAudioVolume(localCoords){
 
 	    distance=Math.sqrt( dx * dx /*+ dy * dy*/ + dz * dz );
 	    // console.log(song.emotion,distance);
-	    // if(distance<=60){
+	    if(distance<=60){
+	    	printEntry(song.emotion,song.locationOnTerrain);
+	    }
 	    // 	var printLocation={};
 	    // 	printLocation.x=song.locationOnTerrain.x;
 	    // 	printLocation.z=song.locationOnTerrain.z;
@@ -74,19 +76,26 @@ function emphasizeLoudest(distances,songs){
 	var minDistEmo=null;
 	var emoList=Object.keys(distances);
 	// console.log('volumes',volumes);
-	for(var i=0;i<emoList.length;i++){
+	for(var i=0; i<emoList.length; i++){
 		if(distances[emoList[i]]<minDist){
 			minDist=distances[emoList[i]];
 			minDistEmo=emoList[i];
 		}
 	}
-	for(var i=0;i<songs.length;i++){
+	for(var i=0; i<songs.length; i++){
 		var song=songs[i];
 		if(song.emotion!==minDistEmo){
 			song.volume*=0.2;
 		}
 	}
 
+}
+
+function silenceMusic(){
+	console.log('im here...');
+	for(var i=0; i<songs.length; i++){
+		songs[i].volume=0;
+	}
 }
 
 // function printEntry(emotion,location){

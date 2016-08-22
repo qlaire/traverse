@@ -204,6 +204,11 @@ function animatePointerLockControls(){
 		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
 		var inColumn=checkIfInColumn(intersections);
+
+		//MOVE THIS
+		if (inColumn) {
+			silenceMusic();
+		}
 		if(inColumn&&!starWalked&&!backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
