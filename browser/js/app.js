@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('TraverseApp', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ui.tinymce', 'ngSanitize']);
+window.app = angular.module('TraverseApp', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'ui.tinymce', 'ngSanitize', 'textAngular']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
