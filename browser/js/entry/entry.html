@@ -5,7 +5,7 @@
             <h2>JOURNAL</h2>
             <form name="newEntry" ng-submit="postEntry()" novalidate>
                 <label for="title">Title:</label>
-                <input ng-model="entry.title" type="text">
+                <input ng-model="title" id="title" type="text">
                 <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
                 </div>
                 <div>
