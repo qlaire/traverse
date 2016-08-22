@@ -201,9 +201,14 @@ function animatePointerLockControls(){
 		var delta = ( time - prevTime ) / 1000; //real
 		// var delta = 10 * ( time - prevTime ) / 1000; //testing
 
-		console.log('planeHeight',planeHeight);
+		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
 		var inColumn=checkIfInColumn(intersections);
+
+		//MOVE THIS
+		if (inColumn) {
+			silenceMusic();
+		}
 		if(inColumn&&!starWalked&&!backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
@@ -248,6 +253,10 @@ function animatePointerLockControls(){
 		}
 		if(!inColumn){
 			backToEarth=false;
+		}
+		//MOVE ELSEWHERE
+		if(onPlane||moveUp){
+			outsideTime();
 		}
 
 
@@ -320,10 +329,13 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
-			if(raycount%100===0){
-				// console.log('in column???',checkIfInColumn(intersections[0].point));
-				console.log('in column???',checkIfInColumn(intersections));
+			if(raycount%200===0){
+				console.log('intersection',intersections[0].point);
+				console.log(getLocation(intersections[0].point));
+				//console.log('world',terrain.localToWorld(intersections[0].point));
 			};
+			updateDate(intersections[0].point);
+			changeAudioVolume(intersections[0].point);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -345,6 +357,7 @@ function animatePointerLockControls(){
 }
 
 
+
 function checkIfInColumn(intersections){
 	var inColumn=false;
 	intersections.forEach(intersection=>{
@@ -356,12 +369,15 @@ function checkIfInColumn(intersections){
 
 }
 
+
+//for intersection, x goes side to side, y goes up, and z goes backward
+//appears to be the same in the WORLD
 //worldCoords will be intersections[0].point
 function getLocation(worldCoords){
 	var toReturn={};
-	console.log(worldCoords);
+	// console.log('worldCoords',worldCoords);
 	var localCoords=terrain.worldToLocal(worldCoords);
-	console.log('localCoords',localCoords);
+	// console.log('localCoords',localCoords);
 	var xCoord=customFloor(localCoords.x,distanceX);
 	var yCoord=customFloor(localCoords.y,distanceY);
 	var locationInfo=vertexDict[[xCoord,yCoord]];
