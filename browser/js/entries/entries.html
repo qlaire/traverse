@@ -1,12 +1,13 @@
 <navbar></navbar>
 <section id="entries">
- <div class="background">
-    <div class="allEntries"
-    <div ng-repeat="entry in entries" ng-click="goEntry(entry)">
-           <h4>{{entry.title}}</h4>
-           <p>{{entry.date}}</p>
-           <p ng-bind-html="entry.snippet"></p>
-        </div>
+    <div class="background">
+        <div class="allEntries" ng-repeat="entry in entries">
+            <h4>{{entry.title}}</h4>
+            <p>{{entry.date}}</p>
+            <p ng-bind-html="entry.snippet"></p>
+            <a ui-sref="singleEntry({entryId: entry.id})"><b>read more</b></a>
+            <hr width="40%";>
+            <br><br>
         </div>
     </div>
 </section>
