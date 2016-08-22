@@ -13,5 +13,9 @@ section#entries {
     a:hover {
         text-decoration:none;
     }
+    em, strong {
+      font-weight:bold;
+      text-decoration: italics
+    }
 }
 
