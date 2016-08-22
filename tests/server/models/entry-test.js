@@ -53,18 +53,18 @@ xdescribe('Entry Model', function () {
     });
   })
 
-  describe('Entry Subject', function () {
+  describe('Entry Title', function () {
 
-      it('has a subject', function () {
+      it('has a title', function () {
       return Entry.create({
-        subject: 'Test',
+        title: 'Test',
         body: 'Migratory Birds',
         joy: [],
         fear: [],
         anger: [],
         keywords: 'apple'
       }).then(function (savedEntry) {
-        expect(savedEntry.subject).to.equal('Test');
+        expect(savedEntry.title).to.equal('Test');
       });
     });
   })
@@ -72,7 +72,7 @@ xdescribe('Entry Model', function () {
   describe('Entry Date', function () {
     it('has a date', function () {
       return Entry.create({
-        subject: 'Test',
+        title: 'Test',
         body: 'Migratory Birds',
         joy: [],
         fear: [],
