@@ -184,6 +184,12 @@ function initPointerLockControls(){
 
 }
 
+var worldVec = new THREE.Vector3(0, 0, 0)
+
+function getWorldCoords(localCoords){
+	return terrain.worldToLocal(worldVec.copy(localCoords))	
+}
+
 
 var raycount=0;
 function animatePointerLockControls(){
@@ -198,9 +204,15 @@ function animatePointerLockControls(){
 
 		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
+
+		var worldCoords=getWorldCoords(intersections[0].point);
+
+
 		var time = performance.now();
-		var delta = ( time - prevTime ) / 1000; //real
-		// var delta = 10 * ( time - prevTime ) / 1000; //testing
+		var delta = ( time - prevTime ) / 1000; 
+
+
+
 
 		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
@@ -237,7 +249,7 @@ function animatePointerLockControls(){
 		//already starwalked
 		if(starWalked&&inColumn){
 			//you're not on the terrain yet
-			if(controls.getObject().position.y>(intersections[0].point.y+20)){
+			if(controls.getObject().position.y>(worldCoords.y+20)){
 				console.log(4);
 				onPlane=false;
 				moveForward=false;
@@ -338,14 +350,15 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
-		changeAudioVolume(intersections[0].point,onPlane);
+		//localCoords.copy(intersections[0].point)
+		changeAudioVolume(worldCoords,onPlane);
 
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
-			if(raycount%200===0){
-				console.log('intersection',intersections[0].point);
-				console.log(getLocation(intersections[0].point));
-				//console.log('world',terrain.localToWorld(intersections[0].point));
-			};
+			// if(raycount%200===0){
+			// 	console.log('intersection',intersections[0].point);
+			// 	console.log(getLocation(intersections[0].point));
+			// 	//console.log('world',terrain.localToWorld(intersections[0].point));
+			// };
 			//changeAudioVolume(intersections[0].point);
 
 			updateDate(intersections[0].point);
@@ -388,21 +401,43 @@ function checkIfInColumn(intersections){
 //for intersection, x goes side to side, y goes up, and z goes backward
 //appears to be the same in the WORLD
 //worldCoords will be intersections[0].point
-function getLocation(worldCoords){
-	var toReturn={};
-	// console.log('worldCoords',worldCoords);
-	var localCoords=terrain.worldToLocal(worldCoords);
-	// console.log('localCoords',localCoords);
-	var xCoord=customFloor(localCoords.x,distanceX);
-	var yCoord=customFloor(localCoords.y,distanceY);
-	var locationInfo=vertexDict[[xCoord,yCoord]];
-	if(!locationInfo){
-		return {path: -1, entry: -1};
-	}
-	toReturn.path=locationInfo[0];
-	toReturn.entry=locationInfo[locationInfo.length-1];
-	return toReturn;	
-}
+var getLocation = (function() {
+	var local = new THREE.Vector3(0, 0, 0)
+	return function getLocation(worldCoords){
+		var toReturn={};
+		// console.log('worldCoords',worldCoords);
+		var localCoords=terrain.worldToLocal(local.copy(worldCoords));
+		// var localCoords=terrain.worldToLocal(worldCoords);
+		// console.log('localCoords',localCoords);
+		var xCoord=customFloor(localCoords.x,distanceX);
+		var yCoord=customFloor(localCoords.y,distanceY);
+		var locationInfo=vertexDict[[xCoord,yCoord]];
+		if(!locationInfo){
+			return {path: -1, entry: -1};
+		}
+		toReturn.path=locationInfo[0];
+		toReturn.entry=locationInfo[locationInfo.length-1];
+		return toReturn;	
+}})()
+
+
+
+// function getLocation(worldCoords){
+// 	var toReturn={};
+// 	// console.log('worldCoords',worldCoords);
+// 	//terrain.worldToLocal(local.copy(worldCoords));
+// 	// var localCoords=terrain.worldToLocal(worldCoords);
+// 	// console.log('localCoords',localCoords);
+// 	var xCoord=customFloor(localCoords.x,distanceX);
+// 	var yCoord=customFloor(localCoords.y,distanceY);
+// 	var locationInfo=vertexDict[[xCoord,yCoord]];
+// 	if(!locationInfo){
+// 		return {path: -1, entry: -1};
+// 	}
+// 	toReturn.path=locationInfo[0];
+// 	toReturn.entry=locationInfo[locationInfo.length-1];
+// 	return toReturn;	
+// }
 
 //make sure we don't have more tha one of these!!!
 function customFloor(num,factor){

@@ -118,7 +118,7 @@ function createEntryBallMesh(emotion,location){
     var canvas=generateDiaryCanvas(emotion,location);
 	var texture1 = new THREE.Texture(canvas) 
 	texture1.needsUpdate = true;
-    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide, opacity:0} );
+    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide, opacity:1} );
     material.transparent = true;
     var mesh = new THREE.Mesh(
         new THREE.SphereGeometry(60,32,32),

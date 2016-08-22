@@ -17,7 +17,7 @@ function placeMusic(){
 		song.src=emoToSongSrc[emotion];
 		//NOT SURE WHY THIS TRANSLATION IS NECESSARY, MAKE CONSISTENT
 		// song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: -zZones[emotionToPathNum[emotion]]}
-		var location={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:0}
+		var location={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:-60}
 		song.entryMesh=createEntryBall(emotion,location);
 		console.log(song.entryMesh);
 		// console.log(song.emotion,song.locationOnTerrain)
@@ -28,8 +28,8 @@ function placeMusic(){
 		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
 		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
 		// var sphere = new THREE.Mesh( geometry, material );
-		// sphere.position.x=song.locationOnTerrain.x;
-		// sphere.position.z=song.locationOnTerrain.z;
+		// sphere.position.x=song.entryMesh.position.x;
+		// sphere.position.z=song.entryMesh.position.z;
 		// sphere.position.y=200;
 		// scene.add( sphere );
 	}
@@ -54,8 +54,16 @@ function changeAudioVolume(localCoords,onPlane){
 
 	    distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
 	    distanceFlat=Math.sqrt( dx * dx + dz * dz );
+	    // console.log('dx',dx);
+	    // console.log('dz',dz);
 	    // console.log(song.emotion,distance);
-	    if(distanceFlat<=60&&!onPlane){
+	    if(song.emotion==='sadness'&&Date.now()%100===0){
+	    	console.log('localCoords',localCoords)
+	    	console.log('worldCoords',worldCoords);
+	    	console.log('position of mesh',song.entryMesh.position);
+	    	console.log(distanceFlat);
+	    }
+	    if(distanceFlat<100&&!onPlane){
 	    	console.log('FOUND IT');
 	    	song.entryMesh.rising=true;
 	    }
