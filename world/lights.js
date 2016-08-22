@@ -1,5 +1,5 @@
 function mainLights(){
-    var dirLight = new THREE.DirectionalLight(0xffffff, .6);
+    var dirLight = new THREE.DirectionalLight(0xffffff, .5);
     dirLight.position.set(0, 200, 0);
     scene.add(dirLight);
 
@@ -21,7 +21,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'white','brown'));	
+		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'#ff1500','#ffa69e'));	
 	}
 
 	//PATH 1 - JOY
@@ -31,7 +31,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'white','yellow'));
+		pointLights.push(singlePointLight(xZones[i],Math.random()*300,xCoord,'#fff000', '#faf3dd'));
 	}
 
 	//PATH 2 - FEAR
@@ -41,7 +41,7 @@ function pointLights(){
 	var xCoord;
 	for(var i=0; i<Object.keys(xZones).length; i++){
 		xCoord=bound1+(Math.random()*(bound2-bound1));
-		pointLights.push(singlePointLight(xZones[i],Math.random()*350,xCoord,'white', '#9494b8'
+		pointLights.push(singlePointLight(xZones[i],Math.random()*350,xCoord,'#2f006f', '#9494b8'
 ));
 	}
 

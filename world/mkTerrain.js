@@ -53,7 +53,7 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.x = 200;
     texture.repeat.y = 200;
-    var material = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading/*, map: texture*/});
+    var material = new THREE.MeshLambertMaterial({ color: 0xffe4c9, shading: THREE.FlatShading/*, map: texture*/});
     vertexDict={};
     var vertexDictX;
     var vertexDictY;
