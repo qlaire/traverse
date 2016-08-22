@@ -128,7 +128,7 @@ function printEntry(emotion,location){
     var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
     material.transparent = true;
     var mesh = new THREE.Mesh(
-        new THREE.SphereGeometry(10,32,32),
+        new THREE.SphereGeometry(60,32,32),
         material
       );
 	mesh.position.x=location.x;
@@ -163,6 +163,9 @@ function animateWords(){
 		if(entry.position.y<(planeHeight+10)){
 			entry.position.y+=.3;
 		}
+		entry.rotation.z+=.001;
+		entry.rotation.x+=.001;
+		entry.rotation.y+=.001;
 	}
 
 }
@@ -170,7 +173,7 @@ function animateWords(){
 //adapted from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
 function wrapText(canvas, text, x, y, maxWidth, lineHeight,emotion) {
 	var context=canvas.getContext('2d');
-	context.font = '14px Arial';
+	context.font = '20px Arial';
 	context.fillStyle = emotionToColor[emotion];
 	var words = text.split(' ');
 	var line = '';

@@ -19,10 +19,10 @@ var emotionToPathNum= {
 }
 
 var emotionToColor={
-	'anger':'red',
-	'joy':'orange',
-	'fear':'purple',
-	'sadness':'blue'
+	'anger':'#A8263F',
+	'joy':'#FDAA43',
+	'fear':'#x3B3F78',
+	'sadness':'#7bbdec'
 }
 function receiveMessage(event){
     worldData=event.data;
