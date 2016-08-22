@@ -188,6 +188,7 @@ function initPointerLockControls(){
 var raycount=0;
 function animatePointerLockControls(){
 	moveUp=false;
+	//moveDown=false;
 	if ( controlsEnabled ) {
 		//for console.logging
 		raycount++;
@@ -203,12 +204,14 @@ function animatePointerLockControls(){
 
 		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
-		var inColumn=checkIfInColumn(intersections);
+		var columnInfo=checkIfInColumn(intersections);
+		var inColumn=columnInfo[0];
+		var columnLocation=columnInfo[1];
 
 		//MOVE THIS
-		if (inColumn) {
-			silenceMusic();
-		}
+		// if (inColumn) {
+		// 	silenceMusic();
+		// }
 		if(inColumn&&!starWalked&&!backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
@@ -236,12 +239,16 @@ function animatePointerLockControls(){
 			//you're not on the terrain yet
 			if(controls.getObject().position.y>(intersections[0].point.y+20)){
 				console.log(4);
-				moveDown=true;
 				onPlane=false;
 				moveForward=false;
 				moveBackward=false;
 				moveLeft=false;
 				moveRight=false;
+				moveDown=true;
+				controls.getObject().position.x=columnLocation.x;
+				controls.getObject().position.z=columnLocation.z;
+				planeGlimmered=false;
+
 			}
 			//you're on the terrain 
 			else{
@@ -257,6 +264,9 @@ function animatePointerLockControls(){
 		//MOVE ELSEWHERE
 		if(onPlane||moveUp){
 			outsideTime();
+		}
+		if(onPlane&&inColumn){
+			glimmerPlane();
 		}
 
 
@@ -328,14 +338,17 @@ function animatePointerLockControls(){
 		}
 		
 		var distToGround;
+		changeAudioVolume(intersections[0].point,onPlane);
+
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
 			if(raycount%200===0){
 				console.log('intersection',intersections[0].point);
 				console.log(getLocation(intersections[0].point));
 				//console.log('world',terrain.localToWorld(intersections[0].point));
 			};
+			//changeAudioVolume(intersections[0].point);
+
 			updateDate(intersections[0].point);
-			changeAudioVolume(intersections[0].point);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -360,12 +373,14 @@ function animatePointerLockControls(){
 
 function checkIfInColumn(intersections){
 	var inColumn=false;
+	var columnLocation=null;
 	intersections.forEach(intersection=>{
 		if(intersection.object.isDisk){
 			inColumn=true;
+			columnLocation=intersection.object.position;
 		}
 	});
-	return inColumn;
+	return [inColumn,columnLocation];
 
 }
 

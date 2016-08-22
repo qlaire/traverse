@@ -13,11 +13,13 @@ function placeMusic(){
 		song.autoplay=true;
 		song.volume=0;
 		song.loop=true;
+		song.leftEarth=false;
 		song.src=emoToSongSrc[emotion];
 		//NOT SURE WHY THIS TRANSLATION IS NECESSARY, MAKE CONSISTENT
 		// song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: -zZones[emotionToPathNum[emotion]]}
-		song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:0}
-
+		var location={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:0}
+		song.entryMesh=createEntryBall(emotion,location);
+		console.log(song.entryMesh);
 		// console.log(song.emotion,song.locationOnTerrain)
 
 		song.associatedText=worldData.intenseEntries[emotion].body;
@@ -33,23 +35,32 @@ function placeMusic(){
 	}
 }
 
-
-function changeAudioVolume(localCoords){
+function changeAudioVolume(localCoords,onPlane){
 	//console.log(worldCoords);
 	var worldCoords=terrain.localToWorld(localCoords);
 	//console.log(terrain.worldToLocal(worldCoords));
-	var song, dx, dz, distance, audio, metric;
+	var song, dx, dz, distance, audio, metric, distanceFlat;
 	var distances={}
-	for(var i=0;i<songs.length;i++){
+	for(var i=0; i<songs.length; i++){
 		song=songs[i];
-	    dx = worldCoords.x-(song.locationOnTerrain.x);
-	    //var dy = worldCoords.y-86;
-	    dz = worldCoords.z-(song.locationOnTerrain.z);
+	    // dx = worldCoords.x-(song.locationOnTerrain.x);
+	    // dz = worldCoords.z-(song.locationOnTerrain.z);
+	    dx = worldCoords.x-(song.entryMesh.position.x);
+	    dz = worldCoords.z-(song.entryMesh.position.z);
+	    if(onPlane){
+	    	worldCoords.y=planeHeight;
+	    }
+	    dy = worldCoords.y-(song.entryMesh.position.y);
 
-	    distance=Math.sqrt( dx * dx /*+ dy * dy*/ + dz * dz );
+	    distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
+	    distanceFlat=Math.sqrt( dx * dx + dz * dz );
 	    // console.log(song.emotion,distance);
-	    if(distance<=60){
-	    	printEntry(song.emotion,song.locationOnTerrain);
+	    if(distanceFlat<=60&&!onPlane){
+	    	console.log('FOUND IT');
+	    	song.entryMesh.rising=true;
+	    }
+	    if(!song.entryMesh.rising&&!onPlane){
+	    	distance=distanceFlat;
 	    }
 	    // 	var printLocation={};
 	    // 	printLocation.x=song.locationOnTerrain.x;
@@ -65,7 +76,7 @@ function changeAudioVolume(localCoords){
 		else{
 			song.volume = metric;
 		}
-		distances[song.emotion]=distance;
+		distances[song.emotion]=distanceFlat;
 	}
 	emphasizeLoudest(distances,songs);
 
