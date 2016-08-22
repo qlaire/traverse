@@ -22,8 +22,8 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
-    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'},{'white house':.6
-  }, {'first lady':.7},{'underwater nachos':.4},{'grandmother':.7},{'weasle boyfriend':.6},{'cherries':.1},{'racoon dance':.5}],
+    keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'},{'white house':.6}, {'first lady':.7},{'underwater nachos':.4},{'grandmother':.7},{'weasle boyfriend':.6},{'cherries':.1},{'racoon dance':.5}]
+  }, {
     title: "cheese",
     body: "I love cheese a bunch.",
     date: "2016-01-31 10:45:20-04",
@@ -63,15 +63,15 @@ var seedEntries = function() {
     anger: [0.3,0.3,0.3],
     fear: [0.1,0.1,0],
     keywords: [{"highest rank":"0.9","eagle scout":"0.8","Boy Scouting":"0.6","boys":"0.3"},{"merit badges":"0.9","cub scout":"0.8","hard work":"0.8","easy task":"0.8","honor":"0.5","thing":"0.5","rank":"0.5","life":"0.4","foundation":"0.4"},{"local animal shelter":"1.0","wonderful honor":"0.9","service project":"0.8","eagle scout":"0.8","boy scout":"0.7","dog":"0.4","trail":"0.4","life":"0.4"}]
-  },
-{
-    subject: "Sadness",
+  }, {
+    title: "Sadness",
     body: "I'm pretty sad and I don't know what to do.",
     date: "2016-08-19 07:36:21-04",
     joy: [0.2, 0.2, 0.2],
     anger: [0.4, 0.4, 0.5],
     fear: [0.3, 0.2, 0.3],
-    keywords: [{ 'mom': '0.1' },{'talk':'.6'},{'believe':'.7'},{'unhappy':.6}, {'work':.7},{'schoolwork':.4},{'dreams':.7},{'Friday':.6},{'dance':.1},{'homeroom':.5}] }];
+    keywords: [{ 'mom': '0.1' },{'talk':'.6'},{'believe':'.7'},{'unhappy':.6}, {'work':.7},{'schoolwork':.4},{'dreams':.7},{'Friday':.6},{'dance':.1},{'homeroom':.5}] 
+}];
 
   var i = 1;
   createdEntries=[];
