@@ -106,19 +106,19 @@ var sentenceMeshes=[];
 // }
 
 var entryMeshes=[];
-function printEntry(emotion,location){
+function createEntryBall(emotion,location){
 	if(worldData.intenseEntries[emotion].complete===true){
 		return;
 	}
 	worldData.intenseEntries[emotion].complete=true;
-	createDiaryBall(emotion,location);
+	return createEntryBallMesh(emotion,location);
 }
 
-function createDiaryBall(emotion,location){
+function createEntryBallMesh(emotion,location){
     var canvas=generateDiaryCanvas(emotion,location);
 	var texture1 = new THREE.Texture(canvas) 
 	texture1.needsUpdate = true;
-    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
+    var material = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide, opacity:0} );
     material.transparent = true;
     var mesh = new THREE.Mesh(
         new THREE.SphereGeometry(60,32,32),
@@ -127,8 +127,10 @@ function createDiaryBall(emotion,location){
 	mesh.position.x=location.x;
 	mesh.position.y=location.y;
 	mesh.position.z=location.z;
+	mesh.rising=false;
 	scene.add(mesh);
 	entryMeshes.push(mesh);
+	return mesh;
 }
 
 
@@ -161,7 +163,10 @@ function animateEntries(){
 	var entry;
 	for(var i=0; i<entryMeshes.length; i++){
 		entry=entryMeshes[i];
-		if(entry.position.y<(planeHeight+10)){
+		if(entry.rising){
+			entry.material.opacity=1;
+		}
+		if(entry.rising&&entry.position.y<(planeHeight+10)){
 			entry.position.y+=.3;
 		}
 		entry.rotation.z+=.001;
