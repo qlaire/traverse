@@ -68,7 +68,7 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
       if(avg(entries[i].joy)<maxJoy){
         minJoy=joyAvg;
         sadEntryId=entries[i].id;
-        sadnessChunkIndex=findChunkIndex(joyArray,entries[i].joy);
+        sadnessChunkIndex=findChunkIndex(joyArray,entries[i].joy,true);
       }
       angerArray=angerArray.concat(entries[i].anger);
       joyArray=joyArray.concat(entries[i].joy);
@@ -97,7 +97,10 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
   }).catch(next);
 })
 
-function findChunkIndex(largeArr,smallArr){
+function findChunkIndex(largeArr,smallArr,isNegative){
+  if(isNegative){
+    return largeArr.length+minIndex(smallArr);
+  }
   return largeArr.length+maxIndex(smallArr);
 }
 
@@ -113,6 +116,17 @@ function maxIndex(smallArr){
   return currMaxIndex;
 }
 
+function minIndex(smallArr){
+  var currMin=Infinity;
+  var currMinIndex=Infinity;
+  for(var i=0; i<smallArr.length; i++){
+    if(smallArr[i]<currMin){
+      currMin=smallArr[i];
+      currMinIndex=i;
+    }
+  }
+  return currMinIndex;
+}
 
 function getChunkIndex(arr){
   var chunkIndex=arr.length-2;
