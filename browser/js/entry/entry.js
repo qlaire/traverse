@@ -7,11 +7,30 @@ app.config(function($stateProvider) {
 });
 
 app.controller('EntryController', function($scope, $log) {
-  $scope.tinymceModel = '\'sup?';
+  $scope.tinymceModel = '';
+  $scope.errorMessage = {};
 
   var reg = /[^.!?]*[.!?]/gi;
 
   $scope.validate = function (){
+
+    if($scope.tinymceModel){
+        if($scope.tinymceModel.length < 17){
+            $scope.errorMessage.length = 'Your post is too short.';
+        } else {
+            $scope.errorMessage.length = '';
+        }
+
+        if($scope.tinymceModel.match(reg)){
+            $scope.errorMessage.reg = '';
+        } else {
+            $scope.errorMessage.reg = 'Your post must contain at least a one word sentence. Sentences have punctuation!';
+        }
+    }
+    else{
+        $scope.errorMessage.length = 'Your post is too short.';
+        $scope.errorMessage.reg = 'Your post must contain at least a one word sentence. Sentences have punctuation!';
+    }
     return $scope.tinymceModel.length > 17 && $scope.tinymceModel.match(reg)
   }
 

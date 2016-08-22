@@ -3,15 +3,16 @@
     <div class="container">
         <div class="col-md-12">
             <h2>JOURNAL</h2>
-            <form name="newEntry" ng-submit="newEntry.$valid && postEntry()" novalidate>
+            <form name="newEntry" ng-submit="postEntry()" novalidate>
                 <label for="title">Title:</label>
                 <input ng-model="entry.title" type="text">
                 <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
                 </div>
                 <div>
-                {{tinymceModel.length}}
+                <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
+                <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
                 </div>
-                <button id="post" ng-disabled="!validate() || newEntry.body.$pristine" class="btn btn-default">Post</button>
+                <button id="post" ng-disabled="!validate()"  class="btn btn-default">Post</button>
                 <br>
             </form>
         </div>
