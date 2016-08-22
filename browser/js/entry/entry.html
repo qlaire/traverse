@@ -6,11 +6,12 @@
             <form name="newEntry" ng-submit="newEntry.$valid && postEntry()" novalidate>
                 <label for="title">Title:</label>
                 <input ng-model="entry.title" type="text">
-                <!--<div name="body" class="tinymce tinymcestyle" ng-model="entry.body" ui-tinymce="tinymceOptions" ng-minlength="10">-->
-                <textarea name="body" id="" cols="30" rows="10" ng-model="entry.body" ng-minlength="10"></textarea>
-                <!--</div>-->
-                <div ng-show="body.$error">There's an error!</div>
-                <button id="post" ng-disabled="newEntry.$invalid" class="btn btn-default">Post</button>
+                <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
+                </div>
+                <div>
+                {{tinymceModel.length}}
+                </div>
+                <button id="post" ng-disabled="!validate() || newEntry.body.$pristine" class="btn btn-default">Post</button>
                 <br>
             </form>
         </div>
