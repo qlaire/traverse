@@ -36,10 +36,12 @@ function updateDate(worldCoords){
 
 //REFACTOR - bundle together!!
 function updateKey(playerMovements){
+		console.log(playerMovements);
+	console.log('updating key')
 	if(playerMovements.onPlane||playerMovements.moveUp||playerMovements.moveDown){
 		outsideTime();
 	}
-	else if (playerMovements.onObject){
+	else if (playerMovements.isOnObject){
 		updateDate(controls.getObject().position);
 	}
 

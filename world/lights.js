@@ -2,7 +2,6 @@ function mainLights(){
     var dirLight = new THREE.DirectionalLight(0xE6D8AF, .1);
     dirLight.position.set(0, 200, 0);
     scene.add(dirLight);
-    console.log(dirLight);
 }
 
 
@@ -31,9 +30,6 @@ function randomXInEmotion(emotion){
 var pointLights;
 function pointLights(){
 	pointLights=[];
-	console.log('zZones and xZones')
-	console.log(zZones);
-	console.log(xZones);
 	var emotionToLightColor={'anger':0xA8263F,'joy':0xFDAA43,'fear':0x3B3F78};
 	var xCoord;
 	var color;

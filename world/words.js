@@ -8,7 +8,6 @@ function placeWords(){
 	var words=worldData.keywords;
 	for(var i=0;i<words.length; i++){
 		wordsInChunk=Object.keys(words[i]);
-		// console.log('entry start',xZones[i], 'entry end',xZones[i-1])
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
 			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
@@ -75,7 +74,6 @@ function animateSingleWords(){
 		if(word.position.y<=200){
 			word.goingUp=true;
 		}
-		//word.rotation.y+=.01*Math.random();
 	}
 }
 

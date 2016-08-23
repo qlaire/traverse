@@ -18,7 +18,7 @@ var instructions = document.getElementById( 'instructions' );
 var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
 
-//POINTERLOCCK CONTROLS
+//POINTERLOCCK CONTROLS - adapted from mrdoob
 function initPointerLockControls(){
 	if ( havePointerLock ) {
 		var element = document.body;

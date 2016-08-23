@@ -25,7 +25,6 @@ function glimmerPlane(){
 }
 
 function glimmerPlaneHelper(index,peak,hitPeak){
-    console.log(index);
 	if(index===-1){
 		return;
 	}

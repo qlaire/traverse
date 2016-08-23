@@ -4,7 +4,6 @@ function addSky(){
 	var geometry = new THREE.SphereGeometry(2000, 60, 60);  
 	var material=createSkyMaterial();
 	skyBox = new THREE.Mesh(geometry, material);  
-	console.log(skyBox);
 	skyBox.scale.set(-1, 1, 1);  
 	skyBox.eulerOrder = 'XZY';  
 	skyBox.renderDepth = 1900.0;  
