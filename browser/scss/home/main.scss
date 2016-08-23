@@ -17,13 +17,13 @@
   }
   .bgimg-1 {
     min-height:592px;
-    background-position:center center;
+    background-position:300px 100px;
     background-color:black;
     background-image: url("/images/main_logo.jpg");
     background-repeat:no-repeat;
   }
   .bgimg-2 {
-    background-image: url("/images/background2.jpg");
+    background-image: url("/images/background5.png");
     min-height: 500px;
   }
   .bgimg-3 {
@@ -59,7 +59,6 @@
   }
 
   .caption {
-    // background-color: #111;
     font-family: 'Dosis', sans-serif;
     color: #111;
     padding: 18px;
@@ -100,16 +99,5 @@
     a:hover{
       color:#b9f3e7;
     }
-  }
-}
-
-nav {
-  max-height:50px;
-  margin-bottom:0px;
-  a: {
-    color:white;
-  }
-  a:hover{
-    color:#b9f3e7; 
   }
 }
