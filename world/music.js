@@ -25,9 +25,11 @@ function placeMusic(){
 	}
 }
 
+var localVec=new THREE.Vector3(0,0,0);
+
 function changeAudioVolume(localCoords,onPlane){
 	//I do NOT understand why this is necessary - should already be world coords. look into this!!
-	var worldCoords=terrain.localToWorld(localCoords);
+	var worldCoords=terrain.localToWorld(localVec.copy(localCoords));
 	var song, dx, dz, distance, audio, metric, distanceFlat;
 	var distances={}
 	for(var i=0; i<songs.length; i++){
@@ -180,9 +182,6 @@ function checkForWordBalls(intersections){
 					var newYPos=controls.getObject().position.y-100;
 					intersection.object.associatedBall.beginRising(newYPos);
 				}
-				//console.log(intersection.object)
-				// inColumn=true;
-				// columnLocation=intersection.object.position;
 			}
 		});
 

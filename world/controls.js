@@ -184,10 +184,10 @@ function initPointerLockControls(){
 
 }
 
-var worldVec = new THREE.Vector3(0, 0, 0)
+var worldCoords = new THREE.Vector3(0, 0, 0)
 
 function getWorldCoords(localCoords){
-	return terrain.worldToLocal(worldVec.copy(localCoords))	
+	terrain.worldToLocal(worldCoords.copy(localCoords))	
 }
 
 
@@ -196,6 +196,8 @@ function animatePointerLockControls(){
 	moveUp=false;
 	//moveDown=false;
 	if ( controlsEnabled ) {
+		//potentially remove this
+		//worldCoords=null;
 		//for console.logging
 		raycount++;
 
@@ -205,7 +207,8 @@ function animatePointerLockControls(){
 		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
 		if(isOnObject){
-			var worldCoords=getWorldCoords(intersections[0].point);
+			console.log('on object');
+			getWorldCoords(intersections[0].point);
 		}
 
 		var time = performance.now();
@@ -251,6 +254,11 @@ function animatePointerLockControls(){
 			//you're not on the terrain yet
 			if(controls.getObject().position.y>(worldCoords.y+20)){
 				console.log(4);
+
+				console.log('goal',worldCoords.y+20);
+
+				console.log('current',controls.getObject().position.y)
+
 				onPlane=false;
 				moveForward=false;
 				moveBackward=false;
@@ -352,6 +360,7 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
+		console.log(worldCoords);
 		if(worldCoords) changeAudioVolume(worldCoords,onPlane);
 
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
@@ -362,8 +371,8 @@ function animatePointerLockControls(){
 			// };
 			//changeAudioVolume(intersections[0].point);
 
-			//not sure why this doesn't always work
 			checkForWordBalls(intersections);
+			//not sure why this doesn't always work
 			updateDate(controls.getObject().position);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
