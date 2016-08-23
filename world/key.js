@@ -33,18 +33,14 @@ function updateDate(worldCoords){
 	}
 }
 
-
-//REFACTOR - bundle together!!
 function updateKey(playerMovements){
 	if(playerMovements.onPlane||playerMovements.moveUp||playerMovements.moveDown){
 		outsideTime();
 	}
 	else if (playerMovements.isOnObject){
 		updateDate(controls.getObject().position);
-		console.log('updating');
 	}
 	else{
-		console.log('not updating')
 	}
 
 }
