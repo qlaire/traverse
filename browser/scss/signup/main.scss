@@ -15,4 +15,11 @@ section#signup {
 
 body.signup-page {
     background: url("/images/background3.jpg");
+    height: 100%;
+    font: 15px "Dosis", sans-serif;
+    text-transform: uppercase;
+    color: white;
+    a:hover {
+        text-decoration:none;
+    }
 }
