@@ -184,11 +184,11 @@ function initPointerLockControls(){
 
 }
 
-var worldCoords = new THREE.Vector3(0, 0, 0)
+// var worldCoords = new THREE.Vector3(0, 0, 0)
 
-function getWorldCoords(localCoords){
-	terrain.worldToLocal(worldCoords.copy(localCoords))	
-}
+// function getWorldCoords(localCoords){
+// 	terrain.localToWorld(worldCoords.copy(localCoords))	
+// }
 
 
 var raycount=0;
@@ -206,10 +206,12 @@ function animatePointerLockControls(){
 
 		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
-		if(isOnObject){
-			console.log('on object');
-			getWorldCoords(intersections[0].point);
-		}
+		var worldCoords=intersections[0].point;
+		console.log(worldCoords);
+		// console.log(intersections[0].point);
+		// if(isOnObject){
+		// 	getWorldCoords(intersections[0].point);
+		// }
 
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; 
@@ -360,7 +362,7 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
-		console.log(worldCoords);
+		//console.log(worldCoords);
 		if(worldCoords) changeAudioVolume(worldCoords,onPlane);
 
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane

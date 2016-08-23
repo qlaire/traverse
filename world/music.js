@@ -25,11 +25,11 @@ function placeMusic(){
 	}
 }
 
-var localVec=new THREE.Vector3(0,0,0);
+// var localVec=new THREE.Vector3(0,0,0);
 
-function changeAudioVolume(localCoords,onPlane){
+function changeAudioVolume(worldCoords,onPlane){
 	//I do NOT understand why this is necessary - should already be world coords. look into this!!
-	var worldCoords=terrain.localToWorld(localVec.copy(localCoords));
+	// var worldCoords=terrain.localToWorld(localVec.copy(localCoords));
 	var song, dx, dz, distance, audio, metric, distanceFlat;
 	var distances={}
 	for(var i=0; i<songs.length; i++){
