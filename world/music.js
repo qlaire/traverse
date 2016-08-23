@@ -1,6 +1,5 @@
 var songs=[];
 
-
 function placeMusic(){
 	var song;
 	var emotion;
@@ -63,7 +62,6 @@ function emphasizeLoudest(distances,songs){
 	var minDist=Infinity;
 	var minDistEmo=null;
 	var emoList=Object.keys(distances);
-	// console.log('volumes',volumes);
 	for(var i=0; i<emoList.length; i++){
 		if(distances[emoList[i]]<minDist){
 			minDist=distances[emoList[i]];
@@ -80,7 +78,6 @@ function emphasizeLoudest(distances,songs){
 }
 
 function silenceMusic(){
-	console.log('im here...');
 	for(var i=0; i<songs.length; i++){
 		songs[i].volume=0;
 	}
@@ -179,8 +176,6 @@ function checkForWordBalls(intersections){
 	} 
 	intersections.forEach(intersection=>{
 			if(intersection.object.diskType&&intersection.object.diskType==='wordBall'){
-				console.log('found a wrapped ball!');
-				console.log(intersection.object);
 				if(!intersection.object.associatedBall.rising){
 					var newYPos=controls.getObject().position.y-100;
 					intersection.object.associatedBall.beginRising(newYPos);
@@ -189,16 +184,3 @@ function checkForWordBalls(intersections){
 		});
 
 }
-
-
-//remove
-// var emotionsToColors={'sadness':'blue','fear':'purple','anger':'red','joy':'orange'}
-//////USEFUL FOR TESTING//////
-		//REMOVE AND REMOVE DICT ABOVE!!
-		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
-		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
-		// var sphere = new THREE.Mesh( geometry, material );
-		// sphere.position.x=song.entryMesh.position.x;
-		// sphere.position.z=song.entryMesh.position.z;
-		// sphere.position.y=200;
-		// scene.add( sphere );

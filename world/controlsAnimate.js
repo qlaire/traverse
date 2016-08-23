@@ -53,10 +53,7 @@ var getLocation = (function() {
 	var local = new THREE.Vector3(0, 0, 0)
 	return function getLocation(worldCoords){
 		var toReturn={};
-		// console.log('worldCoords',worldCoords);
 		var localCoords=terrain.worldToLocal(local.copy(worldCoords));
-		// var localCoords=terrain.worldToLocal(worldCoords);
-		// console.log('localCoords',localCoords);
 		var xCoord=customFloor(localCoords.x,distanceX);
 		var yCoord=customFloor(localCoords.y,distanceY);
 		var locationInfo=vertexDict[[xCoord,yCoord]];
