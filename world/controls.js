@@ -2,7 +2,11 @@
 var geometry, material, mesh;
 var controls;
 
-var controlsEnabled, moveForward, moveBackward, moveLeft, moveRight, canJump, prevTime, velocity, speedUp, moveUp, onPlane,moveDown, starWalked, backToEarth;
+var prevTime, velocity;
+
+//TODO: Finish this refactoring
+var playerMovements={moveForward:false,moveBackward:false,moveLeft:false,moveRight:false,speedUp:false,starWalked:false,controlsEnabled:false,moveDown:false,onPlane:false,backToEarth:false,column:{inColumn:false,columnLocation:null}}
+
 
 var objects=[];
 
@@ -20,7 +24,7 @@ function initPointerLockControls(){
 		var element = document.body;
 		var pointerlockchange = function ( event ) {
 			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-				controlsEnabled = true;
+				playerMovements.controlsEnabled = true;
 				controls.enabled = true;
 				blocker.style.display = 'none';
 
@@ -87,14 +91,14 @@ function initPointerLockControls(){
 
 	}
 
-	controlsEnabled = false;
+	// controlsEnabled = false;
 
-	moveForward = false;
-	moveBackward = false;
-	moveLeft = false;
-	moveRight = false;
-	speedUp = false;
-	starWalked=false;
+	// moveForward = false;
+	// moveBackward = false;
+	// moveLeft = false;
+	// moveRight = false;
+	// speedUp = false;
+	// starWalked=false;
 
 	prevTime = performance.now();
 	velocity = new THREE.Vector3();
@@ -109,26 +113,26 @@ function initPointerLockControls(){
 
 			case 16: // shift
 				// increase speed
-				speedUp = true;
+				playerMovements.speedUp = true;
 				break;
 			
 			case 38: // up
 			case 87: // w
-				moveForward = true;
+				playerMovements.moveForward = true;
 				break;
 
 			case 37: // left
 			case 65: // a
-				moveLeft = true; break;
+				playerMovements.moveLeft = true; break;
 
 			case 40: // down
 			case 83: // s
-				moveBackward = true;
+				playerMovements.moveBackward = true;
 				break;
 
 			case 39: // right
 			case 68: // d
-				moveRight = true;
+				playerMovements.moveRight = true;
 				break;
 			
 		}
@@ -141,27 +145,27 @@ function initPointerLockControls(){
 
 			case 16: // shift
 				// slow back down
-				speedUp = false;
+				playerMovements.speedUp = false;
 				break;
 			
 			case 38: // up
 			case 87: // w
-				moveForward = false;
+				playerMovements.moveForward = false;
 				break;
 
 			case 37: // left
 			case 65: // a
-				moveLeft = false;
+				playerMovements.moveLeft = false;
 				break;
 
 			case 40: // down
 			case 83: // s
-				moveBackward = false;
+				playerMovements.moveBackward = false;
 				break;
 
 			case 39: // right
 			case 68: // d
-				moveRight = false;
+				playerMovements.moveRight = false;
 				break;
 
 		}
@@ -193,12 +197,8 @@ function initPointerLockControls(){
 
 var raycount=0;
 function animatePointerLockControls(){
-	moveUp=false;
-	//moveDown=false;
-	if ( controlsEnabled ) {
-		//potentially remove this
-		//worldCoords=null;
-		//for console.logging
+	playerMovements.moveUp=false;
+	if (playerMovements.controlsEnabled ) {
 		raycount++;
 
 		//
@@ -207,52 +207,40 @@ function animatePointerLockControls(){
 		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
 		var worldCoords=intersections[0].point;
-		console.log(worldCoords);
-		// console.log(intersections[0].point);
-		// if(isOnObject){
-		// 	getWorldCoords(intersections[0].point);
-		// }
 
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; 
 
-
-
-
 		//console.log('planeHeight',planeHeight);
 		//tweak this logic later, only works for lifting
 		var columnInfo=checkIfInColumn(intersections);
-		var inColumn=columnInfo[0];
-		var columnLocation=columnInfo[1];
+		playerMovements.column.inColumn=columnInfo[0];
+		playerMovements.column.columnLocation=columnInfo[1];
 
-		//MOVE THIS
-		// if (inColumn) {
-		// 	silenceMusic();
-		// }
-		if(inColumn&&!starWalked&&!backToEarth){
+		if(playerMovements.column.inColumn&&!playerMovements.starWalked&&!playerMovements.backToEarth){
 			//in column, going up, not on plane
 			if(controls.getObject().position.y<planeHeight+20){
 				console.log(1);
-				moveForward=false;
-				moveBackward=false;
-				moveLeft=false;
-				moveRight=false;
-				moveUp=true;		
+				playerMovements.moveForward=false;
+				playerMovements.moveBackward=false;
+				playerMovements.moveLeft=false;
+				playerMovements.moveRight=false;
+				playerMovements.moveUp=true;		
 			}
 			//in column, on plane
 			else{
 				console.log(2);
-				onPlane=true;
+				playerMovements.onPlane=true;
 			}
 		} 
 		//on plane, not in column - registers that you've walked the stars
-		if(onPlane&&!inColumn&&!starWalked){
+		if(playerMovements.onPlane&&!playerMovements.column.inColumn&&!playerMovements.starWalked){
 			console.log(3);
-			starWalked=true;
+			playerMovements.starWalked=true;
 		}
 
 		//already starwalked
-		if(starWalked&&inColumn){
+		if(playerMovements.starWalked&&playerMovements.column.inColumn){
 			//you're not on the terrain yet
 			if(controls.getObject().position.y>(worldCoords.y+20)){
 				console.log(4);
@@ -261,14 +249,14 @@ function animatePointerLockControls(){
 
 				console.log('current',controls.getObject().position.y)
 
-				onPlane=false;
-				moveForward=false;
-				moveBackward=false;
-				moveLeft=false;
-				moveRight=false;
-				moveDown=true;
-				controls.getObject().position.x=columnLocation.x;
-				controls.getObject().position.z=columnLocation.z;
+				playerMovements.onPlane=false;
+				playerMovements.moveForward=false;
+				playerMovements.moveBackward=false;
+				playerMovements.moveLeft=false;
+				playerMovements.moveRight=false;
+				playerMovements.moveDown=true;
+				controls.getObject().position.x=playerMovements.column.columnLocation.x;
+				controls.getObject().position.z=playerMovements.column.columnLocation.z;
 				planeGlimmered=false;
 				console.log('got here');
 
@@ -276,19 +264,21 @@ function animatePointerLockControls(){
 			//you're on the terrain 
 			else{
 				console.log(5);
-				moveDown=false;
-				backToEarth=true;
-				starWalked=false;
+				playerMovements.moveDown=false;
+				playerMovements.backToEarth=true;
+				playerMovements.starWalked=false;
 			}
 		}
-		if(!inColumn){
-			backToEarth=false;
+		if(!playerMovements.column.inColumn){
+			playerMovements.backToEarth=false;
 		}
+
+
 		//MOVE ELSEWHERE
-		if(onPlane||moveUp){
+		if(playerMovements.onPlane||playerMovements.moveUp){
 			outsideTime();
 		}
-		if(onPlane&&inColumn){
+		if(playerMovements.onPlane&&playerMovements.column.inColumn){
 			glimmerPlane();
 		}
 
@@ -298,41 +288,41 @@ function animatePointerLockControls(){
 
 		var currPosition=controls.getObject().position;
 
-		if (moveForward) {
-			if (speedUp) {
+		if (playerMovements.moveForward) {
+			if (playerMovements.speedUp) {
 				velocity.z -= 1600.0 * delta;
 			} else {
 				velocity.z -= 400.0 * delta;
 			}
 		}
 
-		if (moveBackward) {
-			if (speedUp) {
+		if (playerMovements.moveBackward) {
+			if (playerMovements.speedUp) {
 				velocity.z += 800.0 * delta;
 			} else {
 				velocity.z += 400.0 * delta;
 			}
 		}
 
-		if (moveLeft) {
-			if (speedUp) {
+		if (playerMovements.moveLeft) {
+			if (playerMovements.speedUp) {
 				velocity.x -= 1600.0 * delta;
 			} else {
 				velocity.x -= 400.0 * delta;
 			}
 		}
 
-		if (moveRight) {
-			if (speedUp) {
+		if (playerMovements.moveRight) {
+			if (playerMovements.speedUp) {
 				velocity.x += 1600.0 * delta;
 			} else {
 				velocity.x += 400.0 * delta;
 			}
 		}
-		if (moveUp) {
+		if (playerMovements.moveUp) {
 			controls.getObject().position.y +=1;
 		}
-		if (moveDown) {
+		if (playerMovements.moveDown) {
 			controls.getObject().position.y -=1;
 		}
 
@@ -363,9 +353,9 @@ function animatePointerLockControls(){
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
 		//console.log(worldCoords);
-		if(worldCoords) changeAudioVolume(worldCoords,onPlane);
+		if(worldCoords) changeAudioVolume(worldCoords,playerMovements.onPlane);
 
-		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
+		if ( isOnObject === true && !playerMovements.moveUp && !playerMovements.onPlane && !playerMovements.moveDown) { //TODO: not when on interstellar plane
 			// if(raycount%200===0){
 			// 	console.log('intersection',intersections[0].point);
 			// 	console.log(getLocation(intersections[0].point));
@@ -397,14 +387,6 @@ function animatePointerLockControls(){
 }
 
 
-
-
-
-
-
-//for intersection, x goes side to side, y goes up, and z goes backward
-//appears to be the same in the WORLD
-//worldCoords will be intersections[0].point
 var getLocation = (function() {
 	var local = new THREE.Vector3(0, 0, 0)
 	return function getLocation(worldCoords){
@@ -425,23 +407,6 @@ var getLocation = (function() {
 }})()
 
 
-
-// function getLocation(worldCoords){
-// 	var toReturn={};
-// 	// console.log('worldCoords',worldCoords);
-// 	//terrain.worldToLocal(local.copy(worldCoords));
-// 	// var localCoords=terrain.worldToLocal(worldCoords);
-// 	// console.log('localCoords',localCoords);
-// 	var xCoord=customFloor(localCoords.x,distanceX);
-// 	var yCoord=customFloor(localCoords.y,distanceY);
-// 	var locationInfo=vertexDict[[xCoord,yCoord]];
-// 	if(!locationInfo){
-// 		return {path: -1, entry: -1};
-// 	}
-// 	toReturn.path=locationInfo[0];
-// 	toReturn.entry=locationInfo[locationInfo.length-1];
-// 	return toReturn;	
-// }
 
 //make sure we don't have more tha one of these!!!
 function customFloor(num,factor){

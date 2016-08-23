@@ -34,4 +34,9 @@ function checkIfInColumn(intersections){
   return [inColumn,columnLocation];
 }
 
+function columnLogic(){
+
+  
+}
+
 
