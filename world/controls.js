@@ -386,30 +386,7 @@ function animatePointerLockControls(){
 }
 
 
-function checkForWordBalls(intersections){
-	intersections.forEach(intersection=>{
-			if(intersection.object.diskType&&intersection.object.diskType==='wordBall'){
-				console.log('found a wrapped ball!');
-				console.log(intersection.object);
-				intersection.object.associatedBall.beginRising();
-				//console.log(intersection.object)
-				// inColumn=true;
-				// columnLocation=intersection.object.position;
-			}
-		});
 
-}
-function checkIfInColumn(intersections){
-	var inColumn=false;
-	var columnLocation=null;
-	intersections.forEach(intersection=>{
-		if(intersection.object.diskType&&intersection.object.diskType==='column'){
-			inColumn=true;
-			columnLocation=intersection.object.position;
-		}
-	});
-	return [inColumn,columnLocation];
-}
 
 
 

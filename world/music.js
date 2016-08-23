@@ -1,7 +1,6 @@
 var songs=[];
 
-//remove
-var emotionsToColors={'sadness':'blue','fear':'purple','anger':'red','joy':'orange'}
+
 function placeMusic(){
 	var song;
 	var emotion;
@@ -22,60 +21,28 @@ function placeMusic(){
 		songs.push(song);
 		var disk=placeDisk(location.x,location.z,100,'wordBall')
 		disk.associatedBall=song.entryMesh;
-		//REMOVE AND REMOVE DICT ABOVE!!
-		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
-		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
-		// var sphere = new THREE.Mesh( geometry, material );
-		// sphere.position.x=song.entryMesh.position.x;
-		// sphere.position.z=song.entryMesh.position.z;
-		// sphere.position.y=200;
-		// scene.add( sphere );
+
 	}
 }
 
 function changeAudioVolume(localCoords,onPlane){
-	//console.log(worldCoords);
+	//I do NOT understand why this is necessary - should already be world coords. look into this!!
 	var worldCoords=terrain.localToWorld(localCoords);
-	//console.log(terrain.worldToLocal(worldCoords));
 	var song, dx, dz, distance, audio, metric, distanceFlat;
 	var distances={}
 	for(var i=0; i<songs.length; i++){
 		song=songs[i];
-	    // dx = worldCoords.x-(song.locationOnTerrain.x);
-	    // dz = worldCoords.z-(song.locationOnTerrain.z);
 	    dx = worldCoords.x-(song.entryMesh.position.x);
 	    dz = worldCoords.z-(song.entryMesh.position.z);
 	    if(onPlane){
 	    	worldCoords.y=planeHeight;
 	    }
-
 	    dy = worldCoords.y-(song.entryMesh.position.y);
-
 	    distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
 	    distanceFlat=Math.sqrt( dx * dx + dz * dz );
-	    // console.log('dx',dx);
-	    // console.log('dz',dz);
-	    // console.log(song.emotion,distance);
-	    if(song.emotion==='sadness'&&Date.now()%100===0){
-	    	console.log('localCoords',localCoords)
-	    	console.log('worldCoords',worldCoords);
-	    	console.log('position of mesh',song.entryMesh.position);
-	    	console.log(distanceFlat);
-	    }
-	    // if(distanceFlat<100&&!onPlane){
-	    // 	console.log('FOUND IT');
-	    // 	song.entryMesh.rising=true;
-	    // }
 	    if(!song.entryMesh.rising&&!onPlane){
 	    	distance=distanceFlat;
 	    }
-	    // 	var printLocation={};
-	    // 	printLocation.x=song.locationOnTerrain.x;
-	    // 	printLocation.z=song.locationOnTerrain.z;
-	    // 	printLocation.y=localCoords.y;
-	    // 	printEntry(song.emotion,printLocation);
-	    // }
-		// audio = song.audio;
 		var metric=10/distance;
 		if(metric>1){
 			song.volume=1;
@@ -83,8 +50,9 @@ function changeAudioVolume(localCoords,onPlane){
 		else{
 			song.volume = metric;
 		}
-		distances[song.emotion]=distanceFlat;
+		distances[song.emotion]=distance;
 	}
+
 	emphasizeLoudest(distances,songs);
 
 }
@@ -139,8 +107,9 @@ function createEntryBallMesh(emotion,location){
 	mesh.position.x=location.x;
 	mesh.position.y=location.y;
 	mesh.position.z=location.z;
-	mesh.beginRising=function(){
+	mesh.beginRising=function(y){
 		mesh.rising=true;
+		mesh.position.y=y;
 	}
 	mesh.rising=false;
 	scene.add(mesh);
@@ -190,13 +159,10 @@ function animateEntries(){
 	var entry;
 	for(var i=0; i<entryMeshes.length; i++){
 		entry=entryMeshes[i];
-		// console.log('here');
 		if(entry.rising){
-			console.log('its rising')
 			entry.material.opacity=1;
 		}
 		if(entry.rising&&entry.position.y<(planeHeight+10)){
-			console.log('it should be moving up')
 			entry.position.y+=.3;
 		}
 		entry.rotation.z+=.001;
@@ -205,22 +171,32 @@ function animateEntries(){
 	}
 }
 
+function checkForWordBalls(intersections){
+	intersections.forEach(intersection=>{
+			if(intersection.object.diskType&&intersection.object.diskType==='wordBall'){
+				console.log('found a wrapped ball!');
+				console.log(intersection.object);
+				if(!intersection.object.associatedBall.rising){
+					var newYPos=controls.getObject().position.y-100;
+					intersection.object.associatedBall.beginRising(newYPos);
+				}
+				//console.log(intersection.object)
+				// inColumn=true;
+				// columnLocation=intersection.object.position;
+			}
+		});
 
-// function printEntry(emotion,location){
-// 	if(worldData.intenseEntries[emotion].complete===true){
-// 		return;
-// 	}
-// 	console.log('DOING IT')
-// 	worldData.intenseEntries[emotion].complete=true;
-// 	var entryToPrint=worldData.intenseEntries[emotion].body;
-// 	var sentences=entryToPrint.split('. ');
-// 	console.log(sentences)
-// 	var sentenceMesh;
-// 	for(var i=0;i<sentences.length;i++){
-// 		sentenceMesh=placeASentence(sentences[i],location);
-// 	}
-// }
+}
 
-// function updateVolume(){
-// 	console.log('updating volume')
-// }
+
+//remove
+// var emotionsToColors={'sadness':'blue','fear':'purple','anger':'red','joy':'orange'}
+//////USEFUL FOR TESTING//////
+		//REMOVE AND REMOVE DICT ABOVE!!
+		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
+		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
+		// var sphere = new THREE.Mesh( geometry, material );
+		// sphere.position.x=song.entryMesh.position.x;
+		// sphere.position.z=song.entryMesh.position.z;
+		// sphere.position.y=200;
+		// scene.add( sphere );

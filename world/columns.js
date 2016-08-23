@@ -22,5 +22,16 @@ function placeColumns() {
   }
 }
 
+function checkIfInColumn(intersections){
+  var inColumn=false;
+  var columnLocation=null;
+  intersections.forEach(intersection=>{
+    if(intersection.object.diskType&&intersection.object.diskType==='column'){
+      inColumn=true;
+      columnLocation=intersection.object.position;
+    }
+  });
+  return [inColumn,columnLocation];
+}
 
 
