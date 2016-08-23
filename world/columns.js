@@ -78,7 +78,7 @@ function executeColumnLogic(intersections,playerMovements,controls,worldCoords){
         playerMovements.moveDown=true;
         controls.getObject().position.x=playerMovements.column.columnLocation.x;
         controls.getObject().position.z=playerMovements.column.columnLocation.z;
-        planeGlimmered=false;
+        planeGlimmered=false; //this is out of place :/
         console.log('got here');
 
       }

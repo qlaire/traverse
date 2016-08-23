@@ -174,6 +174,9 @@ function animateEntries(){
 }
 
 function checkForWordBalls(intersections){
+	if (!playerMovements.isOnObject || playerMovements.moveUp || playerMovements.onPlane || playerMovements.moveDown){
+		return;
+	} 
 	intersections.forEach(intersection=>{
 			if(intersection.object.diskType&&intersection.object.diskType==='wordBall'){
 				console.log('found a wrapped ball!');
