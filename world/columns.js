@@ -2,7 +2,7 @@ var columnGlow;
 
 function createColumn(x, y, z) {
   var columnRadius=5;
-  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*4 );
+  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*4, 200 );
   // var geometry = new THREE.SphereGeometry(100, 32, 16);
   var material = new THREE.MeshBasicMaterial( {color: new THREE.Color('gray'), transparent: true, opacity: 0.5 } );
   var cylinder = new THREE.Mesh( geometry, material );
@@ -20,13 +20,14 @@ function createColumn(x, y, z) {
     uniform float c;
     uniform float p;
     varying float intensity;
+    uniform float time;
     void main() 
     {
-        vec3 vNormal = normalize( normalMatrix * normal );
+      vec3 vNormal = normalize( normalMatrix * normal );
       vec3 vNormel = normalize( normalMatrix * viewVector );
       intensity = pow( c - dot(vNormal, vNormel), p );
-      
-        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      vec3 rippled = position + vNormal * sin(uv.y + time / 100.0);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( rippled, 1.0 );
     }
   
     `,
@@ -50,6 +51,7 @@ function createColumn(x, y, z) {
 		{ 
 			"c":   { type: "f", value: 0.2 },
 			"p":   { type: "f", value: 0.5 },
+      "time": {type: "f", value: 0},
 			glowColor: { type: "c", value: new THREE.Color(0x80b5ec) },
 			viewVector: { type: "v3", value: camera.position }
 		},
@@ -70,16 +72,17 @@ function createColumn(x, y, z) {
 
   console.log(columnGlow.position);
   console.log(cylinder.position);
-  columnGlow.scale.multiplyScalar(1.2);
+  columnGlow.scale.multiplyScalar(2);
   scene.add(columnGlow);
 
   placeDisk(x,z,columnRadius,'column');
 }
 
-function columnUpdate()
+function columnUpdate(ts)
 {
 	columnGlow.material.uniforms.viewVector.value = 
 		new THREE.Vector3().subVectors( camera.position, columnGlow.position );
+  columnGlow.material.uniforms.time.value = ts;
 }
 
 function placeColumns() {
