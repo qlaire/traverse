@@ -23,10 +23,19 @@ function createColumn(x, y, z) {
     uniform float time;
     void main() 
     {
+      float tick = time / 200.0;
       vec3 vNormal = normalize( normalMatrix * normal );
       vec3 vNormel = normalize( normalMatrix * viewVector );
-      intensity = pow( c - dot(vNormal, vNormel), p );
-      vec3 rippled = position + vNormal * sin(uv.y + time / 100.0);
+      intensity = pow( c - dot(vNormal, vNormel), p )
+          * (
+              sin(32.0 * uv.x + tick) +
+              cos(-32.0 * uv.y + tick)
+            );
+      vec3 rippled = position + vNormal
+          * (
+              sin(8.0 + uv.x + tick) +
+              cos(8.0 * uv.y + tick)
+            );
       gl_Position = projectionMatrix * modelViewMatrix * vec4( rippled, 1.0 );
     }
   
