@@ -38,45 +38,13 @@ function pointLights(){
 	var xCoord;
 	var color;
 	var emotions=Object.keys(emotionToLightColor);
-	for(var i=0;i<emotions.length;i++){
+	for(var i=0; i<emotions.length; i++){
 		for(var j=0; j<Object.keys(xZones).length; j++){
 			xCoord=randomXInEmotion(emotions[i]);
 			var color=emotionToLightColor[emotions[i]];
 			pointLights.push(singlePointLight(xZones[j],Math.random()*200,xCoord,color,color));	
 		}		
 	}
-
-// 	//PATH 0 - ANGER
-// 	console.log(Object.keys(zZones));
-// 	var bound1=zZones[2];
-// 	var bound2=zZones[1];
-// 	var xCoord;
-// 	for(var i=0; i<Object.keys(xZones).length; i++){
-// 		xCoord=bound1+(Math.random()*(bound2-bound1));
-// 		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xA8263F,0xA8263F));	
-// 	}
-
-// 	//PATH 1 - JOY
-// 	console.log(Object.keys(zZones));
-// 	var bound1=zZones[1];
-// 	var bound2=zZones[0];
-// 	var xCoord;
-// 	for(var i=0; i<Object.keys(xZones).length; i++){
-// 		xCoord=bound1+(Math.random()*(bound2-bound1));
-// 		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0xFDAA43,0xFDAA43));
-// 	}
-
-// 	//PATH 2 - FEAR
-// 	console.log(Object.keys(zZones));
-// 	var bound1=zZones[0];
-// 	var bound2=zZones[999];
-// 	var xCoord;
-// 	for(var i=0; i<Object.keys(xZones).length; i++){
-// 		xCoord=bound1+(Math.random()*(bound2-bound1));
-// 		pointLights.push(singlePointLight(xZones[i],Math.random()*200,xCoord,0x3B3F78, 0x3B3F78
-// ));
-// 	}
-
 }
 
 

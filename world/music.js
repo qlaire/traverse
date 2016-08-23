@@ -1,6 +1,5 @@
 var songs=[];
 
-
 function placeMusic(){
 	var song;
 	var emotion;
@@ -189,16 +188,3 @@ function checkForWordBalls(intersections){
 		});
 
 }
-
-
-//remove
-// var emotionsToColors={'sadness':'blue','fear':'purple','anger':'red','joy':'orange'}
-//////USEFUL FOR TESTING//////
-		//REMOVE AND REMOVE DICT ABOVE!!
-		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
-		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
-		// var sphere = new THREE.Mesh( geometry, material );
-		// sphere.position.x=song.entryMesh.position.x;
-		// sphere.position.z=song.entryMesh.position.z;
-		// sphere.position.y=200;
-		// scene.add( sphere );
