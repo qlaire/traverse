@@ -5,4 +5,5 @@ function animate() {
     animatePointLights();
 	animateSingleWords();
 	animateEntries();
+    columnUpdate();
 }

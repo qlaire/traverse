@@ -1,29 +1,85 @@
+var columnGlow;
+
 function createColumn(x, y, z) {
   var columnRadius=5;
-  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*3 );
-  var material = new THREE.MeshBasicMaterial( {color: new THREE.Color('gray')} );
+  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*4 );
+  // var geometry = new THREE.SphereGeometry(100, 32, 16);
+  var material = new THREE.MeshBasicMaterial( {color: new THREE.Color('gray'), transparent: true, opacity: 0.5 } );
   var cylinder = new THREE.Mesh( geometry, material );
   scene.add( cylinder );
-
-  // create the glowMesh
-  var glowMesh = new THREEx.GeometricGlowMesh(cylinder);
-  cylinder.add(glowMesh.object3d);
-
-  // customize the glowMesh
-	var insideUniforms	= glowMesh.insideMesh.material.uniforms;
-	insideUniforms.glowColor.value.set('hotpink');
-	var outsideUniforms	= glowMesh.outsideMesh.material.uniforms;
-	outsideUniforms.glowColor.value.set('hotpink');
-
-  // // dat.GUI for fine tuning
-	// var datGUI	= new dat.GUI();
-	// new THREEx.addAtmosphereMaterial2DatGui(glowMesh.insideMesh.material, datGUI);	
-	// new THREEx.addAtmosphereMaterial2DatGui(glowMesh.outsideMesh.material, datGUI);
-
+  
   cylinder.position.x = x;
   cylinder.position.y = y;
   cylinder.position.z = z;
+
+  //shader
+  var glowShader = {
+    vertex:
+    `
+    uniform vec3 viewVector;
+    uniform float c;
+    uniform float p;
+    varying float intensity;
+    void main() 
+    {
+        vec3 vNormal = normalize( normalMatrix * normal );
+      vec3 vNormel = normalize( normalMatrix * viewVector );
+      intensity = pow( c - dot(vNormal, vNormel), p );
+      
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    }
+  
+    `,
+    fragment:
+    `
+    uniform vec3 glowColor;
+    varying float intensity;
+    void main() 
+    {
+      vec3 glow = glowColor * intensity;
+        gl_FragColor = vec4( glow, 1.0 );
+    }
+    `
+  };
+
+  // create custom material from the shader code in world.html
+	//   that is within specially labeled script tags
+	var customMaterial = new THREE.ShaderMaterial( 
+	{
+	    uniforms: 
+		{ 
+			"c":   { type: "f", value: 0.2 },
+			"p":   { type: "f", value: 0.5 },
+			glowColor: { type: "c", value: new THREE.Color(0x80b5ec) },
+			viewVector: { type: "v3", value: camera.position }
+		},
+		vertexShader:   glowShader.vertex,
+		fragmentShader: glowShader.fragment,
+		side: THREE.DoubleSide,
+		blending: THREE.AdditiveBlending,
+		transparent: true
+	}   );
+
+  console.log('camera position', camera.position);
+
+  columnGlow = new THREE.Mesh(geometry.clone(), customMaterial);
+  columnGlow.position = cylinder.position;
+  columnGlow.position.x=cylinder.position.x;
+  columnGlow.position.y=cylinder.position.y;
+  columnGlow.position.z=cylinder.position.z;
+
+  console.log(columnGlow.position);
+  console.log(cylinder.position);
+  columnGlow.scale.multiplyScalar(1.2);
+  scene.add(columnGlow);
+
   placeDisk(x,z,columnRadius,'column');
+}
+
+function columnUpdate()
+{
+	columnGlow.material.uniforms.viewVector.value = 
+		new THREE.Vector3().subVectors( camera.position, columnGlow.position );
 }
 
 function placeColumns() {
