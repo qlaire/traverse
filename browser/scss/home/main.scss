@@ -16,8 +16,10 @@
       background-attachment: fixed;
   }
   .bgimg-1 {
-    min-height:592px;
-    background-position:300px 100px;
+    min-height:600px;
+    // background-position:300px 100px;
+    background-position:center top;
+    background-position:340px 51px;
     background-color:black;
     background-image: url("/images/main_logo.jpg");
     background-repeat:no-repeat;
