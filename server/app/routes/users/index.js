@@ -32,66 +32,74 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
     var intenseEntryIds={sadness:null,joy:null,anger:null,fear:null};
     var intensityExtremes={joy:-1,sadness:2,anger:-1,fear:-1};
     var emotionChunkIndices={joy:-1,fear:-1,sadness:-1,anger:-1}
-    var emotion;
-    var joyAvg;
-    var minJoy=Infinity;
-    for(var i=0; i<entries.length; i++){
-      for(var j=0; j<entries[i].joy.length; j++){
-        worldData.dates.push(entries[i].date);
-      }
-      //check if <emotion>est entry
-      var emotions=Object.keys(emotionArrays);
-      for(j=0; j<emotions.length; j++){
-        emotion=emotions[j];
-        var emotionAvg=avg(entries[i][emotion]);
-        if(emotionAvg>intensityExtremes[emotion]){
-          intensityExtremes[emotion]=emotionAvg;
-          intenseEntryIds[emotion]=entries[i].id;
-          console.log('intense: ')
-          console.log(intenseEntryIds);
-
-          emotionChunkIndices[emotion]=findChunkIndex(emotionArrays[emotion],entries[i][emotion])
-        }
-      }
-      joyAvg=avg(entries[i].joy);
-      if(avg(entries[i].joy)<minJoy){
-        minJoy=joyAvg;
-        intenseEntryIds.sadness=entries[i].id;
-        emotionChunkIndices.sadness=findChunkIndex(emotionArrays.joy,entries[i].joy,true);
-      }
-      for(j=0; j<Object.keys(emotionArrays).length; j++){
-        emotion=Object.keys(emotionArrays)[j];
-        emotionArrays[emotion]=emotionArrays[emotion].concat(entries[i][emotion]);
-      }
-    }
-    emotions=Object.keys(intenseEntryIds);
-    var promises=[]
-    for(i=0; i<emotions.length; i++){
-      emotion=emotions[i];
-      promises.push(Entry.findById(intenseEntryIds[emotion]))
-    }
+    gatherEntryData(emotionArrays,intenseEntryIds,entries,emotionChunkIndices,intensityExtremes,worldData);
+    var promises=makePromises(intenseEntryIds);
     Promise.all(promises)
     .then(function(resultArr){
-      console.log(resultArr);
-      worldData.emoScores=[emotionArrays.anger,emotionArrays.joy,emotionArrays.fear];
-      worldData.intenseEntries={};
-      console.log('chunks');
-      console.log(emotionChunkIndices);
-
-      worldData.intenseEntries.joy={body:  striptags(resultArr[1].body), chunkIndex: emotionChunkIndices.joy};
-      console.log('set first')
-      worldData.intenseEntries.sadness={body: striptags(resultArr[0].body), chunkIndex: emotionChunkIndices.sadness};
-          console.log('set second')
-
-      worldData.intenseEntries.anger={body:  striptags(resultArr[2].body), chunkIndex: emotionChunkIndices.anger};
-      worldData.intenseEntries.fear={body:  striptags(resultArr[3].body), chunkIndex: emotionChunkIndices.fear};
-      console.log('about to send');
+      resolveWorldData(worldData,resultArr,emotionArrays,emotionChunkIndices);
       res.status(200).send(worldData);     
     })
 
   }).catch(next);
 })
 
+function resolveWorldData(worldData,resultArr,emotionArrays,emotionChunkIndices){
+    worldData.emoScores=[emotionArrays.anger,emotionArrays.joy,emotionArrays.fear];
+    worldData.intenseEntries={};
+    worldData.intenseEntries.joy={body:  striptags(resultArr[1].body), chunkIndex: emotionChunkIndices.joy};
+    worldData.intenseEntries.sadness={body: striptags(resultArr[0].body), chunkIndex: emotionChunkIndices.sadness};
+    worldData.intenseEntries.anger={body:  striptags(resultArr[2].body), chunkIndex: emotionChunkIndices.anger};
+    worldData.intenseEntries.fear={body:  striptags(resultArr[3].body), chunkIndex: emotionChunkIndices.fear};
+}
+function makePromises(intenseEntryIds){
+    var emotions=Object.keys(intenseEntryIds);
+    var promises=[]
+    for(var i=0; i<emotions.length; i++){
+      var emotion=emotions[i];
+      promises.push(Entry.findById(intenseEntryIds[emotion]))
+    }
+    return promises;
+}
+function gatherEntryData(emotionArrays,intenseEntryIds,entries,emotionChunkIndices,intensityExtremes,worldData){
+    var minJoy=Infinity;
+    for(var i=0; i<entries.length; i++){
+      aggregateDates(entries,i,worldData);
+      minJoy=checkIfMostIntenseEntry(emotionArrays,intenseEntryIds,entries,i,emotionChunkIndices,intensityExtremes,minJoy);
+      buildEmotionArrays(emotionArrays,entries,i);
+      worldData.keywords=worldData.keywords.concat(entries[i].keywords);
+    }
+}
+function buildEmotionArrays(emotionArrays,entries,i){
+  for(var j=0; j<Object.keys(emotionArrays).length; j++){
+    var emotion=Object.keys(emotionArrays)[j];
+    emotionArrays[emotion]=emotionArrays[emotion].concat(entries[i][emotion]);
+  }
+}
+function aggregateDates(entries,i,worldData){
+    for(var j=0; j<entries[i].joy.length; j++){
+      worldData.dates.push(entries[i].date);
+    }  
+}
+function checkIfMostIntenseEntry(emotionArrays,intenseEntryIds,entries,i,emotionChunkIndices,intensityExtremes,minJoy){
+      //for convenience, returns minJoy, since that is not included in the intensityExtremes object like the others
+      var emotions=Object.keys(emotionArrays);
+      for(var j=0; j<emotions.length; j++){
+        var emotion=emotions[j];
+        var emotionAvg=avg(entries[i][emotion]);
+        if(emotionAvg>intensityExtremes[emotion]){
+          intensityExtremes[emotion]=emotionAvg;
+          intenseEntryIds[emotion]=entries[i].id;
+          emotionChunkIndices[emotion]=findChunkIndex(emotionArrays[emotion],entries[i][emotion])
+        }
+      }
+      var joyAvg=avg(entries[i].joy);
+      if(avg(entries[i].joy)<minJoy){
+        minJoy=joyAvg;
+        intenseEntryIds.sadness=entries[i].id;
+        emotionChunkIndices.sadness=findChunkIndex(emotionArrays.joy,entries[i].joy,true);
+      }
+      return minJoy;
+}
 function findChunkIndex(largeArr,smallArr,isNegative){
   if(isNegative){
     return largeArr.length+minIndex(smallArr);
