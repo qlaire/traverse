@@ -1,4 +1,4 @@
-var camera, scene, renderer;
+// var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
@@ -204,9 +204,9 @@ function animatePointerLockControls(){
 
 		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
-
-		var worldCoords=getWorldCoords(intersections[0].point);
-
+		if(isOnObject){
+			var worldCoords=getWorldCoords(intersections[0].point);
+		}
 
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; 
@@ -260,6 +260,7 @@ function animatePointerLockControls(){
 				controls.getObject().position.x=columnLocation.x;
 				controls.getObject().position.z=columnLocation.z;
 				planeGlimmered=false;
+				console.log('got here');
 
 			}
 			//you're on the terrain 
@@ -351,7 +352,7 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
-		changeAudioVolume(worldCoords,onPlane);
+		if(worldCoords) changeAudioVolume(worldCoords,onPlane);
 
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
 			// if(raycount%200===0){
@@ -361,7 +362,8 @@ function animatePointerLockControls(){
 			// };
 			//changeAudioVolume(intersections[0].point);
 
-			updateDate(intersections[0].point);
+			//not sure why this doesn't always work
+			updateDate(controls.getObject().position);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -388,7 +390,7 @@ function checkIfInColumn(intersections){
 	var inColumn=false;
 	var columnLocation=null;
 	intersections.forEach(intersection=>{
-		if(intersection.object.isDisk){
+		if(intersection.object.diskType&&intersection.object.diskType==='column'){
 			inColumn=true;
 			columnLocation=intersection.object.position;
 		}

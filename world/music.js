@@ -50,6 +50,7 @@ function changeAudioVolume(localCoords,onPlane){
 	    if(onPlane){
 	    	worldCoords.y=planeHeight;
 	    }
+	    
 	    dy = worldCoords.y-(song.entryMesh.position.y);
 
 	    distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
