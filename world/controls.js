@@ -1,4 +1,4 @@
-var camera, scene, renderer;
+// var camera, scene, renderer;
 var geometry, material, mesh;
 var controls;
 
@@ -184,11 +184,11 @@ function initPointerLockControls(){
 
 }
 
-var worldVec = new THREE.Vector3(0, 0, 0)
+// var worldCoords = new THREE.Vector3(0, 0, 0)
 
-function getWorldCoords(localCoords){
-	return terrain.worldToLocal(worldVec.copy(localCoords))	
-}
+// function getWorldCoords(localCoords){
+// 	terrain.localToWorld(worldCoords.copy(localCoords))	
+// }
 
 
 var raycount=0;
@@ -196,6 +196,8 @@ function animatePointerLockControls(){
 	moveUp=false;
 	//moveDown=false;
 	if ( controlsEnabled ) {
+		//potentially remove this
+		//worldCoords=null;
 		//for console.logging
 		raycount++;
 
@@ -204,9 +206,12 @@ function animatePointerLockControls(){
 
 		var intersections = raycaster.intersectObjects([terrain].concat(disks));
 		var isOnObject = intersections.length > 0;
-
-		var worldCoords=getWorldCoords(intersections[0].point);
-
+		var worldCoords=intersections[0].point;
+		console.log(worldCoords);
+		// console.log(intersections[0].point);
+		// if(isOnObject){
+		// 	getWorldCoords(intersections[0].point);
+		// }
 
 		var time = performance.now();
 		var delta = ( time - prevTime ) / 1000; 
@@ -251,6 +256,11 @@ function animatePointerLockControls(){
 			//you're not on the terrain yet
 			if(controls.getObject().position.y>(worldCoords.y+20)){
 				console.log(4);
+
+				console.log('goal',worldCoords.y+20);
+
+				console.log('current',controls.getObject().position.y)
+
 				onPlane=false;
 				moveForward=false;
 				moveBackward=false;
@@ -260,6 +270,7 @@ function animatePointerLockControls(){
 				controls.getObject().position.x=columnLocation.x;
 				controls.getObject().position.z=columnLocation.z;
 				planeGlimmered=false;
+				console.log('got here');
 
 			}
 			//you're on the terrain 
@@ -351,7 +362,8 @@ function animatePointerLockControls(){
 		
 		var distToGround;
 		//localCoords.copy(intersections[0].point)
-		changeAudioVolume(worldCoords,onPlane);
+		//console.log(worldCoords);
+		if(worldCoords) changeAudioVolume(worldCoords,onPlane);
 
 		if ( isOnObject === true && !moveUp && !onPlane && !moveDown) { //TODO: not when on interstellar plane
 			// if(raycount%200===0){
@@ -361,7 +373,9 @@ function animatePointerLockControls(){
 			// };
 			//changeAudioVolume(intersections[0].point);
 
-			updateDate(intersections[0].point);
+			checkForWordBalls(intersections);
+			//not sure why this doesn't always work
+			updateDate(controls.getObject().position);
 			distToGround=intersections[0].distance;
 			controls.getObject().position.y=(controls.getObject().position.y-distToGround)+20;
 
@@ -384,18 +398,8 @@ function animatePointerLockControls(){
 
 
 
-function checkIfInColumn(intersections){
-	var inColumn=false;
-	var columnLocation=null;
-	intersections.forEach(intersection=>{
-		if(intersection.object.isDisk){
-			inColumn=true;
-			columnLocation=intersection.object.position;
-		}
-	});
-	return [inColumn,columnLocation];
 
-}
+
 
 
 //for intersection, x goes side to side, y goes up, and z goes backward
