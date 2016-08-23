@@ -16,14 +16,12 @@ function placeMusic(){
 		song.leftEarth=false;
 		song.src=emoToSongSrc[emotion];
 		//NOT SURE WHY THIS TRANSLATION IS NECESSARY, MAKE CONSISTENT
-		// song.locationOnTerrain={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: -zZones[emotionToPathNum[emotion]]}
 		var location={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:-60}
 		song.entryMesh=createEntryBall(emotion,location);
-		console.log(song.entryMesh);
-		// console.log(song.emotion,song.locationOnTerrain)
-
 		song.associatedText=worldData.intenseEntries[emotion].body;
 		songs.push(song);
+		var disk=placeDisk(location.x,location.z,100,'wordBall')
+		disk.associatedBall=song.entryMesh;
 		//REMOVE AND REMOVE DICT ABOVE!!
 		// var geometry = new THREE.SphereGeometry( 50, 32, 32 );
 		// var material = new THREE.MeshBasicMaterial( {color: emotionsToColors[emotion]} );
@@ -50,7 +48,7 @@ function changeAudioVolume(localCoords,onPlane){
 	    if(onPlane){
 	    	worldCoords.y=planeHeight;
 	    }
-	    
+
 	    dy = worldCoords.y-(song.entryMesh.position.y);
 
 	    distance=Math.sqrt( dx * dx + dy * dy + dz * dz );
@@ -64,10 +62,10 @@ function changeAudioVolume(localCoords,onPlane){
 	    	console.log('position of mesh',song.entryMesh.position);
 	    	console.log(distanceFlat);
 	    }
-	    if(distanceFlat<100&&!onPlane){
-	    	console.log('FOUND IT');
-	    	song.entryMesh.rising=true;
-	    }
+	    // if(distanceFlat<100&&!onPlane){
+	    // 	console.log('FOUND IT');
+	    // 	song.entryMesh.rising=true;
+	    // }
 	    if(!song.entryMesh.rising&&!onPlane){
 	    	distance=distanceFlat;
 	    }

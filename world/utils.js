@@ -1,6 +1,6 @@
 var disks=[];
-function placeDisk(x,z,type){
-  var geometry = new THREE.CylinderGeometry( 5, 5, 0, 32 );
+function placeDisk(x,z,radius,type){
+  var geometry = new THREE.CylinderGeometry( radius, radius, 0, 32 );
   var material = new THREE.MeshBasicMaterial( {color: 'red'} );
   var cylinder = new THREE.Mesh( geometry, material );
   cylinder.position.x = x;
@@ -10,4 +10,5 @@ function placeDisk(x,z,type){
   cylinder.diskType=type;
   scene.add( cylinder );
   disks.push(cylinder);
+  return cylinder;
 }

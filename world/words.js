@@ -124,6 +124,9 @@ function createEntryBallMesh(emotion,location){
 	mesh.position.x=location.x;
 	mesh.position.y=location.y;
 	mesh.position.z=location.z;
+	mesh.beginRising=function(){
+		mesh.rising=true;
+	}
 	mesh.rising=false;
 	scene.add(mesh);
 	entryMeshes.push(mesh);
@@ -160,10 +163,13 @@ function animateEntries(){
 	var entry;
 	for(var i=0; i<entryMeshes.length; i++){
 		entry=entryMeshes[i];
+		// console.log('here');
 		if(entry.rising){
+			console.log('its rising')
 			entry.material.opacity=1;
 		}
 		if(entry.rising&&entry.position.y<(planeHeight+10)){
+			console.log('it should be moving up')
 			entry.position.y+=.3;
 		}
 		entry.rotation.z+=.001;

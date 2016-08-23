@@ -1,11 +1,12 @@
 function createColumn(x, y, z) {
-  var geometry = new THREE.CylinderGeometry( 5, 5, 4000, 32 );
+  var columnRadius=5;
+  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32 );
   var material = new THREE.MeshBasicMaterial( {color: 0x7bbdec, wireframe: true} );
   var cylinder = new THREE.Mesh( geometry, material );
   cylinder.position.x = x;
   cylinder.position.y = y;
   cylinder.position.z = z;
-  placeDisk(x,z,'column');
+  placeDisk(x,z,columnRadius,'column');
   scene.add( cylinder );
 }
 
