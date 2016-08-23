@@ -13,7 +13,7 @@ function updateDate(worldCoords){
 		outsideTime();
 		return;	
 	}
-	if(newEntry!==currEntry){
+	if(newEntry!==currEntry||newPath!=currPath){
 		var emoScore=worldData.originalEmoScores[locationInfo.path][locationInfo.entry];
 		if(!worldData.dates[newEntry]){
 			outsideTime();
@@ -36,13 +36,15 @@ function updateDate(worldCoords){
 
 //REFACTOR - bundle together!!
 function updateKey(playerMovements){
-		console.log(playerMovements);
-	console.log('updating key')
 	if(playerMovements.onPlane||playerMovements.moveUp||playerMovements.moveDown){
 		outsideTime();
 	}
 	else if (playerMovements.isOnObject){
 		updateDate(controls.getObject().position);
+		console.log('updating');
+	}
+	else{
+		console.log('not updating')
 	}
 
 }
