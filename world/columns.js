@@ -1,6 +1,6 @@
 function createColumn(x, y, z) {
   var columnRadius=5;
-  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32 );
+  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*3 );
   var material = new THREE.MeshBasicMaterial( {color: new THREE.Color('gray')} );
   var cylinder = new THREE.Mesh( geometry, material );
   scene.add( cylinder );
