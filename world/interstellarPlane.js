@@ -12,28 +12,11 @@ function placePlane(){
 	scene.add( plane );
 }
 
-// function glimmerPlane(){
-// 	glimmerPlaneHelper(100);
-
-// }
-
-// function glimmerPlaneHelper(index){
-// 	if(index===-1){
-// 		return;
-// 	}
-// 	setTimeout(function(){
-// 		interstellarPlane.material.opacity=index;
-// 	},50);
-// 	if(index<100){
-// 		index++;
-// 	}
-// 	else{
-// 		index--;
-// 	}
-// }
-
 var planeGlimmered=false;
 function glimmerPlane(){
+	if(!playerMovements.onPlane||!playerMovements.column.inColumn){
+		return;
+	}
 	if(!planeGlimmered){
 		glimmerPlaneHelper(0,50,false);
 		planeGlimmered=true;
@@ -42,7 +25,6 @@ function glimmerPlane(){
 }
 
 function glimmerPlaneHelper(index,peak,hitPeak){
-    console.log(index);
 	if(index===-1){
 		return;
 	}
