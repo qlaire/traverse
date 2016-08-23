@@ -4,7 +4,7 @@ function createColumn(x, y, z) {
   var columnRadius=5;
   var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*4, 200 );
   // var geometry = new THREE.SphereGeometry(100, 32, 16);
-  var material = new THREE.MeshBasicMaterial( {color: new THREE.Color('gray'), transparent: true, opacity: 0.5 } );
+  var material = new THREE.MeshBasicMaterial( {color: new THREE.Color(0x80b5ec), transparent: true, opacity: 0.3 } );
   var cylinder = new THREE.Mesh( geometry, material );
   scene.add( cylinder );
   
@@ -81,7 +81,7 @@ function createColumn(x, y, z) {
 
   console.log(columnGlow.position);
   console.log(cylinder.position);
-  columnGlow.scale.multiplyScalar(2);
+  columnGlow.scale.multiplyScalar(1.5);
   scene.add(columnGlow);
 
   placeDisk(x,z,columnRadius,'column');
