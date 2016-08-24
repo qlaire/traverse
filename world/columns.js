@@ -1,13 +1,93 @@
+var columnGlow;
+
 function createColumn(x, y, z) {
   var columnRadius=5;
-  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32 );
-  var material = new THREE.MeshBasicMaterial( {color: 0x7bbdec, wireframe: true} );
+  var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*4, 200 );
+  var material = new THREE.MeshBasicMaterial( {color: new THREE.Color(0x80b5ec), transparent: true, opacity: 0.3 } );
   var cylinder = new THREE.Mesh( geometry, material );
+  scene.add( cylinder );
+  
   cylinder.position.x = x;
   cylinder.position.y = y;
   cylinder.position.z = z;
+
+  //shader
+  var glowShader = {
+    vertex:
+    `
+    uniform vec3 viewVector;
+    uniform float c;
+    uniform float p;
+    varying float intensity;
+    uniform float time;
+    void main() 
+    {
+      float tick = time / 200.0;
+      vec3 vNormal = normalize( normalMatrix * normal );
+      vec3 vNormel = normalize( normalMatrix * viewVector );
+      intensity = pow( c - dot(vNormal, vNormel), p )
+          * (
+              sin(32.0 * uv.x + tick) +
+              cos(-32.0 * uv.y + tick)
+            );
+      vec3 rippled = position + vNormal
+          * (
+              sin(8.0 + uv.x + tick) +
+              cos(8.0 * uv.y + tick)
+            );
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( rippled, 1.0 );
+    }
+  
+    `,
+    fragment:
+    `
+    uniform vec3 glowColor;
+    varying float intensity;
+    void main() 
+    {
+      vec3 glow = glowColor * intensity;
+        gl_FragColor = vec4( glow, 1.0 );
+    }
+    `
+  };
+
+  // create custom material from the shader code above
+	var customMaterial = new THREE.ShaderMaterial( 
+	{
+	    uniforms: 
+		{ 
+			"c":   { type: "f", value: 0.2 },
+			"p":   { type: "f", value: 0.5 },
+      "time": {type: "f", value: 0},
+			glowColor: { type: "c", value: new THREE.Color(0x80b5ec) },
+			viewVector: { type: "v3", value: camera.position }
+		},
+		vertexShader:   glowShader.vertex,
+		fragmentShader: glowShader.fragment,
+		side: THREE.DoubleSide,
+		blending: THREE.AdditiveBlending,
+		transparent: true
+	}   );
+
+  columnGlow = new THREE.Mesh(geometry.clone(), customMaterial);
+  columnGlow.position = cylinder.position;
+  columnGlow.position.x=cylinder.position.x;
+  columnGlow.position.y=cylinder.position.y;
+  columnGlow.position.z=cylinder.position.z;
+
+  console.log(columnGlow.position);
+  console.log(cylinder.position);
+  columnGlow.scale.multiplyScalar(1.5);
+  scene.add(columnGlow);
+
   placeDisk(x,z,columnRadius,'column');
-  scene.add( cylinder );
+}
+
+function columnUpdate(ts)
+{
+	columnGlow.material.uniforms.viewVector.value = 
+		new THREE.Vector3().subVectors( camera.position, columnGlow.position );
+  columnGlow.material.uniforms.time.value = ts;
 }
 
 function placeColumns() {
