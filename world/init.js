@@ -15,8 +15,8 @@ function init() {
     scene.add(terrain)
     mainLights();
     pointLights();
-    placeWords();
     placeColumns();
+    placeWords();
     placePlane();
     addSky();
     placeMusic();
