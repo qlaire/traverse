@@ -1,10 +1,20 @@
 section#entry {
+  width:1000px;
     h2 {
         margin-top: 75px;
         text-align: center;
         font: 34px "Dosis", sans-serif;
         color: black;
     }
+}
+
+.warning {
+  color:red;
+}
+
+.paper-size {
+  margin: 0 auto;
+  // width:800px;
 }
 
 body.entry-page {
@@ -25,7 +35,8 @@ a:hover {
     color: black;
     min-height: 300px;
     height: auto;
-    // width: 500px;
+    // width: 100%;
+    padding: 20px;
     box-shadow: 3px 3px 3px grey;
     &:focus {
         outline: none;

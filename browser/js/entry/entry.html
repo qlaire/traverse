@@ -1,23 +1,23 @@
 <navbar></navbar>
 <section id="entry">
-    <div class="container journal-entry">
+    <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-center">JOURNAL</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-11 col-md-offset-0">
                 <form name="newEntry" ng-submit="postEntry()" novalidate>
                   <div class="form-group">
                     <label for="title">Title:</label>
                     <input class="form-control" ng-model="title" id="title" type="text">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group paper-size">
                     <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
                     </div>
                   </div>
-                    <div>
+                    <div class="warning"><br>
                         <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
                         <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
                     </div>

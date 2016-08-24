@@ -70,8 +70,25 @@
     min-height: 500px;
   }
   .bgimg-3 {
+    padding-bottom:370px;
     background-image: url("/images/graphs.jpg");
-    min-height: 600px;
+    min-height: 500px;
+    background-color:black;
+    background-position:center bottom;
+    background-repeat:no-repeat;
+  }
+  .bgimg-4 {
+    padding-bottom:370px;
+    background-image: url("/images/graph2.jpg");
+    min-height: 500px;
+    background-color:black;
+    background-position:center bottom;
+    background-repeat:no-repeat;
+  }
+  .bgimg-5 {
+    padding-bottom:370px;
+    background-image: url("/images/graph3.jpg");
+    min-height: 500px;
     background-color:black;
     background-position:center bottom;
     background-repeat:no-repeat;
@@ -115,7 +132,7 @@
     margin: 0 auto;
     text-align: center;
     letter-spacing: 5px;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font: 20px "Dosis", sans-serif;
     color: #faf3dd;
   }
