@@ -75,6 +75,7 @@ function createColumn(x, y, z) {
   scene.add(columnGlow);
 
   placeDisk(x,z,columnRadius,'column');
+  return cylinder;
 }
 
 function columnUpdate(ts)
@@ -86,14 +87,18 @@ function columnUpdate(ts)
 
 function placeColumns() {
   let numColumns = Math.ceil(Object.keys(xZones).length / 60);
+  numColumns=1;
   let zCoord, xCoord;
   let yCoord = 0;
+  var cylinder;
   for (var i = 0; i < numColumns; i++) {
     zCoord = zZones[999]-Math.random()*(zZones[999]-zZones[2]);
     var bound=Math.floor((Object.keys(xZones).length-2)/2)
     xCoord = xZones[0] + Math.random() * (xZones[bound] - xZones[0]);
-    createColumn(xCoord, yCoord, zCoord);
+    cylinder=createColumn(xCoord, yCoord, zCoord);
   }
+  return cylinder.position;
+
 }
 
 function checkIfInColumn(intersections){

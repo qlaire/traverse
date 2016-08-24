@@ -15,8 +15,12 @@ function init() {
     scene.add(terrain)
     mainLights();
     pointLights();
-    placeColumns();
-    placeWords();
+    var columnPos=placeColumns();
+    console.log('columnPos',columnPos);
+    placeWords(columnPos);
+
+    // placeColumns();
+    // placeWords();
     placePlane();
     addSky();
     placeMusic();

@@ -1,11 +1,12 @@
 var wordMeshes=[];
 
-function placeWords(){
+function placeWords(columnPos){
 	var word;
 	var wordsInChunk;
 	var xBound1,xBound2, yBound1, yBound2;
 	var xCoord, yCoord, zCoord;
 	var words=worldData.keywords;
+	var mesh;
 	for(var i=0;i<words.length; i++){
 		wordsInChunk=Object.keys(words[i]);
 		for(var j=0; j<wordsInChunk.length; j++){
@@ -13,7 +14,9 @@ function placeWords(){
 			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
 			zCoord = zZones[999]-Math.random()*(zZones[999]-zZones[2]);
 			yCoord = 50 + Math.random() * 600;
-			wordMeshes.push(placeAWord(word,xCoord,yCoord,zCoord,words[i][word]));
+			console.log('columnPos',columnPos)
+			mesh=placeAWord(word,xCoord,yCoord,zCoord,words[i][word],columnPos);
+			if(mesh) wordMeshes.push(mesh);
 		}
 	}
 
@@ -28,7 +31,18 @@ function calculateFontSize(word){
 	}
 
 }
-function placeAWord(word, x, y, z,score){
+
+function getDistance(wordPos,columnPos){
+	    dx = wordPos.x-(columnPos.x);
+	    dz = wordPos.z-(columnPos.z);	
+	    return Math.sqrt( dx * dx + dz * dz );
+}
+function placeAWord(word, x, y, z,score, columnPos){
+	console.log('in placeAWord',columnPos)
+	var distance=getDistance({x:x,y:y,z:z},columnPos);
+	if(distance<256){
+		return;
+	}
 	// create a canvas element
 	var canvas1 = document.createElement('canvas');
 	canvas1.width=256;
