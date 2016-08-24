@@ -6,10 +6,7 @@ function createColumn(x, y, z) {
   var material = new THREE.MeshBasicMaterial( {color: new THREE.Color(0x80b5ec), transparent: true, opacity: 0.3 } );
   var cylinder = new THREE.Mesh( geometry, material );
   scene.add( cylinder );
-  
-  cylinder.position.x = x;
-  cylinder.position.y = y;
-  cylinder.position.z = z;
+  cylinder.position.set(x, y, z);
 
   //shader
   var glowShader = {
@@ -70,10 +67,7 @@ function createColumn(x, y, z) {
 	}   );
 
   columnGlow = new THREE.Mesh(geometry.clone(), customMaterial);
-  columnGlow.position = cylinder.position;
-  columnGlow.position.x=cylinder.position.x;
-  columnGlow.position.y=cylinder.position.y;
-  columnGlow.position.z=cylinder.position.z;
+  columnGlow.position.set(x, y, z);
 
   console.log(columnGlow.position);
   console.log(cylinder.position);
