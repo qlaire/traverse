@@ -3,7 +3,6 @@ var columnGlow;
 function createColumn(x, y, z) {
   var columnRadius=5;
   var geometry = new THREE.CylinderGeometry(columnRadius,columnRadius, 4000, 32*4, 200 );
-  // var geometry = new THREE.SphereGeometry(100, 32, 16);
   var material = new THREE.MeshBasicMaterial( {color: new THREE.Color(0x80b5ec), transparent: true, opacity: 0.3 } );
   var cylinder = new THREE.Mesh( geometry, material );
   scene.add( cylinder );
@@ -52,8 +51,7 @@ function createColumn(x, y, z) {
     `
   };
 
-  // create custom material from the shader code in world.html
-	//   that is within specially labeled script tags
+  // create custom material from the shader code above
 	var customMaterial = new THREE.ShaderMaterial( 
 	{
 	    uniforms: 
@@ -70,8 +68,6 @@ function createColumn(x, y, z) {
 		blending: THREE.AdditiveBlending,
 		transparent: true
 	}   );
-
-  console.log('camera position', camera.position);
 
   columnGlow = new THREE.Mesh(geometry.clone(), customMaterial);
   columnGlow.position = cylinder.position;
