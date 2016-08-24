@@ -1,3 +1,44 @@
+section#singleEntry {
+    padding-top:25px;
+    text-align:center;
+    margin:0 auto;
+    text-transform:none;
+    text-align:center;
+
+    .card {
+        padding-top:30px;
+    }
+
+    .card-title{
+        color:#465a86;
+        text-transform: uppercase;
+    }
+
+    .card-content {
+        font-size:19px;
+        line-height:1.8;
+        color:black;
+        background-color:white;
+        margin: -30px 15px -20px 15px;
+    }
+    p {
+        font-size:19px;
+        line-height:1.8;
+    }
+    a{
+        font-size:16px;
+        color:#8493b5;
+    }
+    a:hover {
+        color:#9fafd5;
+        text-decoration:none;
+    }
+}
+
+    strong {
+        font-weight:bold;
+    }
+
 body.singleEntry-page {
     font-family: 'Dosis', sans-serif;
     background: #faf3dd;
@@ -5,35 +46,4 @@ body.singleEntry-page {
     min-height:1000px;
     background-position: right top;
     background-repeat:repeat-y;
-}
-
-section#singleEntry {
-    padding-top:25px;
-    text-align:center;
-    margin:0 auto;
-    text-transform:none;
-    text-align:center;
-    a{
-        font-size:22px;
-        color:#8493b5;
-    }
-    a:hover {
-        color:#9fafd5;
-        text-decoration:none;
-    }
-    h4{
-        color:#465a86;
-        text-transform: uppercase;
-    }
-    p {
-        font-size:19px;
-        line-height:1.8;
-    }
-    a:hover {
-        text-decoration:none;
-    }
-}
-
-strong {
-    font-weight:bold;
 }

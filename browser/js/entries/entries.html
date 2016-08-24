@@ -1,15 +1,24 @@
 <navbar></navbar>
 <section id="entries">
     <div class="background">
-    <h3>Your Journal</h3>
-    <br>
-        <div class="allEntries" ng-repeat="entry in entries">
-            <h4>{{entry.title}}</h4>
-            <p>{{entry.date}}</p>
-            <p ng-bind-html="entry.snippet"></p>
-            <a ui-sref="singleEntry({entryId: entry.id})"><span class="glyphicon glyphicon-arrow-right"></span><br><b>read more</b></a>
-            <hr width="40%";>
-            <br><br>
+        <div class="container">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-l-9 col-xl-9">
+                <h4><span style="background-color:#111;color:white;opacity:0.75">&nbsp;YOUR JOURNAL&nbsp;</span></h4>
+                <br>
+                <div ng-repeat="entry in entries">
+                    <div class="card">
+                        <span class="card-title">{{entry.title}}</span>
+                        <p>{{entry.date}}</p>
+                        <div class="card-content" ng-bind-html="entry.snippet"></div>
+                        <a ui-sref="singleEntry({entryId: entry.id})"><span class="glyphicon glyphicon-arrow-right"></span><br><b>read more</b></a>
+                        <br>
+                        <br>
+                    </div>
+                    <br>
+                    <hr width="50%" ;>
+                    <br>
+                </div>
+            </div>
         </div>
     </div>
 </section>
