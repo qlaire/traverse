@@ -12,11 +12,6 @@ section#entry {
   color:red;
 }
 
-.paper-size {
-  margin: 0 auto;
-  // width:800px;
-}
-
 body.entry-page {
     background: url("/images/background4.jpg");
     color: black;
@@ -35,7 +30,6 @@ a:hover {
     color: black;
     min-height: 300px;
     height: auto;
-    // width: 100%;
     padding: 20px;
     box-shadow: 3px 3px 3px grey;
     &:focus {
