@@ -18,20 +18,19 @@ module.exports = db.define('entry', {
     defaultValue: Sequelize.NOW
   },
   joy: {
-    type: Sequelize.ARRAY(Sequelize.FLOAT),
-    allowNull: false,
+    type: Sequelize.ARRAY(Sequelize.FLOAT)
   },
   anger: {
-    type: Sequelize.ARRAY(Sequelize.FLOAT),
-    allowNull: false,
+    type: Sequelize.ARRAY(Sequelize.FLOAT)
   },
   fear: {
-    type: Sequelize.ARRAY(Sequelize.FLOAT),
-    allowNull: false,
+    type: Sequelize.ARRAY(Sequelize.FLOAT)
   },
   keywords: {
-    type: Sequelize.JSON,
-    allowNull: false
+    type: Sequelize.JSON
+  },
+  analyzed: {
+    type: Sequelize.BOOLEAN
   }
 }, {
   instanceMethods: {},
