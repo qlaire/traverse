@@ -18,6 +18,9 @@ function init() {
     var columnPos=placeColumns();
     console.log('columnPos',columnPos);
     placeWords(columnPos);
+
+    // placeColumns();
+    // placeWords();
     placePlane();
     addSky();
     placeMusic();
