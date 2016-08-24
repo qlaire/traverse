@@ -1,20 +1,30 @@
 <navbar></navbar>
 <section id="entry">
-  <div class="container">
-    <div class="col-md-12">
-      <h2>JOURNAL</h2>
-      <form name="newEntry" ng-submit="postEntry()" novalidate>
-        <label for="title">Title:</label>
-        <input ng-model="title" id="title" type="text">
-        <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
+    <div class="container journal-entry">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="text-center">JOURNAL</h2>
+            </div>
         </div>
-        <div>
-          <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
-          <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
+        <div class="row">
+            <div class="col-xs-12">
+                <form name="newEntry" ng-submit="postEntry()" novalidate>
+                  <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input class="form-control" ng-model="title" id="title" type="text">
+                  </div>
+                  <div class="form-group">
+                    <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
+                    </div>
+                  </div>
+                    <div>
+                        <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
+                        <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
+                    </div>
+                    <button id="post" ng-disabled="!validate()" class="btn btn-default">Post</button>
+                    <br>
+                </form>
+            </div>
         </div>
-        <button id="post" ng-disabled="!validate()" class="btn btn-default">Post</button>
-        <br>
-      </form>
     </div>
-  </div>
 </section>
