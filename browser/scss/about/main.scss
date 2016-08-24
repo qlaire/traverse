@@ -71,7 +71,6 @@
      text-transform:none;   
     }
   }
-
   .caption {
     // background-color: #111;
     font-family: 'Dosis', sans-serif;
@@ -80,7 +79,7 @@
     font-size: 40px;
     left: 0;
     position: absolute;
-    top: 40%;
+    top: 30%;
     width: 100%;
     text-align: center;
     letter-spacing: 10px;
@@ -101,6 +100,13 @@
     font: 14px "Dosis", sans-serif;
     color: #faf3dd;
   }
+  a{
+    color:black;
+  }
+  a:hover{
+    color:#c8bfa6;
+    text-decoration:none;
+  }
   footer {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -114,6 +120,10 @@
     a:hover{
       color:#b9f3e7;
     }
+  }
+
+  .active {
+    color: #b9f3e7;
   }
 }
 
