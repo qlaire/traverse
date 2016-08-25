@@ -33,6 +33,15 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
     //initialize controls
     initPointerLockControls();
+    //loaded
+    toggleLoadMessage();
+
+}
+
+function toggleLoadMessage(){
+    console.log(document.getElementById('instructions').className);
+    document.getElementById('instructions').className='displayed';
+    document.getElementById('loading').className='hidden';
 
 }
 
