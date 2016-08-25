@@ -43,15 +43,11 @@
     max-height:200px;
     color:#777;
     background-color:black;
-    text-align:center;
-    text-align:justify;
-    font-family:'Dosis', sans-serif;
   }
   .lilac-bg {
     min-height:250px;
     color:#777;
     background-color:#8b9bbd;
-    padding-left:50px;
     a {
       color:black;
     }
@@ -61,27 +57,17 @@
     }
   }
   .caption {
-    font-family:'Dosis', sans-serif;
-    color:#111;
     padding:18px;
-    font-size:40px;
-    left:0;
     position:absolute;
-    top:30%;
+    top:40%;
     width:100%;
     text-align:center;
     letter-spacing:10px;
-  }
-  .specialnav {
-    background-color:#8593b6;
-    letter-spacing:3px;
-    text-transform:uppercase;
-    font:14px "Dosis", sans-serif;
-    color:#faf3dd;
+    font-size:30px;
+    font-family:'Dosis', sans-serif;
   }
   .border {
     background-color:transparent;
-    font-size:30px;
     color:#32353F;
   }
   .span {
