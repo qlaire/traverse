@@ -63,7 +63,7 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
     return savedEntry.setAuthor(req.user.id);
   })
   .then(entry => {
-    res.status(201).send(entry);
+    res.status(206).send(entry);
   })
   .catch(next);
 })

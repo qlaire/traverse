@@ -3,9 +3,6 @@ app.config(function($stateProvider) {
         url: '/entry/:entryId',
         templateUrl: 'js/singleEntry/singleEntry.html',
         controller: 'singleEntryController',
-        data: {
-            bodyClass: 'bg4'
-        },
         resolve: {
           entry: function(EntriesFactory, $stateParams){
             return EntriesFactory.getEntry($stateParams.entryId);

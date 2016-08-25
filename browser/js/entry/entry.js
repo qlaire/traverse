@@ -36,7 +36,7 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
 
   $scope.postEntry = function () {
     EntryFactory.postEntry($scope.tinymceModel, $scope.title)
-    .then(data => {
+    .then(() => {
       $state.go('entries');
     })
     .catch($log.error);
@@ -55,9 +55,20 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
 
 app.factory('EntryFactory', function ($http) {
   let entryObj = {};
+  entryObj.watsonAnalyzed = true;
   entryObj.postEntry = function (body, title) {
     return $http.post('/api/entries/', {entry: body, title: title})
-    .then(res => res.data);
-  }
+    .then(res => {
+        if (res.status === 201) {
+            entryObj.watsonAnalyzed = true;
+        } else if (res.status === 206) {
+            entryObj.watsonAnalyzed = false;
+        }
+        return res.data;
+    });
+  };
+  entryObj.tryAnalysis = function (id, body) {
+        return $http.put('/api/entries/:id', {body: body})    
+    }
   return entryObj;
 });

@@ -11,8 +11,10 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('EntriesCtrl', function($scope, allEntries, $state) {
+app.controller('EntriesCtrl', function($scope, allEntries, $state, EntryFactory) {
   $scope.entries = allEntries;
+
+  $scope.analyzed = EntryFactory.watsonAnalyzed;
 
   $scope.goEntry = function (entry){
         $state.go('singleEntry', {entryId: entry.id});
