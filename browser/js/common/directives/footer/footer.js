@@ -1,11 +1,14 @@
-app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('footer', function($rootScope, AuthService, AUTH_EVENTS, $state) {
     return {
         restrict: 'E',
         scope: {},
-        templateUrl: 'js/common/directives/navbar/navbar.html',
+        templateUrl: 'js/common/directives/footer/footer.html',
         link: function(scope) {
 
             scope.loggedOutitems = [{
+                label: 'ABOUT',
+                state: 'about'
+            }, {
                 label: 'LOGIN',
                 state: 'login'
             }, {
@@ -16,7 +19,7 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
             scope.loggedInItems = [{
                 label: 'ABOUT',
                 state: 'about'
-            },{
+            }, {
                 label: 'NEW ENTRY',
                 state: 'entry'
             }, {
@@ -25,7 +28,7 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
             }, {
                 label: 'YOUR WORLD',
                 state: 'world'
-            },];
+            }];
 
             scope.user = null;
 

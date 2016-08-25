@@ -17,9 +17,7 @@
   }
   .bgimg-1 {
     min-height:599px;
-    // background-position:300px 100px;
     background-position:center top;
-    // background-position:340px 51px;
     background-color:black;
     background-image: url("/images/main_logo.jpg");
     background-repeat:no-repeat;
@@ -87,19 +85,5 @@
     text-transform: uppercase;
     font: 14px "Dosis", sans-serif;
     color: #faf3dd;
-  }
-  footer {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    background-color: black;
-    color: #b9f3e7;
-    font-family: 'Dosis', sans-serif;
-    a {
-      color:white;
-      text-decoration: none;
-    }
-    a:hover{
-      color:#b9f3e7;
-    }
   }
 }
