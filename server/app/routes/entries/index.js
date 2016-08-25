@@ -41,7 +41,8 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
       joy: joyArr,
       anger: angerArr,
       fear: fearArr,
-      keywords: keywordResults
+      keywords: keywordResults,
+      analyzed: true
     });
   })
   .then(savedEntry => {
@@ -49,7 +50,22 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   }).then(function(entry){
     res.status(201).send(entry);
   })
-  .then(null, next);
+  .catch(err => {
+    console.error("wow, looks like an error", err);
+    return Entry.create({
+      title: req.body.title,
+      body: req.body.entry,
+      analyzed: false
+    });
+  })
+  .then(savedEntry => {
+    console.log('here is the entry', savedEntry);
+    return savedEntry.setAuthor(req.user.id);
+  })
+  .then(entry => {
+    res.status(201).send(entry);
+  })
+  .catch(next);
 })
 
 router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
