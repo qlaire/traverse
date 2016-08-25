@@ -23,89 +23,83 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
                 order: [['date', 'ASC']]
               })
   .then(function(entries){
+    //initialize world data
     var worldData={};
-    worldData.keywords=[];
-    var angerArray=[];
-    var joyArray=[];
-    var fearArray=[];
-    //consolidate all this into objects!!!
-    var sadEntryId, joyEntryId, angryEntryId, fearEntryId;
-    var angerAvg,fearAvg,joyAvg;
-    var maxJoy =  -1;
-    var minJoy = 2;
-    var maxAnger = -1;
-    var maxFear=-1;
-    var joyChunkIndex=-1;
-    var fearChunkIndex=-1;
-    var sadnessChunkIndex=-1;
-    var angerChunkIndex=-1;
     worldData.dates=[];
-    // var currChunkIndex;
-    for(var i=0; i<entries.length; i++){
-      for(var j=0; j<entries[i].joy.length; j++){
-        worldData.dates.push(entries[i].date);
-      }
-      // currChunkIndex=getChunkIndex(entries[i].anger);
-
-      //check if <emotion>est entry
-      angerAvg=avg(entries[i].anger);
-      if(avg(entries[i].anger)>maxAnger){
-        maxAnger=angerAvg;
-        angryEntryId=entries[i].id;
-        angerChunkIndex=findChunkIndex(angerArray,entries[i].anger);
-      }
-      fearAvg=avg(entries[i].fear);
-      if(avg(entries[i].fear)>maxFear){
-        maxFear=fearAvg;
-        fearEntryId=entries[i].id;
-        fearChunkIndex=findChunkIndex(fearArray,entries[i].fear);
-      }
-      joyAvg=avg(entries[i].joy);
-      if(avg(entries[i].joy)>maxJoy){
-        maxJoy=joyAvg;
-        joyEntryId=entries[i].id;
-        joyChunkIndex=findChunkIndex(joyArray,entries[i].joy);
-      }
-      if(avg(entries[i].joy)<minJoy){
-        minJoy=joyAvg;
-        sadEntryId=entries[i].id;
-        sadnessChunkIndex=findChunkIndex(joyArray,entries[i].joy,true);
-      }
-      angerArray=angerArray.concat(entries[i].anger);
-      joyArray=joyArray.concat(entries[i].joy);
-      fearArray=fearArray.concat(entries[i].fear);
-      console.log('keywords for entry '+i+': ',entries[i].keywords)
-      worldData.keywords=worldData.keywords.concat(entries[i].keywords);
-
-      console.log(angerAvg,fearAvg,joyAvg)
-      console.log(sadEntryId,joyEntryId,angryEntryId,fearEntryId);
-    }
-    var sadEntryPromise=Entry.findById(sadEntryId);
-    var joyEntryPromise=Entry.findById(joyEntryId);
-    var angryEntryPromise=Entry.findById(angryEntryId);
-    var fearEntryPromise=Entry.findById(fearEntryId);
-    Promise.all([sadEntryPromise,joyEntryPromise,angryEntryPromise,fearEntryPromise])
+    worldData.keywords=[];
+    //initialize  helper objects
+    var emotionArrays={anger: [], fear: [], joy: []};
+    var intenseEntryIds={sadness:null,joy:null,anger:null,fear:null};
+    var intensityExtremes={joy:-1,sadness:2,anger:-1,fear:-1};
+    var emotionChunkIndices={joy:-1,fear:-1,sadness:-1,anger:-1}
+    gatherEntryData(emotionArrays,intenseEntryIds,entries,emotionChunkIndices,intensityExtremes,worldData);
+    var promises=makePromises(intenseEntryIds);
+    Promise.all(promises)
     .then(function(resultArr){
-      worldData.emoScores=[angerArray,joyArray,fearArray];
-      worldData.intenseEntries={};
-
-      worldData.intenseEntries.sadness={body: striptags(resultArr[0].body), chunkIndex: sadnessChunkIndex}
-      worldData.intenseEntries.joy={body:  striptags(resultArr[1].body), chunkIndex: joyChunkIndex}
-      worldData.intenseEntries.anger={body:  striptags(resultArr[2].body), chunkIndex: angerChunkIndex}
-      worldData.intenseEntries.fear={body:  striptags(resultArr[3].body), chunkIndex: fearChunkIndex}
-
-      // worldData.intenseEntries.sadness={body: resultArr[0].body, chunkIndex: sadnessChunkIndex}
-      // worldData.intenseEntries.joy={body: resultArr[1].body, chunkIndex: joyChunkIndex}
-      // worldData.intenseEntries.anger={body: resultArr[2].body, chunkIndex: angerChunkIndex}
-      // worldData.intenseEntries.fear={body: resultArr[3].body, chunkIndex: fearChunkIndex}
-      console.log(worldData);
+      resolveWorldData(worldData,resultArr,emotionArrays,emotionChunkIndices);
       res.status(200).send(worldData);     
     })
-
 
   }).catch(next);
 })
 
+function resolveWorldData(worldData,resultArr,emotionArrays,emotionChunkIndices){
+    worldData.emoScores=[emotionArrays.anger,emotionArrays.joy,emotionArrays.fear];
+    worldData.intenseEntries={};
+    worldData.intenseEntries.joy={body:  striptags(resultArr[1].body), chunkIndex: emotionChunkIndices.joy};
+    worldData.intenseEntries.sadness={body: striptags(resultArr[0].body), chunkIndex: emotionChunkIndices.sadness};
+    worldData.intenseEntries.anger={body:  striptags(resultArr[2].body), chunkIndex: emotionChunkIndices.anger};
+    worldData.intenseEntries.fear={body:  striptags(resultArr[3].body), chunkIndex: emotionChunkIndices.fear};
+}
+function makePromises(intenseEntryIds){
+    var emotions=Object.keys(intenseEntryIds);
+    var promises=[]
+    for(var i=0; i<emotions.length; i++){
+      var emotion=emotions[i];
+      promises.push(Entry.findById(intenseEntryIds[emotion]))
+    }
+    return promises;
+}
+function gatherEntryData(emotionArrays,intenseEntryIds,entries,emotionChunkIndices,intensityExtremes,worldData){
+    var minJoy=Infinity;
+    for(var i=0; i<entries.length; i++){
+      aggregateDates(entries,i,worldData);
+      minJoy=checkIfMostIntenseEntry(emotionArrays,intenseEntryIds,entries,i,emotionChunkIndices,intensityExtremes,minJoy);
+      buildEmotionArrays(emotionArrays,entries,i);
+      worldData.keywords=worldData.keywords.concat(entries[i].keywords);
+    }
+}
+function buildEmotionArrays(emotionArrays,entries,i){
+  for(var j=0; j<Object.keys(emotionArrays).length; j++){
+    var emotion=Object.keys(emotionArrays)[j];
+    emotionArrays[emotion]=emotionArrays[emotion].concat(entries[i][emotion]);
+  }
+}
+function aggregateDates(entries,i,worldData){
+    for(var j=0; j<entries[i].joy.length; j++){
+      worldData.dates.push(entries[i].date);
+    }  
+}
+function checkIfMostIntenseEntry(emotionArrays,intenseEntryIds,entries,i,emotionChunkIndices,intensityExtremes,minJoy){
+      //for convenience, returns minJoy, since that is not included in the intensityExtremes object like the others
+      var emotions=Object.keys(emotionArrays);
+      for(var j=0; j<emotions.length; j++){
+        var emotion=emotions[j];
+        var emotionAvg=avg(entries[i][emotion]);
+        if(emotionAvg>intensityExtremes[emotion]){
+          intensityExtremes[emotion]=emotionAvg;
+          intenseEntryIds[emotion]=entries[i].id;
+          emotionChunkIndices[emotion]=findChunkIndex(emotionArrays[emotion],entries[i][emotion])
+        }
+      }
+      var joyAvg=avg(entries[i].joy);
+      if(avg(entries[i].joy)<minJoy){
+        minJoy=joyAvg;
+        intenseEntryIds.sadness=entries[i].id;
+        emotionChunkIndices.sadness=findChunkIndex(emotionArrays.joy,entries[i].joy,true);
+      }
+      return minJoy;
+}
 function findChunkIndex(largeArr,smallArr,isNegative){
   if(isNegative){
     return largeArr.length+minIndex(smallArr);
@@ -184,8 +178,6 @@ router.put('/:id', function(req, res, next) {
 
 
 
-
-
 var ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
         next();
@@ -195,19 +187,3 @@ var ensureAuthenticated = function(req, res, next) {
     }
 };
 
-router.get('/secret-stash', ensureAuthenticated, function(req, res) {
-    var theStash = [
-      'http://ep.yimg.com/ay/candy-crate/bulk-candy-store-2.gif',
-      'http://www.dailybunny.com/.a/6a00d8341bfd0953ef0148c793026c970c-pi',
-      'http://images.boomsbeat.com/data/images/full/44019/puppy-wink_1-jpg.jpg',
-      'http://p-fst1.pixstatic.com/51071384dbd0cb50dc00616b._w.540_h.610_s.fit_.jpg',
-      'http://childcarecenter.us/static/images/providers/2/89732/logo-sunshine.png',
-      'http://www.allgraphics123.com/ag/01/10683/10683.jpg',
-      'http://img.pandawhale.com/post-23576-aflac-dancing-duck-pigeons-vic-RU0j.gif',
-      'http://www.eveningnews24.co.uk/polopoly_fs/1.1960527.1362056030!/image/1301571176.jpg_gen/derivatives/landscape_630/1301571176.jpg',
-      'http://media.giphy.com/media/vCKC987OpQAco/giphy.gif',
-      'https://my.vetmatrixbase.com/clients/12679/images/cats-animals-grass-kittens--800x960.jpg',
-      'http://www.dailymobile.net/wp-content/uploads/2014/10/lollipops.jpg'
-    ];
-    res.send(_.shuffle(theStash));
-});

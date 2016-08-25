@@ -27,7 +27,6 @@ var emotionToColor={
 function receiveMessage(event){
     worldData=event.data;
     saveEmoScores(worldData);
-    console.log(worldData);
     init();
 	animate();
 }

@@ -14,10 +14,7 @@ function makeTerrain(paths){
     var paddingSize=5;
     var scaleUp=4;
     var smoothingRadius=3;
-    //TODO: Make sure we can get this from outside;
     var paths=worldData.emoScores;
-       //anger, joy, fear
-    //higher number -> higher emotion
     var terrainData=generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius);
     //unpack
     var flattenedArr=terrainData.flattenedArr;
@@ -105,7 +102,6 @@ function buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geom
         toAdd=xZones[1]-xZones[0];
         xZones[999]=xZones[keys.length-2]+toAdd;
         xZones[-1] = xZones[0] - toAdd;
-        // console.log(zZones,xZones)
 }
 function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
     //numify

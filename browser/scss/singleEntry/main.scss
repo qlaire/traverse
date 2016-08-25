@@ -1,21 +1,49 @@
-body.singleEntry-page {
-  background-image: url('/images/background5.png');
-}
-
 section#singleEntry {
-    width: 100%;
-    color: black;
+    padding-top:25px;
+    text-align:center;
+    margin:0 auto;
     text-transform:none;
-    background-repeat:repeat-x;
-    background-color:#fbf5df;
-    // background-size:100% 100%;
-    background-position:0px 50px;
+    text-align:center;
+
+    .card {
+        padding-top:30px;
+    }
+
+    .card-title{
+        color:#465a86;
+        text-transform: uppercase;
+    }
+
+    .card-content {
+        font-size:19px;
+        line-height:1.8;
+        color:black;
+        background-color:white;
+        margin: -30px 15px -20px 15px;
+    }
+    p {
+        font-size:19px;
+        line-height:1.8;
+    }
+    a{
+        font-size:16px;
+        color:#8493b5;
+    }
     a:hover {
+        color:#9fafd5;
         text-decoration:none;
     }
-
 }
 
-strong {
-      font-weight:bold;
+    strong {
+        font-weight:bold;
     }
+
+body.singleEntry-page {
+    font-family: 'Dosis', sans-serif;
+    background: #faf3dd;
+    background-image: url('/images/background6.jpg');
+    min-height:1000px;
+    background-position: right top;
+    background-repeat:repeat-y;
+}

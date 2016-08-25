@@ -9,8 +9,17 @@
             <li><a ng-show="isLoggedIn()" ui-sref="entries">YOUR JOURNAL</a></li>
             <li><a href="/world" ng-show="isLoggedIn()">YOUR WORLD</a></li>
             <li><a ng-show="isLoggedIn()" ui-sref="pics">YOUR PICTURES</a></li>
+        <a ui-sref="home"><traverse-logo class="pull-left"></traverse-logo></a>
+         <ul id="nav-mobile" class="right hide-on-med-and-down" ng-show="!isLoggedIn()">
+            <li ng-repeat="item in loggedOutitems">
+                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
+            </li>
+        </ul>
+        <ul id="nav-mobile" class="right hide-on-med-and-down" ng-show="isLoggedIn()">
+            <li ng-repeat="item in loggedInItems">
+                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
+            </li>
             <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">LOGOUT</a></li>
-            <li><a ng-hide="isLoggedIn()" ui-sref="signup" style="float: right;">SIGNUP</a></li>
         </ul>
     </div>
 </nav>

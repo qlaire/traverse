@@ -1,12 +1,13 @@
 <navbar></navbar>
 <section id="singleEntry">
-  <div class="container">
-      <div class="col-md-12">
-          <div>
-                 <h4 class="center">{{entry.title}}</h4>
-                 <p>{{entry.date}}</p>
-                 <p ng-bind-html="entry.body"</p>
-                </div>
+    <div class="container">
+        <div class="col-xs-9">
+            <div class="card">
+                <span class="card-title">{{entry.title}}</span>
+                <p>{{entry.date}}</p><br>
+                <div class="card-content" ng-bind-html="entry.body"></div><br>
+                <a ui-sref="entries"><span class="glyphicon glyphicon-arrow-left"></span><br>back</a><br><br>
+            </div>
         </div>
-  </div>
+    </div>
 </section>
