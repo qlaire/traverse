@@ -38,6 +38,7 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
     return Entry.create({
       title: req.body.title,
       body: req.body.entry,
+      date: req.body.date,
       joy: joyArr,
       anger: angerArr,
       fear: fearArr,
