@@ -12,27 +12,11 @@ function createColumn(x, y, z) {
   var glowShader = {
     vertex:
     `
-    uniform vec3 viewVector;
-    uniform float c;
-    uniform float p;
-    varying float intensity;
-    uniform float time;
+    varying vec2 vUv;
     void main() 
     {
-      float tick = time / 200.0;
-      vec3 vNormal = normalize( normalMatrix * normal );
-      vec3 vNormel = normalize( normalMatrix * viewVector );
-      intensity = pow( c - dot(vNormal, vNormel), p )
-          * (
-              sin(32.0 * uv.x + tick) +
-              cos(-32.0 * uv.y + tick)
-            );
-      vec3 rippled = position + vNormal
-          * (
-              sin(8.0 + uv.x + tick) +
-              cos(8.0 * uv.y + tick)
-            );
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( rippled, 1.0 );
+      vec2 vUv=uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
     }
   
     `,
@@ -40,10 +24,17 @@ function createColumn(x, y, z) {
     `
     uniform vec3 glowColor;
     varying float intensity;
+    uniform float time;
+    varying vec2 vUv;
     void main() 
     {
+      float tick = time / 200.0;
+      float intensity = (
+              sin(32.0 * vUv.x + tick) +
+              cos(32.0 * vUv.y + tick)
+            );
       vec3 glow = glowColor * intensity;
-        gl_FragColor = vec4( glow, 1.0 );
+      gl_FragColor = vec4( glow, 1.0 );
     }
     `
   };
@@ -53,12 +44,9 @@ function createColumn(x, y, z) {
 	{
 	    uniforms: 
 		{ 
-			"c":   { type: "f", value: 0.2 },
-			"p":   { type: "f", value: 0.5 },
       "time": {type: "f", value: 0},
-			glowColor: { type: "c", value: new THREE.Color(0x80b5ec) },
-			viewVector: { type: "v3", value: camera.position }
-		},
+			glowColor: { type: "c", value: new THREE.Color(0x80b5ec) }
+    },
 		vertexShader:   glowShader.vertex,
 		fragmentShader: glowShader.fragment,
 		side: THREE.DoubleSide,
@@ -80,8 +68,8 @@ function createColumn(x, y, z) {
 
 function columnUpdate(ts)
 {
-	columnGlow.material.uniforms.viewVector.value = 
-		new THREE.Vector3().subVectors( camera.position, columnGlow.position );
+	// columnGlow.material.uniforms.viewVector.value = 
+	// 	new THREE.Vector3().subVectors( camera.position, columnGlow.position );
   columnGlow.material.uniforms.time.value = ts;
 }
 
