@@ -57,7 +57,7 @@ function placeAWord(word, x, y, z,score, columnPos){
 	var texture1 = new THREE.Texture(canvas1) 
 	texture1.needsUpdate = true;
       
-    var material1 = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide } );
+    var material1 = new THREE.MeshBasicMaterial( {map: texture1, side:THREE.DoubleSide, depthWrite:false} );
     material1.transparent = true;
 
     var mesh1 = new THREE.Mesh(
