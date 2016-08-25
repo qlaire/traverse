@@ -165,8 +165,14 @@ function initPointerLockControls(){
 				break;
 
       case 88: // x
-        renderer.render(scene, camera);
-        console.log(renderer.domElement.toDataURL());
+       renderer.render(scene, camera);
+
+
+
+       var evt = new CustomEvent('screenshot', {
+        detail: {imgUrl: renderer.domElement.toDataURL()}
+       })
+        window.dispatchEvent(evt);
       break;
 
 		}

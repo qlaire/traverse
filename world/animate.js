@@ -1,8 +1,8 @@
-function animate() {
+function animate(PicsFactory) {
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
     //animateOrbitControls();
-    animatePointerLockControls();
+    animatePointerLockControls(PicsFactory);
     animatePointLights();
     animateWords();
     //composer.render();

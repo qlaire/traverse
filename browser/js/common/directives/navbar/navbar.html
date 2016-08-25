@@ -8,6 +8,7 @@
             <li><a ng-show="isLoggedIn()" ui-sref="entry">NEW ENTRY</a></li>
             <li><a ng-show="isLoggedIn()" ui-sref="entries">YOUR JOURNAL</a></li>
             <li><a href="/world" ng-show="isLoggedIn()">YOUR WORLD</a></li>
+            <li><a ng-show="isLoggedIn()" ui-sref="pics">YOUR PICTURES</a></li>
             <li><a ng-show="isLoggedIn()" ng-click="logout()" style="float: right;">LOGOUT</a></li>
             <li><a ng-hide="isLoggedIn()" ui-sref="signup" style="float: right;">SIGNUP</a></li>
         </ul>
