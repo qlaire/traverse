@@ -15,7 +15,7 @@ function createColumn(x, y, z) {
     varying vec2 vUv;
     void main() 
     {
-      vec2 vUv=uv;
+      vUv=uv;
       gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
     }
   
@@ -31,7 +31,7 @@ function createColumn(x, y, z) {
       float tick = time / 200.0;
       float intensity = (
               sin(32.0 * vUv.x + tick) +
-              cos(32.0 * vUv.y + tick)
+              cos(-32.0 * vUv.y + tick)
             );
       vec3 glow = glowColor * intensity;
       gl_FragColor = vec4( glow, 1.0 );
