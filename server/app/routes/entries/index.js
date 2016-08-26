@@ -18,9 +18,19 @@ router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
 })
 
 router.get('/:id', authenticator.ensureAuthenticated, function(req, res, next){
-  Entry.findById(req.params.id)
+  Entry.findOne({
+    where: {
+      id: req.params.id,
+      authorId: req.user.id
+    }
+  })
   .then(function(entry){
-    res.status(200).send(entry);
+    if(!entry){
+      res.sendStatus(401);
+    }
+    else{
+      res.status(200).send(entry);
+    }
   }).catch(next);
 })
 
@@ -59,20 +69,33 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
   let angerArr;
   let fearArr;
 
-  analyzeEmotion(req.body.entry)
-    .spread((emoResults, keywordResults) => {
-      let resultArr = convertWatsonDataToArr(emoResults);
-      joyArr = resultArr[2];
-      angerArr = resultArr[0];
-      fearArr = resultArr[1];
-      return Entry.update({
-        body: req.body.entry || 'not really updated',
-        joy: joyArr,
-        anger: angerArr,
-        fear: fearArr,
-        keywords: keywordResults
-      }, {where: {id: req.params.id, authorId: req.user.id}})
-    }).then(function(result){
+  Entry.findOne({
+    where: {
+      id: req.params.id,
+      authorId: req.user.id
+    }
+  })
+  .then(function(entry){
+    if(!entry){
+      res.sendStatus(401);
+    }
+    return analyzeEmotion(req.body.entry)
+  })
+  .spread((emoResults, keywordResults) => {
+    let resultArr = convertWatsonDataToArr(emoResults);
+    joyArr = resultArr[2];
+    angerArr = resultArr[0];
+    fearArr = resultArr[1];
+    return Entry.update({
+      body: req.body.entry || 'not really updated',
+      title: req.body.title,
+      date: req.body.date,
+      joy: joyArr,
+      anger: angerArr,
+      fear: fearArr,
+      keywords: keywordResults
+    }, {where: {id: req.params.id, authorId: req.user.id}})
+  }).then(function(result){
     if(result[0] === 1){
       status = 200;
     }

@@ -6,7 +6,8 @@
                 <span class="card-title">{{entry.title}}</span>
                 <p>{{entry.date}}</p><br>
                 <div class="card-content" ng-bind-html="entry.body"></div><br>
-                <a ui-sref="entries"><span class="glyphicon glyphicon-arrow-left"></span><br>back</a><br><br>
+                <a ui-sref="entries"><span class="glyphicon glyphicon-arrow-left"></span>back</a>
+            <a ui-sref="editEntry({id:entry.id})">edit<span class="glyphicon glyphicon-pencil"></span></a><br><br><br><br>
             </div>
         </div>
     </div>

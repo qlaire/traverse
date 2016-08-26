@@ -1,4 +1,4 @@
-section#entry {
+section#editEntry {
   width:1000px;
     h2 {
         margin-top: 75px;
@@ -12,7 +12,7 @@ section#entry {
   color:red;
 }
 
-body.entry-page {
+body.editEntry-page {
     background: url("/images/background4.jpg");
     color: black;
     text-transform: none;
@@ -44,5 +44,7 @@ a:hover {
 }
 
 table {
-    width: 10px
-}
+        button {
+            padding: 0;
+        }
+    }
