@@ -1,5 +1,3 @@
-
-
 var xBound;
 var zBound;
 var paddingX;
@@ -10,13 +8,21 @@ var zZones,xZones;
 var terrainWidth;
 var terrainHeight;
 
-function makeTerrain(paths){
+/*Generates the terrain based on worldData.emoScores - a 2D array representing emotional intensity over time e.g.
+    [
+        [1,.5,1], //anger (over time)
+        [0,.6,.2], //joy (over time)
+        [.5,1,0] //fear (over time)
+    ]
+ */
+function makeTerrain(){
+    //Parameters
     var paddingSize=5;
     var scaleUp=4;
     var smoothingRadius=3;
-    var paths=worldData.emoScores;
-    var terrainData=generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius);
-    //unpack
+    //Get terrain data
+    var terrainData=generateTerrainData(worldData.emoScores,paddingSize,scaleUp,smoothingRadius);
+    //Unpack terrain data
     var flattenedArr=terrainData.flattenedArr;
     var helperArrFlat=terrainData.helperArrFlat;
     var wS=terrainData.wS;
@@ -28,11 +34,11 @@ function makeTerrain(paths){
     xBound=terrainData.xBound;
     zBound=terrainData.zBound;
     scaledArr=terrainData.scaledArr;
-
-    return generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat)
+    return generateMesh(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat)
 
 }
 
+/*Places a very large plane under the generated geometry to prevent the appearance of a finite square world*/
 function makeBase(terrainWidth,terrainHeight,material){
     var geometry = new THREE.PlaneGeometry(terrainWidth*2,terrainHeight*2,1,1);
     //should make the same as in generateGemoetry()
@@ -43,17 +49,12 @@ function makeBase(terrainWidth,terrainHeight,material){
     plane.position.y=-1;
 }
 
-function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
+/*Generates and returns the terrain mesh. Calls buildZonesDict, allowing us easy later access the different parts of the terrain*/
+function generateMesh(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
+    //Generate geometry and material
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
-    //var texture=THREE.ImageUtils.loadTexture('assets/dirt2.png')
-    // texture.wrapS = THREE.RepeatWrapping;
-    // texture.wrapT = THREE.RepeatWrapping;
-    // texture.repeat.x = 200;
-    // texture.repeat.y = 200;
-    var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading/*, map: texture*/});
+    var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading});
     vertexDict={};
-    var vertexDictX;
-    var vertexDictY;
     distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
     zZones={};
@@ -62,10 +63,13 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*200;
     }
-    buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry,i);
-    //final touches
+    buildZonesDict(zZones,xZones,helperArrFlat,geometry,i);
+
+    //compute normals
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
+
+    //Create and rotate mesh
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
     plane.castShadow=true;
@@ -74,7 +78,9 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     return plane
 }
 
-function buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry){
+function buildZonesDict(zZones,xZones,helperArrFlat,geometry){
+        var vertexDictY;
+        var vertexDictX;
         for(var i=0; i<geometry.vertices.length; i++){
             vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
             vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
