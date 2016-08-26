@@ -1,24 +1,48 @@
 section#login {
-    h1 {
-        text-align: center;
-        font: 35px "Dosis", sans-serif;
-        color:black;
+    .caption {
+        position:absolute;
+        margin:1rem 0 0 0;
+        text-align:center;
+        letter-spacing:10px;
+        font:30px "Dosis", sans-serif;
+    }
+    .span {
+        margin-left:200px;
+        background-color:#111;
+        color:white;
+        opacity:0.75;
+    }
+    .span-btn {
+        background-color:#111;
+        color:white;
+        opacity:0.75;
     }
     a {
-        color: #b9f3e7;
+        color:white;
     }
     a:hover {
-        color: #aed9e0;
+        color:#b8f2e6;
+    }
+    .span {
+        background-color:black;
     }
 }
 
 body.login-page {
-    background-image: url("/images/background3.jpg");
-    height: 100%;
-    font: 15px "Dosis", sans-serif;
-    text-transform: uppercase;
-    color: white;
+    background-position:initial;
+    background-image:url("/images/background3.jpg");
+    font:15px "Dosis", sans-serif;
+    text-transform:uppercase;
+    color:white;
     a:hover {
         text-decoration:none;
+    }
+    footer {
+        position:absolute;
+        width:100%;
+        bottom:0;
+        &:a {
+            color:blue;
+        }
     }
 }
