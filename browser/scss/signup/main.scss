@@ -1,45 +1,24 @@
 section#signup {
-    padding-top:30px;
-   .caption {
-        position:absolute;
-        margin:1.5rem 0 0 0;
+    h1 {
+        margin:1rem 0 0 1.5rem;
         text-align:center;
         letter-spacing:10px;
         font:24px "Dosis", sans-serif;
     }
-    .span {
-        margin-left:220px;
-        background-color:#111;
-        color:white;
-        opacity:0.75;
-    }
-    .span-btn {
-        background-color:#111;
-        color:white;
-        opacity:0.75;
-    }
     a {
-        color: #b9f3e7;
+        color:#b9f3e7;
     }
     a:hover {
-        color: #aed9e0;
+        color:black;
     }
 }
 
 body.signup-page {
-    background: url("/images/background3.jpg");
-    font: 15px "Dosis", sans-serif;
+    background:url("/images/background3.jpg");
+    font:15px "Dosis", sans-serif;
     text-transform: uppercase;
-    color: white;
+    color:white;
     a:hover {
         text-decoration:none;
-    }
-    footer {
-        position:absolute;
-        width:100%;
-        bottom:0;
-        &:a {
-            color:blue;
-        }
     }
 }
