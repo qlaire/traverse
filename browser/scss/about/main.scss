@@ -40,7 +40,13 @@
     background-image:url("/images/graph3.jpg");
   }
   .black-bg {
-    max-height:200px;
+    max-height:300px;
+    color:#777;
+    background-color:black;
+  }
+  .black-bg-2 {
+    margin:0 auto;
+    min-height:350px;
     color:#777;
     background-color:black;
   }
@@ -86,5 +92,11 @@
     letter-spacing:5px;
     font:20px "Dosis", sans-serif;
     color:#faf3dd;
+  }
+  a {
+    color:#8493b5;
+  }
+  a:hover {
+    color:#b5c5e5;
   }
 }
