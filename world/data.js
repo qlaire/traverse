@@ -3,7 +3,7 @@ window.addEventListener("message", receiveMessage, false);
 
 /*A series of dictionaries mapping emotions to resources or values*/
 var emoToSongSrc={'anger':'assets/The Mountain Goats - This Year.mp3',
-					'joy':'assets/Sigur Ròs - Gobbledigook.mp3',
+					'joy':'assets/Sigur Ros - Gobbledigook.mp3',
 					'sadness':'assets/NADLER, Marissa - Diamond Heart.mp3',
 					'fear':'assets/Lee_Rosevere_-_10_-_Nightfall.mp3'}
 var emotionToPathNum= {
