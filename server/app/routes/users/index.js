@@ -23,6 +23,9 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
                 order: [['date', 'ASC']]
               })
   .then(function(entries){
+    if(entries.length>10){
+      entries=entries.slice(0,9);
+    }
     //initialize world data
     var worldData={};
     worldData.dates=[];
