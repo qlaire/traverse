@@ -3,36 +3,22 @@ section#login {
         margin:1rem 0 0 1.5rem;
         text-align:center;
         letter-spacing:10px;
-        font:30px "Dosis", sans-serif;
-    }
-    .span-btn {
-        background-color:#111;
-        color:white;
-        opacity:0.75;
+        font:24px "Dosis", sans-serif;
     }
     a {
-        color:white;
+        color:#b8f2e6;
     }
     a:hover {
-        color:#b8f2e6;
+        color:black;
     }
 }
 
 body.login-page {
-    background-position:initial;
     background-image:url("/images/background3.jpg");
     font:15px "Dosis", sans-serif;
     text-transform:uppercase;
     color:white;
     a:hover {
         text-decoration:none;
-    }
-    footer {
-        position:absolute;
-        width:100%;
-        bottom:0;
-        &:a {
-            color:blue;
-        }
     }
 }
