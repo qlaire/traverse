@@ -23,6 +23,7 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
+    analyzed:true,
     keywords: [{ 'bananas': '0.1' },{'like':'.6'},{'lot':'.7'}]
   }, {
     title: "cheese",
@@ -31,6 +32,7 @@ var seedEntries = function() {
     joy: [0.8, 0.2, 0.3],
     anger: [0.1, 0.0, 0.0],
     fear: [0.3, 0.2, 0.1],
+    analyzed:true,
     keywords: [{"meal":"0.9","cheese":"0.9","devour":"0.8","hunger":"0.7","price":"0.7"},{"unhappy":"1.0","strength":"0.9","doctor":"0.9","protein":"0.8","visitors":"0.8"},{"spatula":"0.9","red apron":"0.8","prom":"0.7","tigers":"0.7"}]
   }, {
     title: "apples",
@@ -47,6 +49,7 @@ var seedEntries = function() {
     joy: [0.1, 0.2, 0.2],
     anger: [0.8, 0.2, 0.3],
     fear: [0.3, 0.2, 0.1],
+        analyzed:true,
     keywords: [{"forests":"0.9","wandering":"0.9","darkness":"0.8","trees":"0.7","shadows":"0.7"},{"windows":"1.0","deep water":"0.9","injustice":"0.9","existential":"0.8","torrent":"0.8"},{"silver fish":"0.9","rangers":"0.8","mountain cabin":"0.7","freedom":"0.7"}]
   }, {
     title: "I'm sad",
@@ -55,6 +58,7 @@ var seedEntries = function() {
     joy: [0.1,0,0],
     anger: [0.3,0.7,0.6],
     fear: [0.2,0.2,0.3],
+        analyzed:true,
     keywords: [{"loneliness":"0.9","sorrows":"0.9","period":"0.8","change":"0.7","relationship":"0.7"},{"depression":"1.0","symptoms":"0.9","friend":"0.9","things":"0.8","point":"0.8"},{"different kinds":"0.9","depression tests":"0.8","symptoms change":"0.7","similar experience":"0.7"}]
   }, {
     title: "I'm an eagle scout",
@@ -63,6 +67,7 @@ var seedEntries = function() {
     joy: [0.2,0.4,0.8],
     anger: [0.3,0.3,0.3],
     fear: [0.1,0.1,0],
+        analyzed:true,
     keywords: [{"highest rank":"0.9","eagle scout":"0.8","Boy Scouting":"0.6","boys":"0.3"},{"merit badges":"0.9","cub scout":"0.8","hard work":"0.8","easy task":"0.8","honor":"0.5","thing":"0.5","rank":"0.5","life":"0.4","foundation":"0.4"},{"local animal shelter":"1.0","wonderful honor":"0.9","service project":"0.8","eagle scout":"0.8","boy scout":"0.7","dog":"0.4","trail":"0.4","life":"0.4"}]
   }, {
     title: "Sadness",
@@ -70,6 +75,7 @@ var seedEntries = function() {
     date: "2016-08-19 07:36:21-04",
     joy: [0.2, 0.2, 0.2],
     anger: [0.4, 0.4, 0.5],
+        analyzed:true,
     fear: [0.3, 0.2, 0.3],
     keywords: [{ 'mom': '0.1', 'cry':'0.2','weep':'.07','despair':'.9'},{'talk':'.6', 'therapist':'.6','unknown':'.2','hidden':'.3'},{'believe':'.7','God':'.3','heaven':'.5'}] 
 }];
