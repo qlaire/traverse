@@ -5,7 +5,7 @@ Functions associated with generating the terrain and useful data about it
 ////////////////
 
 /*Object to "export"*/
-var globalTerrainData={xBound:null, zBound:null, playerStartX:null,xBound:null,zBound:null, vertexDict: {},distanceX:null,distanceY:null, xZones: {}, zZones:{}};
+var globalTerrainData={xBound:null, zBound:null, playerStartX:null,xBound:null,zBound:null, vertexDict: {},distanceX:null,distanceZ:null, xZones: {}, zZones:{}};
 
 /*Generates the terrain based on worldData.emoScores - a 2D array representing emotional intensity over time. Each value represents the emotioal intensity for one chunk of a journal entry (1-3 chunks per entry) e.g.
     [
@@ -104,7 +104,7 @@ function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,he
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading});
     globalTerrainData.distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
-    globalTerrainData.distanceY=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
+    globalTerrainData.distanceZ=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
     var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*200;
@@ -129,7 +129,7 @@ function buildZonesDict(helperArrFlat,geometry){
         var vertexDictX;
         for(var i=0; i<geometry.vertices.length; i++){
             vertexDictX=customFloor(geometry.vertices[i].x,globalTerrainData.distanceX);
-            vertexDictY=customFloor(geometry.vertices[i].y,globalTerrainData.distanceY);
+            vertexDictY=customFloor(geometry.vertices[i].y,globalTerrainData.distanceZ);
             globalTerrainData.vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
 
             if(!globalTerrainData.zZones[helperArrFlat[i][0]]){
