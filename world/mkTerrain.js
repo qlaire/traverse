@@ -137,6 +137,7 @@ function buildZonesDict(helperArrFlat,geometry){
         for(var i=0; i<geometry.vertices.length; i++){
             vertexDictZ=customFloor(geometry.vertices[i].x,globalTerrainData.distanceZ);
             vertexDictX=customFloor(geometry.vertices[i].y,globalTerrainData.distanceX);
+            //use helper array to fill out the vertexdict
             globalTerrainData.vertexDict[[vertexDictZ,vertexDictX]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
             if(!globalTerrainData.zZones[helperArrFlat[i][0]]){
                 globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
