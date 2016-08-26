@@ -16,17 +16,17 @@ app.controller('EntriesCtrl', function($scope, allEntries, $state, EntryFactory,
 
   $scope.analyzed = EntryFactory.watsonAnalyzed;
 
-  $scope.retryAttempted = false;
+  $scope.retrySuccess = [];
 
-  $scope.retrySuccess;
+  $scope.retryFailed = [];
 
-  $scope.tryAnalysis = function (id, title, body) {
-      EntryFactory.tryAnalysis(id, title, body)
+  $scope.tryAnalysis = function (id) {
+      EntryFactory.tryAnalysis(id)
       .then(res => {
-          if (res.status === 200) {
-              $scope.retrySuccess = true;
+          if (res.status === 201) {
+            $scope.retrySuccess.push(id);
           } else if (res.status === 206) {
-              $scope.retrySuccess = false;
+            $scope.retryFailed.push(id);
           }
       })
       .catch($log.error);

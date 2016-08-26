@@ -68,49 +68,35 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   .catch(next);
 })
 
-router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
-  var status = 401;
+router.put('/analyze/:id', authenticator.ensureAuthenticated, function(req, res, next){
   let joyArr;
   let angerArr;
   let fearArr;
 
-  analyzeEmotion(req.body.entry)
+  Entry.findById(req.params.id)
+  .then(entry => {
+    let strippedEntry = striptags(entry.body);
+    analyzeEmotion(strippedEntry)
     .spread((emoResults, keywordResults) => {
       let resultArr = convertWatsonDataToArr(emoResults);
       joyArr = resultArr[2];
       angerArr = resultArr[0];
       fearArr = resultArr[1];
-      return Entry.update({
-        title: req.body.title,
-        body: req.body.entry || 'not really updated',
+      return entry.update({
         joy: joyArr,
         anger: angerArr,
         fear: fearArr,
         keywords: keywordResults,
         analyzed: true
-      }, {where: {id: req.params.id, authorId: req.user.id}})
-    }).then(function(result){
-    if(result[0] === 1){
-      res.sendStatus(200);
-    }
-  })
-  .catch(err => {
-    return Entry.update({
-      title: req.body.title,
-      body: req.body.entry || 'not really updated',
-      analyzed: false
-    }, {
-      where: {
-        id: req.params.id
-      }
-    });
-  })
-  .then(result => {
-    if (result[0] === 1) {
+      });
+    })
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(() => {
       res.sendStatus(206);
-    }
-  })
-  .catch(next);
+    });
+  });
 })
 
 router.delete('/:id', authenticator.ensureAuthenticated,
