@@ -81,18 +81,36 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
       angerArr = resultArr[0];
       fearArr = resultArr[1];
       return Entry.update({
+        title: req.body.title,
         body: req.body.entry || 'not really updated',
         joy: joyArr,
         anger: angerArr,
         fear: fearArr,
-        keywords: keywordResults
+        keywords: keywordResults,
+        analyzed: true
       }, {where: {id: req.params.id, authorId: req.user.id}})
     }).then(function(result){
     if(result[0] === 1){
-      status = 200;
+      res.sendStatus(200);
     }
-    res.sendStatus(status);
-  }).then(null, next);
+  })
+  .catch(err => {
+    return Entry.update({
+      title: req.body.title,
+      body: req.body.entry || 'not really updated',
+      analyzed: false
+    }, {
+      where: {
+        id: req.params.id
+      }
+    });
+  })
+  .then(result => {
+    if (result[0] === 1) {
+      res.sendStatus(206);
+    }
+  })
+  .catch(next);
 })
 
 router.delete('/:id', authenticator.ensureAuthenticated,

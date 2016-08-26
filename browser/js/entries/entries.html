@@ -17,7 +17,9 @@
                         <a ui-sref="singleEntry({entryId: entry.id})"><span class="glyphicon glyphicon-arrow-right"></span><br><b>read more</b></a>
                         <br>
                         <br>
-                        <button ng-show="!entry.analyzed" class="btn btn-default analysis" ng-click="tryAnalysis()">Try analyzing again</button>
+                        <button ng-show="!entry.analyzed" class="btn btn-default analysis" ng-click="tryAnalysis(entry.id, entry.title, entry.body)">Try analyzing again</button>
+                        <div class="alert alert-danger" ng-show="retryAttempted && !retrySuccess"><p>Sorry, we are still unable to analyze your entry.</p></div>
+                        <div class="alert alery-success" ng-show="retrySuccess"><p>Entry analyzed successfully!</p></div>
                     </div>
                     <br>
                     <hr width="50%" ;>

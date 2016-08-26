@@ -67,8 +67,16 @@ app.factory('EntryFactory', function ($http) {
         return res.data;
     });
   };
-  entryObj.tryAnalysis = function (id, body) {
-        return $http.put('/api/entries/:id', {body: body})    
-    }
+  entryObj.tryAnalysis = function (id, title, body) {
+    return $http.put('/api/entries/' + id, {entry: body, title: title})
+    .then(res => {
+      if (res.status === 200) {
+        entryObj.watsonAnalyzed = true;
+      } else if (res.status === 206) {
+        entryObj.watsonAnalyzed = false;
+      }
+      return res;
+    })    
+  }
   return entryObj;
 });
