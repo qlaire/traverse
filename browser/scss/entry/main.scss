@@ -1,15 +1,12 @@
 section#entry {
-  width:1000px;
-    h2 {
-        margin-top: 75px;
-        text-align: center;
-        font: 34px "Dosis", sans-serif;
-        color: black;
-    }
+    padding-top:100px;
+    width:1000px;
 }
-
 .warning {
-  color:red;
+    color:red;
+}
+a:hover {
+    text-decoration: none;
 }
 
 body.entry-page {
@@ -19,10 +16,6 @@ body.entry-page {
     background-repeat: repeat-x;
     background-color: #fbf5df;
     background-position: 0px 50px;
-}
-
-a:hover {
-    text-decoration: none;
 }
 
 .tinymcestyle {

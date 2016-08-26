@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col l6 s12">
                 <h6>CREATE YOUR MINDSCAPE</h6>
-                <p class="grey-text text-lighten-4">traVerse through your mind's eye.<br><br>© 2016 traVerse</p>
+                <p class="grey-text text-lighten-4">© 2016 traVerse</p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h6>LINKS</h6>
@@ -14,7 +14,7 @@
                 </ul>
                 <ul ng-show="isLoggedIn()">
                     <li ng-repeat="item in loggedInItems">
-                        <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a><span ng-if="!$last">&nbsp; / &nbsp;</span>
+                        <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a><span>&nbsp; / &nbsp;</span>
                     </li>
                     <li><a ng-show="isLoggedIn()" ng-click="logout()">LOGOUT</a></li>
                 </ul>
