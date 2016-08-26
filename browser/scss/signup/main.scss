@@ -1,9 +1,22 @@
 section#signup {
-    max-height:100px;
-    h1 {
-        text-align: center;
-        font: 35px "Dosis", sans-serif;
-        color:black;
+    padding-top:30px;
+   .caption {
+        position:absolute;
+        margin:1.5rem 0 0 0;
+        text-align:center;
+        letter-spacing:10px;
+        font:24px "Dosis", sans-serif;
+    }
+    .span {
+        margin-left:220px;
+        background-color:#111;
+        color:white;
+        opacity:0.75;
+    }
+    .span-btn {
+        background-color:#111;
+        color:white;
+        opacity:0.75;
     }
     a {
         color: #b9f3e7;
@@ -15,11 +28,18 @@ section#signup {
 
 body.signup-page {
     background: url("/images/background3.jpg");
-    height: 100%;
     font: 15px "Dosis", sans-serif;
     text-transform: uppercase;
     color: white;
     a:hover {
         text-decoration:none;
+    }
+    footer {
+        position:absolute;
+        width:100%;
+        bottom:0;
+        &:a {
+            color:blue;
+        }
     }
 }

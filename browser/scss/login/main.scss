@@ -4,10 +4,10 @@ section#login {
         margin:1rem 0 0 0;
         text-align:center;
         letter-spacing:10px;
-        font:30px "Dosis", sans-serif;
+        font:24px "Dosis", sans-serif;
     }
     .span {
-        margin-left:200px;
+        margin-left:240px;
         background-color:#111;
         color:white;
         opacity:0.75;
@@ -23,13 +23,9 @@ section#login {
     a:hover {
         color:#b8f2e6;
     }
-    .span {
-        background-color:black;
-    }
 }
 
 body.login-page {
-    background-position:initial;
     background-image:url("/images/background3.jpg");
     font:15px "Dosis", sans-serif;
     text-transform:uppercase;
