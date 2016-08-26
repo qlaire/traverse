@@ -44,12 +44,12 @@ body.singleEntry-page {
     background-image: url('/images/background6.jpg');
     background-position: right top;
     background-repeat:repeat-y;
-    // footer {
-    //     position:absolute;
-    //     width:100%;
-    //     bottom:0;
-    //     &:a {
-    //         color:blue;
-    //     }
-    // }
+    footer {
+        position:absolute;
+        width:100%;
+        bottom:0;
+        &:a {
+            color:blue;
+        }
+    }
 }
