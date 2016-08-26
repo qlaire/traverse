@@ -72,9 +72,7 @@
     "textangular": "^1.5.6-0",
     "three.terrain.js": "^1.4.0",
     "tinymce": "^4.4.1",
-    "watson-developer-cloud": "^2.1.0"
-  },
-  "devDependencies": {
+    "watson-developer-cloud": "^2.1.0",
     "angular-ui-tinymce": "0.0.16"
   }
 }
