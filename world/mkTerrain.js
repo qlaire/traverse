@@ -1,9 +1,11 @@
+////////////////
+/*
+Functions associated with generating the terrain and useful data about it
+*/
+////////////////
+
+/*Object to "export"*/
 var globalTerrainData={xBound:null, zBound:null, playerStartX:null,xBound:null,zBound:null, vertexDict: {},distanceX:null,distanceY:null, xZones: {}, zZones:{}};
-
-// var vertexDict;
-// var distanceX, distanceY;
-// var zZones,xZones;
-
 
 /*Generates the terrain based on worldData.emoScores - a 2D array representing emotional intensity over time. Each value represents the emotioal intensity for one chunk of a journal entry (1-3 chunks per entry) e.g.
     [
@@ -13,7 +15,7 @@ var globalTerrainData={xBound:null, zBound:null, playerStartX:null,xBound:null,z
     ]
  */
 function makeTerrain(){
-    //Parameters
+    //Parameters affecting terrain generation
     var paddingSize=5;
     var scaleUp=4;
     var smoothingRadius=3;
@@ -33,7 +35,6 @@ function makeTerrain(){
     globalTerrainData.zBound=terrainData.zBound;
     //Generate and return mesh
     return generateMesh(globalTerrainData.terrainWidth,globalTerrainData.terrainHeight,wS,hS,numChunks,flattenedArr,helperArrFlat)
-
 }
 
 /*
@@ -82,7 +83,7 @@ function generateTerrainData(emoScores,paddingSize,scaleUp,smoothingRadius){
     //Flatten both arrays
     var flattenedArr=flattenArray(smoothedArr);
     var helperArrFlat=flattenArray(helperArr);
-
+    //Determine total number of chunks
     var numChunks=scaledArr[0].length;
     return {flattenedArr: flattenedArr, numChunks:numChunks, helperArrFlat:helperArrFlat,wS:wS,hS:hS,terrainWidth:terrainWidth, terrainHeight:terrainHeight, paddingX:paddingX, paddingZ:paddingZ,xBound:xBound,zBound:zBound};
 
@@ -91,8 +92,6 @@ function generateTerrainData(emoScores,paddingSize,scaleUp,smoothingRadius){
 /*Places a very large plane under the generated geometry to prevent the appearance of a finite square world*/
 function makeBase(terrainWidth,terrainHeight,material){
     var geometry = new THREE.PlaneGeometry(terrainWidth*2,terrainHeight*2,1,1);
-    //should make the same as in generateGemoetry()
-    // var material = new THREE.MeshLambertMaterial({ color: 'red', shading: THREE.FlatShading }); 
     var plane = new THREE.Mesh(geometry, material);
     scene.add(plane);
     plane.rotation.x = -Math.PI / 2;
@@ -106,8 +105,6 @@ function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,he
     var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading});
     globalTerrainData.distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
     globalTerrainData.distanceY=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
-    // zZones={};
-    // xZones={};
     var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*200;
