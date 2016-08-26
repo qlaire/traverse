@@ -2,9 +2,9 @@
 window.addEventListener("message", receiveMessage, false);
 
 /*A series of dictionaries mapping emotions to resources or values*/
-var emoToSongSrc={'anger':'assets/Greater_Than_Or_Equal_To_-_01_-_Silent_Treatment.mp3',
-					'joy':'assets/bensound-ukulele.mp3',
-					'sadness':'assets/Kai_Engel_-_04_-_Moonlight_Reprise.mp3',
+var emoToSongSrc={'anger':'assets/The Mountain Goats - This Year.mp3',
+					'joy':'assets/Sigur Ròs - Gobbledigook.mp3',
+					'sadness':'assets/NADLER, Marissa - Diamond Heart.mp3',
 					'fear':'assets/Lee_Rosevere_-_10_-_Nightfall.mp3'}
 var emotionToPathNum= {
 	'anger':0,
