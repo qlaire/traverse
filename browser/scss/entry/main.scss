@@ -16,6 +16,11 @@ body.entry-page {
     background-repeat: repeat-x;
     background-color: #fbf5df;
     background-position: 0px 50px;
+    footer {
+        width:100%;
+        bottom:0;
+        position:absolute;
+    }
 }
 
 .tinymcestyle {

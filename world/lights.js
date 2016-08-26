@@ -45,8 +45,48 @@ function pointLights(){
 
 
 function singlePointLight(x,y,z,lightColor,meshColor){
+	  var glowShader = {
+	    vertex:
+	    `
+	    varying vec2 vUv;
+	    void main() 
+	    {
+	      vUv=uv;
+	      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+	    }
+	  
+	    `,
+	    fragment:
+	    `
+	    uniform vec3 glowColor;
+	    varying float intensity;
+	    uniform float time;
+	    varying vec2 vUv;
+	    void main() 
+	    {
+	      float tick = time / 200.0;
+	      float intensity = (
+	              sin(64.0 * vUv.x + tick) +
+	              cos(-64.0 * vUv.y + tick)
+	            );
+	      vec3 glow = glowColor * intensity;
+	      gl_FragColor = vec4( glow, 1.0 );
+	    }
+	    `
+	  };
 	var geometry = new THREE.SphereGeometry(.6,32,32 );
-	var material=new THREE.MeshBasicMaterial( {color: meshColor} )
+	var material=new THREE.ShaderMaterial( 
+			{
+			    uniforms: 
+				{ "time": {type: "f", value: 0},
+					glowColor: { type: "c", value: new THREE.Color(meshColor) }
+			},
+				vertexShader:   glowShader.vertex,
+				fragmentShader: glowShader.fragment,
+				side: THREE.DoubleSide,
+				blending: THREE.AdditiveBlending,
+				transparent: true
+			}   );
 	var sphere = new THREE.Mesh( geometry, material );
 	sphere.position.set(x,y,z);
 	scene.add( sphere);
@@ -57,46 +97,48 @@ function singlePointLight(x,y,z,lightColor,meshColor){
 
 	geometry = new THREE.SphereGeometry(.7,32,32 );
 	// var material = new THREE.MeshBasicMaterial( {color: meshColor} );
+	/*
 	material=getGlowMaterial();
 	var glow = new THREE.Mesh( geometry, material );
 	// sphere.position.set(x,y,z);
 	sphere.add( glow );
-
+*/
 	return sphere;
+
 	//scene.add(new THREE.PointLightHelper(point, 3));
 }
 
 
-var vertexShaderGlow=
-`
-varying vec3 vNormal;
-void main() 
-{
-    vNormal = normalize( normalMatrix * normal );
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-}
-`
-var fragmentShaderGlow=
-`
-varying vec3 vNormal;
-void main() 
-{
-	float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 ); 
-    gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;
-}
-`
-function getGlowMaterial(){
-	return customMaterial = new THREE.ShaderMaterial( 
-	{
-	    uniforms: {  },
-		vertexShader:   vertexShaderGlow,
-		fragmentShader: fragmentShaderGlow,
-		side: THREE.BackSide,
-		blending: THREE.AdditiveBlending,
-		transparent: true
-	}   );
+// var vertexShaderGlow=
+// `
+// varying vec3 vNormal;
+// void main() 
+// {
+//     vNormal = normalize( normalMatrix * normal );
+//     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+// }
+// `
+// var fragmentShaderGlow=
+// `
+// varying vec3 vNormal;
+// void main() 
+// {
+// 	float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 ); 
+//     gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;
+// }
+// `
+// function getGlowMaterial(){
+// 	return customMaterial = new THREE.ShaderMaterial( 
+// 	{
+// 	    uniforms: {  },
+// 		vertexShader:   vertexShaderGlow,
+// 		fragmentShader: fragmentShaderGlow,
+// 		side: THREE.BackSide,
+// 		blending: THREE.AdditiveBlending,
+// 		transparent: true
+// 	}   );
 
-}
+// }
 
 function animatePointLights(){
 	for(var i=0; i<pointLights.length; i++){
