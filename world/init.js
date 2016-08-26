@@ -25,7 +25,7 @@ function init() {
     addSky();
     placeMusic();
     // Create the WebGL Renderer
-    renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
+    renderer = new THREE.WebGLRenderer({alpha: true,  antialias: true });
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = true;
     document.body.appendChild( renderer.domElement );

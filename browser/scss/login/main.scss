@@ -1,16 +1,9 @@
 section#login {
-    .caption {
-        position:absolute;
-        margin:1rem 0 0 0;
+    h1 {
+        margin:1rem 0 0 1.5rem;
         text-align:center;
         letter-spacing:10px;
         font:24px "Dosis", sans-serif;
-    }
-    .span {
-        margin-left:240px;
-        background-color:#111;
-        color:white;
-        opacity:0.75;
     }
     .span-btn {
         background-color:#111;
