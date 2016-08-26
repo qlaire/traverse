@@ -24,7 +24,7 @@ router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
               })
   .then(function(entries){
     if(entries.length>10){
-      entries=entries.slice(0,9);
+      entries=entries.slice(entries.length-10,entries.length);
     }
     //initialize world data
     var worldData={};
