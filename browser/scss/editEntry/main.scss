@@ -1,26 +1,28 @@
-section#entry {
-    padding-top:100px;
-    width:1000px;
-}
-.warning {
-    color:red;
-}
-a:hover {
-    text-decoration: none;
+section#editEntry {
+  width:1000px;
+    h2 {
+        margin-top: 75px;
+        text-align: center;
+        font: 34px "Dosis", sans-serif;
+        color: black;
+    }
 }
 
-body.entry-page {
+.warning {
+  color:red;
+}
+
+body.editEntry-page {
     background: url("/images/background4.jpg");
     color: black;
     text-transform: none;
     background-repeat: repeat-x;
     background-color: #fbf5df;
     background-position: 0px 50px;
-    footer {
-        width:100%;
-        bottom:0;
-        position:absolute;
-    }
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .tinymcestyle {
@@ -42,5 +44,7 @@ body.entry-page {
 }
 
 table {
-    width: 10px
-}
+        button {
+            padding: 0;
+        }
+    }

@@ -1,13 +1,20 @@
 app.config(function($stateProvider) {
-    $stateProvider.state('entry', {
-        url: '/entry',
-        templateUrl: 'js/entry/entry.html',
-        controller: 'EntryController'
+    $stateProvider.state('editEntry', {
+        url: '/entry/edit/:id',
+        templateUrl: 'js/editEntry/editEntry.html',
+        controller: 'EditEntryController',
+        resolve: {
+          entry: function(EntriesFactory, $stateParams){
+            return EntriesFactory.getEntry($stateParams.id);
+          }
+        }
     });
 });
 
-app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
-  $scope.tinymceModel = '';
+app.controller('EditEntryController', function(entry, $scope, $log, EditEntryFactory, $state) {
+  $scope.tinymceModel = entry.body;
+  $scope.title = entry.title
+  $scope.dt = entry.date
   $scope.errorMessage = {};
 
   var reg = /[^.!?]*[.!?]/gi;
@@ -34,10 +41,10 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
     return $scope.tinymceModel.length > 17 && $scope.tinymceModel.match(reg)
   }
 
-  $scope.postEntry = function () {
-    EntryFactory.postEntry($scope.tinymceModel, $scope.title, $scope.dt)
+  $scope.updateEntry = function () {
+    EditEntryFactory.updateEntry(entry.id, $scope.tinymceModel, $scope.title, $scope.dt)
     .then(data => {
-      $state.go('entries');
+      $state.go('singleEntry', {entryId: entry.id});
     })
     .catch($log.error);
   }
@@ -52,9 +59,7 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
       paste_data_images: false
   };
 
-  $scope.dt = new Date();
   $scope.today = new Date();
-
   $scope.datePickerIsOpen = false;
   $scope.datePickerOpen = function () {
 
@@ -62,10 +67,10 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
   };
 });
 
-app.factory('EntryFactory', function ($http) {
+app.factory('EditEntryFactory', function ($http) {
   let entryObj = {};
-  entryObj.postEntry = function (body, title, date) {
-    return $http.post('/api/entries/', {entry: body, title: title, date: date})
+  entryObj.updateEntry = function (id, body, title, date) {
+    return $http.put('/api/entries/' + id, {entry: body, title: title, date: date})
     .then(res => res.data);
   }
   return entryObj;
