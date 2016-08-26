@@ -18,9 +18,19 @@ router.get('/', authenticator.ensureAuthenticated, function(req, res, next){
 })
 
 router.get('/:id', authenticator.ensureAuthenticated, function(req, res, next){
-  Entry.findById(req.params.id)
+  Entry.findOne({
+    where: {
+      id: req.params.id,
+      authorId: req.user.id
+    }
+  })
   .then(function(entry){
-    res.status(200).send(entry);
+    if(!entry){
+      res.sendStatus(401);
+    }
+    else{
+      res.status(200).send(entry);
+    }
   }).catch(next);
 })
 
@@ -38,6 +48,7 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
     return Entry.create({
       title: req.body.title,
       body: req.body.entry,
+      date: req.body.date,
       joy: joyArr,
       anger: angerArr,
       fear: fearArr,
@@ -48,24 +59,65 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
   .then(savedEntry => {
     return savedEntry.setAuthor(req.user.id)
   }).then(function(entry){
-    res.status(201).send(entry);
+    res.sendStatus(201);
   })
   .catch(err => {
-    console.error("wow, looks like an error", err);
-    return Entry.create({
+    Entry.create({
       title: req.body.title,
       body: req.body.entry,
+      date: req.body.date,
       analyzed: false
-    });
+    })
+    .then(savedEntry => {
+      return savedEntry.setAuthor(req.user.id);
+    })
+    .then(() => {
+      res.sendStatus(206);
+    })
+    .catch(next);
   })
-  .then(savedEntry => {
-    console.log('here is the entry', savedEntry);
-    return savedEntry.setAuthor(req.user.id);
+})
+
+router.put('/:id', authenticator.ensureAuthenticated, function (req, res, next) {
+  let joyArr;
+  let angerArr;
+  let fearArr;
+
+  var status = 401;
+
+  Entry.findOne({
+    where: {
+      id: req.params.id,
+      authorId: req.user.id
+    }
   })
-  .then(entry => {
-    res.status(206).send(entry);
+  .then(function(entry){
+    if(!entry){
+      res.sendStatus(401);
+    }
+    let strippedEntry = striptags(req.body.entry);
+    return analyzeEmotion(strippedEntry);
   })
-  .catch(next);
+  .spread((emoResults, keywordResults) => {
+    let resultArr = convertWatsonDataToArr(emoResults);
+    joyArr = resultArr[2];
+    angerArr = resultArr[0];
+    fearArr = resultArr[1];
+    return Entry.update({
+      body: req.body.entry || 'not really updated',
+      title: req.body.title,
+      date: req.body.date,
+      joy: joyArr,
+      anger: angerArr,
+      fear: fearArr,
+      keywords: keywordResults
+    }, {where: {id: req.params.id, authorId: req.user.id}})
+  }).then(function(result){
+    if(result[0] === 1){
+      status = 200;
+    }
+    res.sendStatus(status);
+  }).then(null, next);
 })
 
 router.put('/analyze/:id', authenticator.ensureAuthenticated, function(req, res, next){

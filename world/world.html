@@ -19,9 +19,7 @@
         background-color: rgba(0,0,0,0.5);
 
       }
-
-      #instructions {
-
+      .displayed{
         width: 100%;
         height: 100%;
 
@@ -47,6 +45,9 @@
         cursor: pointer;
 
       }
+      .hidden{
+        display:none;
+      }
       #key{
         position:absolute;
         padding: 20px;
@@ -69,12 +70,16 @@
         <div id="path"></div>
       </div>
       <div id="blocker">
-        <div id="instructions">
+      <div id="loading" class='displayed'>
+          <span style="font-size:40px">L O A D I N G</span>
+      </div>
+        <div id="instructions" class='hidden'>
           <span style="font-size:40px">Click to traverse</span>
           <br />
           (W, A, S, D = Move, MOUSE = Look around, SHIFT = Speed up)
         </div>
     </div>
+    
     <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
     <script src="three.js/build/three.min.js"></script>
 

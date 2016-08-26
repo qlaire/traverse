@@ -1,0 +1,24 @@
+<div class="page-footer footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h6>CREATE YOUR MINDSCAPE</h6>
+                <p class="grey-text text-lighten-4">© 2016 traVerse</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h6>LINKS</h6>
+                <ul ng-show="!isLoggedIn()">
+                    <li ng-repeat="item in loggedOutitems">
+                        <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a><span ng-if="!$last">&nbsp; / &nbsp;</span>
+                    </li>
+                </ul>
+                <ul ng-show="isLoggedIn()">
+                    <li ng-repeat="item in loggedInItems">
+                        <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a><span>&nbsp; / &nbsp;</span>
+                    </li>
+                    <li><a ng-show="isLoggedIn()" ng-click="logout()">LOGOUT</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

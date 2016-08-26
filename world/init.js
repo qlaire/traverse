@@ -15,13 +15,17 @@ function init() {
     scene.add(terrain)
     mainLights();
     pointLights();
-    placeWords();
-    placeColumns();
+    var columnPos=placeColumns();
+    console.log('columnPos',columnPos);
+    placeWords(columnPos);
+
+    // placeColumns();
+    // placeWords();
     placePlane();
     addSky();
     placeMusic();
     // Create the WebGL Renderer
-    renderer = new THREE.WebGLRenderer({alpha: true,  antialias: false });
+    renderer = new THREE.WebGLRenderer({alpha: true,  antialias: true });
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = true;
     document.body.appendChild( renderer.domElement );
@@ -29,6 +33,15 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
     //initialize controls
     initPointerLockControls();
+    //loaded
+    toggleLoadMessage();
+
+}
+
+function toggleLoadMessage(){
+    console.log(document.getElementById('instructions').className);
+    document.getElementById('instructions').className='displayed';
+    document.getElementById('loading').className='hidden';
 
 }
 

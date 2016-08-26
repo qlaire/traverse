@@ -35,13 +35,13 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
   }
 
   $scope.postEntry = function () {
-    EntryFactory.postEntry($scope.tinymceModel, $scope.title)
+    EntryFactory.postEntry($scope.tinymceModel, $scope.title, $scope.dt)
     .then(() => {
       $state.go('entries');
     })
     .catch($log.error);
   }
-  
+
   $scope.tinymceOptions = {
       selector: 'div.tinymce',
       theme: 'inlite',
@@ -51,20 +51,29 @@ app.controller('EntryController', function($scope, $log, EntryFactory, $state) {
       inline: true,
       paste_data_images: false
   };
+
+  $scope.dt = new Date();
+  $scope.today = new Date();
+
+  $scope.datePickerIsOpen = false;
+  $scope.datePickerOpen = function () {
+
+      this.datePickerIsOpen = true;
+  };
 });
 
 app.factory('EntryFactory', function ($http) {
   let entryObj = {};
   entryObj.watsonAnalyzed = true;
-  entryObj.postEntry = function (body, title) {
-    return $http.post('/api/entries/', {entry: body, title: title})
+  entryObj.postEntry = function (body, title, date) {
+    return $http.post('/api/entries/', {entry: body, title: title, date: date})
     .then(res => {
         if (res.status === 201) {
             entryObj.watsonAnalyzed = true;
         } else if (res.status === 206) {
             entryObj.watsonAnalyzed = false;
         }
-        return res.data;
+        return res;
     });
   };
   entryObj.tryAnalysis = function (id) {
