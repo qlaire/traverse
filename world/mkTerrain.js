@@ -131,7 +131,7 @@ Produces three useful pieces of data
     zZones (Object) - keys are the indices of the paths (or -1 and 999 to represent padding), values are the zCoords where they begin
 */
 function buildZonesDict(helperArrFlat,geometry){
-        var vertexDictY;
+        var vertexDictZ;
         var vertexDictX;
         //iterate through vertices
         for(var i=0; i<geometry.vertices.length; i++){
