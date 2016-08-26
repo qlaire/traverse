@@ -50,7 +50,7 @@ Takes worldData.emoScores and generates a bundle of usable data:
 
     terrainWidth and terrainHeight (Numbers) - height and width of the terrain
 
-    paddingX and paddingZ (Numbers) - the padding on the terrain that will be generated, in X (left/right from camera) and Z (forward/back) dimensions
+    paddingX and paddingZ (Numbers) - the padding on the terrain that will be generated, in X (forward/back from camera) and Z (left/right) dimensions
 
     xBound, zBound (Numbers) - These numbers and their negatives represent the location of the invisible wall that will stop the player from going too far from the interesting part of the terrain.
 
@@ -103,18 +103,18 @@ function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,he
     //Generate geometry and material
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading});
-    globalTerrainData.distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
-    globalTerrainData.distanceZ=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
-    var updatedDict
+    //Determine distance Z (the width of each path) - and distance X (the length of the terrain representing a single chunk). "Z," not "Y", because this will be the Z direction once the plane is rotated. 
+    globalTerrainData.distanceZ=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
+    globalTerrainData.distanceX=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
+    //Manipulate the vertices of the plane
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*200;
     }
+    //Track information about the different parts of the terrain
     buildZonesDict(helperArrFlat,geometry,i);
-
     //compute normals
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
-
     //Create and rotate mesh
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
@@ -124,26 +124,32 @@ function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,he
     return plane
 }
 
+/*
+Produces three useful pieces of data
+    vertexDict (Object) - keys are arrays representing coordinates in the world [x,z], values are [pathNumber,chunkNumber] (anger=0,joy=1,fear=2)
+    xZones (Object) - keys are the indices of the journal entries (or -1 and 999 to represent padding), values are the xCoords where they begin
+    zZones (Object) - keys are the indices of the paths (or -1 and 999 to represent padding), values are the zCoords where they begin
+*/
 function buildZonesDict(helperArrFlat,geometry){
         var vertexDictY;
         var vertexDictX;
+        //iterate through vertices
         for(var i=0; i<geometry.vertices.length; i++){
-            vertexDictX=customFloor(geometry.vertices[i].x,globalTerrainData.distanceX);
-            vertexDictY=customFloor(geometry.vertices[i].y,globalTerrainData.distanceZ);
-            globalTerrainData.vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
-
+            vertexDictZ=customFloor(geometry.vertices[i].x,globalTerrainData.distanceZ);
+            vertexDictX=customFloor(geometry.vertices[i].y,globalTerrainData.distanceX);
+            globalTerrainData.vertexDict[[vertexDictZ,vertexDictX]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
             if(!globalTerrainData.zZones[helperArrFlat[i][0]]){
-                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictY;
+                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
             }
-            else if(vertexDictY<globalTerrainData.zZones[helperArrFlat[i][0]]){
-                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictY;
+            else if(vertexDictX<globalTerrainData.zZones[helperArrFlat[i][0]]){
+                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
             }
 
             if(!globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
+                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictZ;            
             }
-            else if(vertexDictX<globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
+            else if(vertexDictZ<globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictZ;
             }
         }
         //get last padding zones

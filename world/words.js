@@ -1,6 +1,9 @@
 var wordMeshes=[];
 
 function placeWords(columnPos){
+	console.log(globalTerrainData.vertexDict);
+	console.log(globalTerrainData.xZones);
+	console.log(globalTerrainData.zZones);
 	var word;
 	var wordsInChunk;
 	var xBound1,xBound2, yBound1, yBound2;
@@ -37,7 +40,6 @@ function getDistance(wordPos,columnPos){
 	    return Math.sqrt( dx * dx + dz * dz );
 }
 function placeAWord(word, x, y, z,score, columnPos){
-	console.log('in placeAWord',columnPos)
 	var distance=getDistance({x:x,y:y,z:z},columnPos);
 	if(distance<256){
 		return;

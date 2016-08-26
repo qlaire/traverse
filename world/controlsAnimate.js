@@ -54,9 +54,9 @@ var getLocation = (function() {
 	return function getLocation(worldCoords){
 		var toReturn={};
 		var localCoords=terrain.worldToLocal(local.copy(worldCoords));
-		var xCoord=customFloor(localCoords.x,globalTerrainData.distanceX);
-		var zCoord=customFloor(localCoords.y,globalTerrainData.distanceZ);
-		var locationInfo=globalTerrainData.vertexDict[[xCoord,zCoord]];
+		var zCoord=customFloor(localCoords.x,globalTerrainData.distanceZ);
+		var xCoord=customFloor(localCoords.y,globalTerrainData.distanceX);
+		var locationInfo=globalTerrainData.vertexDict[[zCoord,xCoord]];
 		if(!locationInfo){
 			return {path: -1, entry: -1};
 		}
