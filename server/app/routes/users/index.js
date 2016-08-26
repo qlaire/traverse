@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/data', authenticator.ensureAuthenticated, function(req, res, next){
-  Entry.findAll({where: {authorId: req.user.id},
+  Entry.findAll({where: {authorId: req.user.id, analyzed: true},
                 order: [['date', 'ASC']]
               })
   .then(function(entries){
