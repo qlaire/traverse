@@ -5,6 +5,10 @@
             <div class="col-xs-9">
                 <h4><span style="background-color:#111;color:white;opacity:0.75">&nbsp;YOUR JOURNAL&nbsp;</span></h4>
                 <br>
+                <div class="alert alert-danger" ng-show="!analyzed"><p>Our apologies, but the entry that you just posted wasn't analyzed for emotion
+                because Watson, the supercomputer, is busy. This site is a prototype, so the features are somewhat limited. Watson's abilities are
+                refreshed everyday, so please try again tomorrow! A button will appear next to your entry letting you know that you can try
+                to analyze again.</p></div>
                 <div ng-repeat="entry in entries">
                     <div class="card">
                         <span class="card-title">{{entry.title}}</span>
@@ -13,6 +17,9 @@
                         <a ui-sref="singleEntry({entryId: entry.id})"><span class="glyphicon glyphicon-arrow-right"></span><br><b>read more</b></a>
                         <br>
                         <br>
+                        <button ng-show="!entry.analyzed && !retrySuccess.includes(entry.id)" class="btn btn-default analysis" ng-click="tryAnalysis(entry.id)">Try analyzing again</button>
+                        <div class="alert alert-danger" ng-show="retryFailed.includes(entry.id)"><p>Sorry, we are still unable to analyze your entry.</p></div>
+                        <div class="alert alert-success" ng-show="retrySuccess.includes(entry.id)"><p>Entry analyzed successfully!</p></div>
                     </div>
                     <br>
                     <hr>

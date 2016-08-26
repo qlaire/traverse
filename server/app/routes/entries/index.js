@@ -52,22 +52,38 @@ router.post('/', authenticator.ensureAuthenticated, function(req, res, next){
       joy: joyArr,
       anger: angerArr,
       fear: fearArr,
-      keywords: keywordResults
+      keywords: keywordResults,
+      analyzed: true
     });
   })
   .then(savedEntry => {
     return savedEntry.setAuthor(req.user.id)
   }).then(function(entry){
-    res.status(201).send(entry);
+    res.sendStatus(201);
   })
-  .then(null, next);
+  .catch(err => {
+    Entry.create({
+      title: req.body.title,
+      body: req.body.entry,
+      date: req.body.date,
+      analyzed: false
+    })
+    .then(savedEntry => {
+      return savedEntry.setAuthor(req.user.id);
+    })
+    .then(() => {
+      res.sendStatus(206);
+    })
+    .catch(next);
+  })
 })
 
-router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
-  var status = 401;
+router.put('/:id', authenticator.ensureAuthenticated, function (req, res, next) {
   let joyArr;
   let angerArr;
   let fearArr;
+
+  var status = 401;
 
   Entry.findOne({
     where: {
@@ -79,7 +95,8 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
     if(!entry){
       res.sendStatus(401);
     }
-    return analyzeEmotion(req.body.entry)
+    let strippedEntry = striptags(req.body.entry);
+    return analyzeEmotion(strippedEntry);
   })
   .spread((emoResults, keywordResults) => {
     let resultArr = convertWatsonDataToArr(emoResults);
@@ -101,6 +118,37 @@ router.put('/:id', authenticator.ensureAuthenticated, function(req, res, next){
     }
     res.sendStatus(status);
   }).then(null, next);
+})
+
+router.put('/analyze/:id', authenticator.ensureAuthenticated, function(req, res, next){
+  let joyArr;
+  let angerArr;
+  let fearArr;
+
+  Entry.findById(req.params.id)
+  .then(entry => {
+    let strippedEntry = striptags(entry.body);
+    analyzeEmotion(strippedEntry)
+    .spread((emoResults, keywordResults) => {
+      let resultArr = convertWatsonDataToArr(emoResults);
+      joyArr = resultArr[2];
+      angerArr = resultArr[0];
+      fearArr = resultArr[1];
+      return entry.update({
+        joy: joyArr,
+        anger: angerArr,
+        fear: fearArr,
+        keywords: keywordResults,
+        analyzed: true
+      });
+    })
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(() => {
+      res.sendStatus(206);
+    });
+  });
 })
 
 router.delete('/:id', authenticator.ensureAuthenticated,
