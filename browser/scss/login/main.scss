@@ -1,16 +1,9 @@
 section#login {
-    .caption {
-        position:absolute;
-        margin:1rem 0 0 0;
+    h1 {
+        margin:1rem 0 0 2rem;
         text-align:center;
         letter-spacing:10px;
         font:30px "Dosis", sans-serif;
-    }
-    .span {
-        margin-left:200px;
-        background-color:#111;
-        color:white;
-        opacity:0.75;
     }
     .span-btn {
         background-color:#111;
@@ -22,9 +15,6 @@ section#login {
     }
     a:hover {
         color:#b8f2e6;
-    }
-    .span {
-        background-color:black;
     }
 }
 
