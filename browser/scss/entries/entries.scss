@@ -10,7 +10,7 @@
 
 	.card-title{
 		color:#465a86;
-		text-transform: uppercase;
+		text-transform:uppercase;
 	}
 
 	.card-content {
@@ -27,6 +27,7 @@
 
 	hr {
 		border-top:1px solid #8493b5;
+		width:50%;
 	}
 	a{
 		color:#8493b5;
@@ -36,7 +37,7 @@
         text-decoration:none;
     }
 	h6{
-		font: 15px;
+		font:15px;
 	}
 	p{
 		font-size:16px;
@@ -45,10 +46,10 @@
 }
 
 body.entries-page {
-	font-family: 'Dosis', sans-serif;
-	background: #faf3dd;
-	background-image: url('/images/background6.jpg');
+	font-family:'Dosis', sans-serif;
+	background:#faf3dd;
+	background-image:url('/images/background6.jpg');
 	min-height:1000px;
-	background-position: right top;
+	background-position:right top;
 	background-repeat:repeat-y;
 }
