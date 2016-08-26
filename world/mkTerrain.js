@@ -1,15 +1,9 @@
-/*NOTES FOR IMPROVEMENT: Back these variables into a single object*/
-var globalTerrainData={};
+var globalTerrainData={xBound:null, zBound:null, playerStartX:null,xBound:null,zBound:null, vertexDict: {},distanceX:null,distanceY:null, xZones: {}, zZones:{}};
 
-var xBound;
-var zBound;
-var paddingX;
-var paddingZ;
-var vertexDict;
-var distanceX, distanceY;
-var zZones,xZones;
-var terrainWidth;
-var terrainHeight;
+// var vertexDict;
+// var distanceX, distanceY;
+// var zZones,xZones;
+
 
 /*Generates the terrain based on worldData.emoScores - a 2D array representing emotional intensity over time. Each value represents the emotioal intensity for one chunk of a journal entry (1-3 chunks per entry) e.g.
     [
@@ -31,15 +25,14 @@ function makeTerrain(){
     var wS=terrainData.wS;
     var hS=terrainData.hS;
     var numChunks=terrainData.numChunks;
-    //Set variables in outer scope
-    terrainWidth=terrainData.terrainWidth;
-    terrainHeight=terrainData.terrainHeight;
-    paddingX=terrainData.paddingX;
-    paddingZ=terrainData.paddingZ;
-    xBound=terrainData.xBound;
-    zBound=terrainData.zBound;
+    //Set variables in exported object
+    globalTerrainData.terrainWidth=terrainData.terrainWidth;
+    globalTerrainData.terrainHeight=terrainData.terrainHeight;
+    globalTerrainData.playerStartX=terrainData.xBound-terrainData.paddingX/4;
+    globalTerrainData.xBound=terrainData.xBound;
+    globalTerrainData.zBound=terrainData.zBound;
     //Generate and return mesh
-    return generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,helperArrFlat)
+    return generateMesh(globalTerrainData.terrainWidth,globalTerrainData.terrainHeight,wS,hS,numChunks,flattenedArr,helperArrFlat)
 
 }
 
@@ -111,16 +104,15 @@ function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,he
     //Generate geometry and material
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
     var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading});
-    vertexDict={};
-    distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
-    distanceY=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
-    zZones={};
-    xZones={};
+    globalTerrainData.distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
+    globalTerrainData.distanceY=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
+    // zZones={};
+    // xZones={};
     var updatedDict
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*200;
     }
-    buildZonesDict(zZones,xZones,helperArrFlat,geometry,i);
+    buildZonesDict(helperArrFlat,geometry,i);
 
     //compute normals
     geometry.computeFaceNormals();
@@ -135,36 +127,36 @@ function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,he
     return plane
 }
 
-function buildZonesDict(zZones,xZones,helperArrFlat,geometry){
+function buildZonesDict(helperArrFlat,geometry){
         var vertexDictY;
         var vertexDictX;
         for(var i=0; i<geometry.vertices.length; i++){
-            vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
-            vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
-            vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
+            vertexDictX=customFloor(geometry.vertices[i].x,globalTerrainData.distanceX);
+            vertexDictY=customFloor(geometry.vertices[i].y,globalTerrainData.distanceY);
+            globalTerrainData.vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
 
-            if(!zZones[helperArrFlat[i][0]]){
-                zZones[helperArrFlat[i][0]]=vertexDictY;
+            if(!globalTerrainData.zZones[helperArrFlat[i][0]]){
+                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictY;
             }
-            else if(vertexDictY<zZones[helperArrFlat[i][0]]){
-                zZones[helperArrFlat[i][0]]=vertexDictY;
+            else if(vertexDictY<globalTerrainData.zZones[helperArrFlat[i][0]]){
+                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictY;
             }
 
-            if(!xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
+            if(!globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
             }
-            else if(vertexDictX<xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
+            else if(vertexDictX<globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
             }
         }
         //get last padding zones
-        var toAdd=zZones[0]-zZones[1];
-        zZones[999]=zZones[0]+toAdd;
-        zZones[-1] = zZones[2] - toAdd;
-        var keys=Object.keys(xZones);
-        toAdd=xZones[1]-xZones[0];
-        xZones[999]=xZones[keys.length-2]+toAdd;
-        xZones[-1] = xZones[0] - toAdd;
+        var toAdd=globalTerrainData.zZones[0]-globalTerrainData.zZones[1];
+        globalTerrainData.zZones[999]=globalTerrainData.zZones[0]+toAdd;
+        globalTerrainData.zZones[-1] = globalTerrainData.zZones[2] - toAdd;
+        var keys=Object.keys(globalTerrainData.xZones);
+        toAdd=globalTerrainData.xZones[1]-globalTerrainData.xZones[0];
+        globalTerrainData.xZones[999]=globalTerrainData.xZones[keys.length-2]+toAdd;
+        globalTerrainData.xZones[-1] = globalTerrainData.xZones[0] - toAdd;
 }
 
 

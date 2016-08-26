@@ -11,10 +11,9 @@ function placeWords(columnPos){
 		wordsInChunk=Object.keys(words[i]);
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
-			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
-			zCoord = zZones[999]-Math.random()*(zZones[999]-zZones[2]);
+			xCoord=globalTerrainData.xZones[i]+Math.random()*(globalTerrainData.xZones[1]-globalTerrainData.xZones[0]);
+			zCoord = globalTerrainData.zZones[999]-Math.random()*(globalTerrainData.zZones[999]-globalTerrainData.zZones[2]);
 			yCoord = 50 + Math.random() * 600;
-			console.log('columnPos',columnPos)
 			mesh=placeAWord(word,xCoord,yCoord,zCoord,words[i][word],columnPos);
 			if(mesh) wordMeshes.push(mesh);
 		}

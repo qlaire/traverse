@@ -8,17 +8,17 @@ function mainLights(){
 function randomXInEmotion(emotion){
 	var bound1, bound2;
 	if(emotion==='anger'){
-		bound1=zZones[2];
-		bound2=zZones[1];	
+		bound1=globalTerrainData.zZones[2];
+		bound2=globalTerrainData.zZones[1];	
 
 	}
 	if(emotion==='joy'||emotion=='sadness'){
-		bound1=zZones[1];
-		bound2=zZones[0];	
+		bound1=globalTerrainData.zZones[1];
+		bound2=globalTerrainData.zZones[0];	
 	}
 	if(emotion==='fear'){
-		bound1=zZones[0];
-		 bound2=zZones[999];	
+		bound1=globalTerrainData.zZones[0];
+		 bound2=globalTerrainData.zZones[999];	
 
 	}
 	var xCoord=bound1+(Math.random()*(bound2-bound1));
@@ -35,10 +35,10 @@ function pointLights(){
 	var color;
 	var emotions=Object.keys(emotionToLightColor);
 	for(var i=0; i<emotions.length; i++){
-		for(var j=0; j<Object.keys(xZones).length; j++){
+		for(var j=0; j<Object.keys(globalTerrainData.xZones).length; j++){
 			xCoord=randomXInEmotion(emotions[i]);
 			var color=emotionToLightColor[emotions[i]];
-			pointLights.push(singlePointLight(xZones[j],Math.random()*200,xCoord,color,color));	
+			pointLights.push(singlePointLight(globalTerrainData.xZones[j],Math.random()*200,xCoord,color,color));	
 		}		
 	}
 }
