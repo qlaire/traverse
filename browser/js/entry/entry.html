@@ -3,11 +3,6 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h2 class="text-center">JOURNAL</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div>
                 <form name="newEntry" ng-submit="postEntry()" novalidate>
                   <div class="form-group">
                     <label for="title">Title:</label>
@@ -20,19 +15,22 @@
                                    is-open="datePickerIsOpen"
                                    ng-click="datePickerOpen()"
                                    ng-model="dt" />
-                </div>
-                  <div class="form-group">
-                    <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
-                    </div>
                   </div>
-                    <div class="warning"><br>
+                    <div class="form-group">
+                        <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
+                        </div>
+                    </div>
+                    <div class="warning">
+                        <br>
                         <p ng-show="newEntry.body.$touched">{{errorMessage.length}}</p>
                         <p ng-show="newEntry.body.$touched">{{errorMessage.reg}}</p>
+                        <br>
                     </div>
-                    <button id="post" ng-disabled="!validate()" class="btn btn-default">Post</button>
+                    <button id="post-btn" ng-disabled="!validate()" class="btn btn-default">Post</button>
                     <br>
                 </form>
             </div>
         </div>
     </div>
 </section>
+<footer></footer>

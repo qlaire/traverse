@@ -1,5 +1,4 @@
 app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
-
     return {
         restrict: 'E',
         scope: {},
@@ -7,6 +6,9 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
         link: function(scope) {
 
             scope.loggedOutitems = [{
+                label: 'ABOUT',
+                state: 'about'
+            },{
                 label: 'LOGIN',
                 state: 'login'
             }, {

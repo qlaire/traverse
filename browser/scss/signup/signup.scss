@@ -1,17 +1,16 @@
 #signup-form {
-    font-family: 'Dosis', sans-serif;
-    text-transform: uppercase;
-    padding-top: 25px;
-    padding-left: 50px;
-    padding-bottom: 25px;
-    width: 40%;
-    margin: 0 auto;
+    width:35%;
+    margin:0 auto;
+    p {
+        text-align:center;
+        color:white;
+    }
     label {
-        color: white;
-        font-size: 1em;
+        color:white;
+        font-size:1em;
     }
     input {
-        border-bottom: 1px solid #fff;
+        border-bottom:1px solid #fff;
         &:focus {
             box-shadow:0 1px 0 0 #383e4d;
         }

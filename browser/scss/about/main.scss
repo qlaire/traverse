@@ -1,140 +1,90 @@
 #about {
-  h1 {
-    margin-top: 40px;
-    text-align: center;
+  .traverse-bg,
+  .triangles-bg {
+      position:relative;
+      background-attachment:fixed;
   }
-  body,
-  html {
-    height: 100%;
-    margin: 0;
-    font: 15px "Dosis", sans-serif;
-  }
-  .bgimg-1,
-  .bgimg-2,
-  .bgimg-3 {
-      position: relative;
-      background-attachment: fixed;
-  }
-  .bgimg-1 {
+  .traverse-bg {
     min-height:400px;
-    background-position:center center;
     background-color:black;
-    background-image: url("/images/about_logo.jpg");
+    background-position:center center;
     background-repeat:no-repeat;
+    background-image:url("/images/about_logo.jpg");
   }
-  .bgimg-2 {
-    background-image: url("/images/background5.png");
-    min-height: 500px;
+  .triangles-bg {
+    min-height:500px;
+    background-image:url("/images/background5.png");
   }
-
   .graph1 {
     padding-bottom:370px;
-    background-image: url("/images/graphs.jpg");
-    min-height: 500px;
+    min-height:500px;
     background-color:black;
     background-position:center bottom;
     background-repeat:no-repeat;
+    background-image:url("/images/graphs.jpg");
   }
   .graph2 {
     padding-bottom:370px;
-    background-image: url("/images/graph2.jpg");
-    min-height: 500px;
+    min-height:500px;
     background-color:black;
     background-position:center bottom;
     background-repeat:no-repeat;
+    background-image:url("/images/graph2.jpg");
   }
   .graph3 {
     padding-bottom:370px;
-    background-image: url("/images/graph3.jpg");
-    min-height: 500px;
+    min-height:500px;
     background-color:black;
     background-position:center bottom;
     background-repeat:no-repeat;
+    background-image:url("/images/graph3.jpg");
   }
-  .bgcolor-1 {
-    max-height: 200px;
-    color: #777;
+  .black-bg {
+    max-height:200px;
+    color:#777;
     background-color:black;
-    text-align: center;
-    text-align: justify;
-    font-family: 'Dosis', sans-serif;
   }
-  .bgcolor-2 {
-    min-height: 250px;
-    color: #777;
+  .lilac-bg {
+    min-height:250px;
+    color:#777;
     background-color:#8b9bbd;
-    padding-left:50px;
-    text-align: left;
-    font-family: 'Dosis', sans-serif;
-    h3{
-     text-align: center;  
-     text-transform:none;   
+    a {
+      color:black;
+    }
+    a:hover {
+      color:white;
+      text-decoration:none;
     }
   }
   .caption {
-    // background-color: #111;
-    font-family: 'Dosis', sans-serif;
-    color: #111;
-    padding: 18px;
-    font-size: 40px;
-    left: 0;
-    position: absolute;
-    top: 30%;
-    width: 100%;
-    text-align: center;
-    letter-spacing: 10px;
+    padding:18px;
+    position:absolute;
+    top:40%;
+    width:100%;
+    text-align:center;
+    letter-spacing:10px;
+    font-size:30px;
+    font-family:'Dosis', sans-serif;
+  }
+  .border {
+    background-color:transparent;
+    color:#32353F;
+  }
+  .span {
+    background-color:#111;
+    color:white;
+    opacity:0.75;
+  }
+  img.contributors {
+    width:200px;
+    height:200px;
   }
   h3 {
-    padding: 100px;
-    margin: 0 auto;
-    text-align: center;
-    letter-spacing: 5px;
-    // text-transform: uppercase;
-    font: 20px "Dosis", sans-serif;
-    color: #faf3dd;
-  }
-  .specialnav {
-    background-color: #8593b6;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font: 14px "Dosis", sans-serif;
-    color: #faf3dd;
-  }
-  a{
-    color:black;
-  }
-  a:hover{
-    color:#c8bfa6;
-    text-decoration:none;
-  }
-  footer {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    background-color: black;
-    color: #b9f3e7;
-    font-family: 'Dosis', sans-serif;
-    a {
-      color:white;
-      text-decoration: none;
-    }
-    a:hover{
-      color:#b9f3e7;
-    }
-  }
-
-  .active {
-    color: #b9f3e7;
+    padding:100px;
+    margin:0 auto;
+    text-align:center;
+    letter-spacing:5px;
+    font:20px "Dosis", sans-serif;
+    color:#faf3dd;
   }
 }
-
-nav {
-  max-height:50px;
-  margin-bottom:0px;
-  a: {
-    color:white;
-  }
-  a:hover{
-    color:#b9f3e7; 
-  }
-}
-
