@@ -109,7 +109,7 @@ function preventOverstepping(currPosition,velocity){
 		if(currPosition.x>=globalTerrainData.xBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.x=terrainData.xBound-1;
+			controls.getObject().position.x=globalTerrainData.xBound-1;
 
 		}
 		else if(currPosition.x<=-globalTerrainData.xBound){
