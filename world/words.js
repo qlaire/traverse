@@ -1,6 +1,9 @@
 var wordMeshes=[];
 
 function placeWords(columnPos){
+	console.log(globalTerrainData.vertexDict);
+	console.log(globalTerrainData.xZones);
+	console.log(globalTerrainData.zZones);
 	var word;
 	var wordsInChunk;
 	var xBound1,xBound2, yBound1, yBound2;
@@ -11,10 +14,9 @@ function placeWords(columnPos){
 		wordsInChunk=Object.keys(words[i]);
 		for(var j=0; j<wordsInChunk.length; j++){
 			word=wordsInChunk[j];
-			xCoord=xZones[i]+Math.random()*(xZones[1]-xZones[0]);
-			zCoord = zZones[999]-Math.random()*(zZones[999]-zZones[2]);
+			xCoord=globalTerrainData.xZones[i]+Math.random()*(globalTerrainData.xZones[1]-globalTerrainData.xZones[0]);
+			zCoord = globalTerrainData.zZones[999]-Math.random()*(globalTerrainData.zZones[999]-globalTerrainData.zZones[2]);
 			yCoord = 50 + Math.random() * 600;
-			console.log('columnPos',columnPos)
 			mesh=placeAWord(word,xCoord,yCoord,zCoord,words[i][word],columnPos);
 			if(mesh) wordMeshes.push(mesh);
 		}
@@ -38,7 +40,6 @@ function getDistance(wordPos,columnPos){
 	    return Math.sqrt( dx * dx + dz * dz );
 }
 function placeAWord(word, x, y, z,score, columnPos){
-	console.log('in placeAWord',columnPos)
 	var distance=getDistance({x:x,y:y,z:z},columnPos);
 	if(distance<256){
 		return;
