@@ -16,5 +16,6 @@ module.exports = {
     "clientSecret": "INSERT_GOOGLE_CLIENT_SECRET_HERE",
     "callbackURL": "INSERT_GOOGLE_CALLBACK_HERE"
   },
+  "WATSON": "7f8fdd07f30d9d2fd5ebf11f12c339408abf8555",
   "LOGGING": false
 };
