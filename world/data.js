@@ -6,9 +6,9 @@ var worldData={
 }
 
 //CHANGE TO OPEN SOURCE SONGS!!!!
-var emoToSongSrc={'anger':'assets/The Mountain Goats - This Year.mp3',
-					'joy':'assets/Sigur Ròs - Gobbledigook.mp3',
-					'sadness':'assets/NADLER, Marissa - Diamond Heart.mp3',
+var emoToSongSrc={'anger':'assets/Greater_Than_Or_Equal_To_-_01_-_Silent_Treatment.mp3',
+					'joy':'assets/bensound-ukulele.mp3',
+					'sadness':'assets/Kai_Engel_-_04_-_Moonlight_Reprise.mp3',
 					'fear':'assets/mystery_and_suspense.mp3'}
 
 var emotionToPathNum= {
