@@ -54,9 +54,9 @@ var getLocation = (function() {
 	return function getLocation(worldCoords){
 		var toReturn={};
 		var localCoords=terrain.worldToLocal(local.copy(worldCoords));
-		var xCoord=customFloor(localCoords.x,distanceX);
-		var yCoord=customFloor(localCoords.y,distanceY);
-		var locationInfo=vertexDict[[xCoord,yCoord]];
+		var zCoord=customFloor(localCoords.x,globalTerrainData.distanceZ);
+		var xCoord=customFloor(localCoords.y,globalTerrainData.distanceX);
+		var locationInfo=globalTerrainData.vertexDict[[zCoord,xCoord]];
 		if(!locationInfo){
 			return {path: -1, entry: -1};
 		}
@@ -106,27 +106,27 @@ function updatePlayerPosition(playerMovements,velocity,delta){
 }
 
 function preventOverstepping(currPosition,velocity){
-		if(currPosition.x>=xBound){
+		if(currPosition.x>=globalTerrainData.xBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.x=xBound-1;
+			controls.getObject().position.x=terrainData.xBound-1;
 
 		}
-		else if(currPosition.x<=-xBound){
+		else if(currPosition.x<=-globalTerrainData.xBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.x=-xBound+1;
+			controls.getObject().position.x=-globalTerrainData.xBound+1;
 		}
-		if(currPosition.z>=zBound){
+		if(currPosition.z>=globalTerrainData.zBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.z=zBound-1;
+			controls.getObject().position.z=globalTerrainData.zBound-1;
 
 		}
-		else if(currPosition.z<=-zBound){
+		else if(currPosition.z<=-globalTerrainData.zBound){
 			velocity.x=0;
 			velocity.z=0;
-			controls.getObject().position.z=-zBound+1;
+			controls.getObject().position.z=-globalTerrainData.zBound+1;
 		}
 }
 
