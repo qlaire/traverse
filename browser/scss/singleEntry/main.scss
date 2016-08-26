@@ -34,7 +34,6 @@ section#singleEntry {
         text-decoration:none;
     }
 }
-
     strong {
         font-weight:bold;
     }
@@ -43,7 +42,14 @@ body.singleEntry-page {
     font-family: 'Dosis', sans-serif;
     background: #faf3dd;
     background-image: url('/images/background6.jpg');
-    min-height:1000px;
     background-position: right top;
     background-repeat:repeat-y;
+    // footer {
+    //     position:absolute;
+    //     width:100%;
+    //     bottom:0;
+    //     &:a {
+    //         color:blue;
+    //     }
+    // }
 }
