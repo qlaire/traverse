@@ -1,0 +1,33 @@
+#demos {
+	padding-top:50px;
+	.card-content {
+		a {
+			color:#8493b5;
+		}
+	}
+	.card-title {
+		font-size:20px;
+		text-transform:uppercase;
+	}
+	i.right {
+		font-size:10px;
+		text-transform:none;
+	}
+}
+
+body.demos-page {
+   	background-color:#ffa69e;
+    font:15px "Dosis", sans-serif;
+    color:white;
+    a:hover {
+        text-decoration:none;
+    }
+    footer {
+        width:100%;
+        bottom:0;
+        position:absolute;
+        a{
+        	color:white;
+        }
+    }
+}
