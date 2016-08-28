@@ -47,6 +47,10 @@
 
 button.analysis {
 	margin-bottom: 10px;
+	background-color:#e67e73;
+	&:hover{
+		background-color:#ffa79d;
+	}
 }
 
 body.entries-page {

@@ -1,15 +1,10 @@
 section#editEntry {
-  width:1000px;
-    h2 {
-        margin-top: 75px;
-        text-align: center;
-        font: 34px "Dosis", sans-serif;
-        color: black;
-    }
+    padding-top: 100px;
+    width: 1000px;
 }
 
 .warning {
-  color:red;
+    color: red;
 }
 
 body.editEntry-page {
@@ -44,7 +39,7 @@ a:hover {
 }
 
 table {
-        button {
-            padding: 0;
-        }
+    button {
+        padding: 0;
     }
+}
