@@ -1,16 +1,15 @@
 #home {
   font-family: "Dosis", sans-serif;
-  .home-bg,
   .triangles-bg {
       position:relative;
       background-attachment:fixed;
   }
   .home-bg {
-    min-height:599px;
-    background-position:center top;
     background-color:black;
-    background-image:url("/images/main_logo.jpg");
-    background-repeat:no-repeat;
+    img{
+      width:100%;
+      height:auto;
+    }
   }
   .triangles-bg {
     min-height:500px;
