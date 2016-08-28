@@ -4,10 +4,13 @@
         <div class="col-xs-9">
             <div class="card">
                 <span class="card-title">{{entry.title}}</span>
-                <p>{{entry.date}}</p><br>
-                <div class="card-content" ng-bind-html="entry.body"></div><br>
-                <a ui-sref="entries"><span class="glyphicon glyphicon-arrow-left"></span>back</a>
-            <a ui-sref="editEntry({id:entry.id})">edit<span class="glyphicon glyphicon-pencil"></span></a><br><br><br><br>
+                <p>{{entry.date}}</p>
+                <br>
+                <div class="card-content" ng-bind-html="entry.body"></div>
+                <br>
+                <p><a ui-sref="entries"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;back</a></p>
+                <p class="pull-right edit"><a ui-sref="editEntry({id:entry.id})"><span class="glyphicon glyphicon-pencil"></span>edit</a></p>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
