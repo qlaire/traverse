@@ -15,29 +15,14 @@
     min-height:500px;
     background-image:url("/images/background5.png");
   }
-  .graph1 {
-    padding-bottom:370px;
+  .graphs {
     min-height:500px;
     background-color:black;
-    background-position:center bottom;
-    background-repeat:no-repeat;
-    background-image:url("/images/graphs.jpg");
+    margin:0 auto;
   }
-  .graph2 {
-    padding-bottom:370px;
-    min-height:500px;
-    background-color:black;
-    background-position:center bottom;
-    background-repeat:no-repeat;
-    background-image:url("/images/graph2.jpg");
-  }
-  .graph3 {
-    padding-bottom:370px;
-    min-height:500px;
-    background-color:black;
-    background-position:center bottom;
-    background-repeat:no-repeat;
-    background-image:url("/images/graph3.jpg");
+  .graph-container {
+    width: 90%;
+    text-align: center;
   }
   .black-bg {
     max-height:300px;
@@ -86,7 +71,7 @@
     height:200px;
   }
   h3 {
-    padding:100px;
+    padding-top:50px;
     margin:0 auto;
     text-align:center;
     letter-spacing:5px;
