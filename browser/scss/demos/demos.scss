@@ -1,8 +1,11 @@
 #demos {
-	padding-top:50px;
+	padding-top:35px;
 	.card-content {
 		a {
 			color:#8493b5;
+		}
+		a:hover {
+			text-decoration:none;
 		}
 	}
 	.card-title {
