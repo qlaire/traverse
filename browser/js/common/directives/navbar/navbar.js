@@ -4,6 +4,13 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
         scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
         link: function(scope) {
+        $(".button-collapse").sideNav({
+               menuWidth: 200,
+               edge: 'right', 
+               closeOnClick: true 
+            });
+
+            scope.isCollapsed = true;
 
             scope.loggedOutitems = [{
                 label: 'LOGIN',
@@ -22,7 +29,7 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
             }, {
                 label: 'YOUR WORLD',
                 state: 'world'
-            },];
+            }, ];
 
             scope.user = null;
 
@@ -51,7 +58,6 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
             $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
             $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
-
         }
 
     };
