@@ -13,15 +13,15 @@ function init() {
     camera.position.set(0,0,0);
 
     // Add scene elements
-    terrain=makeTerrain();
+    terrain=makeTerrain(); //mkTerrain.js
     scene.add(terrain)
-    mainLights();
+    mainLights();  //lights.js
     pointLights();
-    var columnPos=placeColumns();
-    placeWords(columnPos);
-    placePlane();
-    addSky();
-    placeMusic();
+    var columnPos=placeColumns(); //columns.js
+    placeWords(columnPos); //words.js
+    placePlane(); //interstellarPlane.js
+    addSky(); //sky.js
+    placeMusic(); //music.js
 
     // Create the WebGL Renderer
     renderer = new THREE.WebGLRenderer({alpha: true,  antialias: true });
@@ -33,10 +33,10 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
 
     //initialize controls
-    initPointerLockControls();
+    initPointerLockControls(); //controls.js
 
     //Update screen message
-    printInstructions();
+    printInstructions(); //see below
 
 }
 
