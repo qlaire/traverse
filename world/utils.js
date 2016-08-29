@@ -12,3 +12,23 @@ function placeDisk(x,z,radius,type){
   disks.push(cylinder);
   return cylinder;
 }
+
+function randomXInEmotion(emotion){
+  var bound1, bound2;
+  if(emotion==='anger'){
+    bound1=globalTerrainData.zZones[2];
+    bound2=globalTerrainData.zZones[1]; 
+
+  }
+  if(emotion==='joy'||emotion=='sadness'){
+    bound1=globalTerrainData.zZones[1];
+    bound2=globalTerrainData.zZones[0]; 
+  }
+  if(emotion==='fear'){
+    bound1=globalTerrainData.zZones[0];
+     bound2=globalTerrainData.zZones[999];  
+
+  }
+  var xCoord=bound1+(Math.random()*(bound2-bound1));
+  return  xCoord;
+}
