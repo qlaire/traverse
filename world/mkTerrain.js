@@ -137,15 +137,16 @@ function buildZonesDict(helperArrFlat,geometry){
         for(var i=0; i<geometry.vertices.length; i++){
             vertexDictZ=customFloor(geometry.vertices[i].x,globalTerrainData.distanceZ);
             vertexDictX=customFloor(geometry.vertices[i].y,globalTerrainData.distanceX);
-            //use helper array to fill out the vertexdict
+            //Fill in vertexDict with appropriate value from helperArrFlat
             globalTerrainData.vertexDict[[vertexDictZ,vertexDictX]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
+            //The first time we hit a certain Z zone (i.e. path), record its Z coordinate
             if(!globalTerrainData.zZones[helperArrFlat[i][0]]){
                 globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
             }
             else if(vertexDictX<globalTerrainData.zZones[helperArrFlat[i][0]]){
                 globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
             }
-
+            //The first time we hit a certain X zone (i.e. chunk), record its XCoordinate
             if(!globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
                 globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictZ;            
             }
@@ -153,7 +154,7 @@ function buildZonesDict(helperArrFlat,geometry){
                 globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictZ;
             }
         }
-        //get last padding zones
+        //Get last padding zones
         var toAdd=globalTerrainData.zZones[0]-globalTerrainData.zZones[1];
         globalTerrainData.zZones[999]=globalTerrainData.zZones[0]+toAdd;
         globalTerrainData.zZones[-1] = globalTerrainData.zZones[2] - toAdd;
@@ -163,7 +164,7 @@ function buildZonesDict(helperArrFlat,geometry){
         globalTerrainData.xZones[-1] = globalTerrainData.xZones[0] - toAdd;
 }
 
-
+/*Flattens an array one level. 2D->1D, or 3D -> 2D*/
 function flattenArray(array){
     var flattenedArr=[];
     for(var i=0;i<array.length;i++){
@@ -171,6 +172,7 @@ function flattenArray(array){
     } 
     return flattenedArr;   
 }
+/*Prevents terrain from appearing blockish. For each vertex, sample its neighbors within a certain distance and adjust that vertex accordingly*/
 function smoothArray(scaledArr,radius){
     var neighbors;
     var newVal;
@@ -200,7 +202,7 @@ function smoothArray(scaledArr,radius){
     }
     return smoothedArr;
 }
-
+/*Creates a 3d array that preserves the path number (0=anger, 1=joy, 2=fear) and chunk number of a given vertex. Later flattened to a 2D array.*/
 function generateHelperArr(paths){
     var helperArr=[];
     for(var i=0;i<paths.length;i++){
@@ -214,6 +216,7 @@ function generateHelperArr(paths){
     return helperArr;
 }
 
+/*Calculate mean*/
 function findMean(arr){
     var sum=0;
     arr.forEach(function(item){
@@ -222,11 +225,14 @@ function findMean(arr){
     return sum/arr.length;
 }
 
+/*Finds the largest number that is <=num and divisible by factor*/
 function customFloor(num,factor){
   return factor * Math.floor(num/factor);
 }
 
+/*Converts each element of an array to a number*/
 function numifyData(array){
+    //If the array already contains numbers, return
     if(typeof array[0] === 'Number'){
         return array;
     }
@@ -238,6 +244,7 @@ function numifyData(array){
     return array;
 }
 
+/*Creates a version of an array that is scale x bigger*/
 function magnifyArray(arr, scale) {
     var res = [];
     if(!arr.length)
@@ -251,6 +258,7 @@ function magnifyArray(arr, scale) {
     return res;
 }
 
+/*Pads an array on all sides, with paddingSize instances of either 0 or another specified padding element.*/
 function padArray(arr,paddingSize,paddingElt){
   //pad beginnings and ends of rows
   for(var i=0;i<arr.length;i++){
