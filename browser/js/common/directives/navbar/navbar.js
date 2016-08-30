@@ -5,33 +5,11 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
         templateUrl: 'js/common/directives/navbar/navbar.html',
         link: function(scope) {
 
-            scope.loggedOutitems = [{
-                label: 'ABOUT',
-                state: 'about'
-            }, {
-                label: 'DEMOS',
-                state: 'demos'
-            }, {
-                label: 'LOGIN',
-                state: 'login'
-            }, {
-                label: 'SIGNUP',
-                state: 'signup'
-            }];
-
-            scope.loggedInItems = [{
-                label: 'ABOUT',
-                state: 'about'
-            },{
-                label: 'NEW ENTRY',
-                state: 'entry'
-            }, {
-                label: 'YOUR JOURNAL',
-                state: 'entries'
-            }, {
-                label: 'YOUR WORLD',
-                state: 'world'
-            },];
+            $(".button-collapse").sideNav({
+                menuWidth: 200,
+                edge: 'right',
+                closeOnClick: true
+            });
 
             scope.user = null;
 
@@ -60,7 +38,6 @@ app.directive('navbar', function($rootScope, AuthService, AUTH_EVENTS, $state) {
             $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
             $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
-
         }
 
     };

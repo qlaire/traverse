@@ -1,8 +1,10 @@
 var watson = require('watson-developer-cloud');
 var Q = require('q');
 var alchemy_language = watson.alchemy_language({
-  api_key: 'f97f07525b803b96b20193fa3909c3e454254431'
+  api_key: require('../env').WATSON
 });
+
+// app.getValue('env').WATSON
 
 var emotionAnalysis = Q.denodeify(alchemy_language.emotion.bind(alchemy_language));
 var keywordAnalysis = Q.denodeify(alchemy_language.keywords.bind(alchemy_language));

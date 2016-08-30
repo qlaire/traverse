@@ -1,71 +1,121 @@
+////////////////
+/*
+Functions associated with generating the terrain and useful data about it
+*/
+////////////////
 
+/*Object to "export"*/
+var globalTerrainData={xBound:null, zBound:null, playerStartX:null,xBound:null,zBound:null, vertexDict: {},distanceX:null,distanceZ:null, xZones: {}, zZones:{}};
 
-var xBound;
-var zBound;
-var paddingX;
-var paddingZ;
-var vertexDict;
-var distanceX, distanceY;
-var zZones,xZones;
-var terrainWidth;
-var terrainHeight;
-
-function makeTerrain(paths){
+/*Generates the terrain based on worldData.emoScores - a 2D array representing emotional intensity over time. Each value represents the emotioal intensity for one chunk of a journal entry (1-3 chunks per entry) e.g.
+    [
+        [1,.5,1,.3], //anger (over time)
+        [0,.6,.2,.1], //joy (over time)
+        [.5,1,0,1] //fear (over time)
+    ]
+ */
+function makeTerrain(){
+    //Parameters affecting terrain generation
     var paddingSize=5;
     var scaleUp=4;
     var smoothingRadius=3;
-    var paths=worldData.emoScores;
-    var terrainData=generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius);
-    //unpack
+    //Get terrain data
+    var terrainData=generateTerrainData(worldData.emoScores,paddingSize,scaleUp,smoothingRadius);
+    //Unpack terrain data
     var flattenedArr=terrainData.flattenedArr;
     var helperArrFlat=terrainData.helperArrFlat;
     var wS=terrainData.wS;
     var hS=terrainData.hS;
-    terrainWidth=terrainData.terrainWidth;
-    terrainHeight=terrainData.terrainHeight;
-    paddingX=terrainData.paddingX;
-    paddingZ=terrainData.paddingZ;
-    xBound=terrainData.xBound;
-    zBound=terrainData.zBound;
-    scaledArr=terrainData.scaledArr;
+    var numChunks=terrainData.numChunks;
+    //Set variables in exported object
+    globalTerrainData.terrainWidth=terrainData.terrainWidth;
+    globalTerrainData.terrainHeight=terrainData.terrainHeight;
+    globalTerrainData.playerStartX=terrainData.xBound-terrainData.paddingX/4;
+    globalTerrainData.xBound=terrainData.xBound;
+    globalTerrainData.zBound=terrainData.zBound;
+    //Generate and return mesh
+    return generateMesh(globalTerrainData.terrainWidth,globalTerrainData.terrainHeight,wS,hS,numChunks,flattenedArr,helperArrFlat)
+}
 
-    return generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat)
+/*
+Takes worldData.emoScores and generates a bundle of usable data:
+
+    flattenedArr (array) -A version of emoScores that is magnified, padded, smoothed and flattened so that it maps to the correct number of veritices for the terrain - later used to generate geometry. In sum, a 1d array in which each element represents the height of the vertex, as derived from the emotional score. 
+
+    helperArrFlat (array) - A helper array of the dimensions of flattenedArr. However, instead of containing the emotional score, each element contains at array with the original 2d coordinates [pathNum,chunkNum]. So an entry marked [0,5] corresponds to the anger path (0) and the 5th chunk of text.
+
+    numChunks (Number) - the total number of chunks (of journal entries) used to generate the terrain
+
+    wS and hS (Numbers) - the width and height of the segments that will connect the vertices in the terrain
+
+    terrainWidth and terrainHeight (Numbers) - height and width of the terrain
+
+    paddingX and paddingZ (Numbers) - the padding on the terrain that will be generated, in X (forward/back from camera) and Z (left/right) dimensions
+
+    xBound, zBound (Numbers) - These numbers and their negatives represent the location of the invisible wall that will stop the player from going too far from the interesting part of the terrain.
+
+*/
+function generateTerrainData(emoScores,paddingSize,scaleUp,smoothingRadius){
+    //Make sure emoScores contains only numbers
+    emoScores=numifyData(emoScores);
+    //Create a helper array that will undergo the same transformations as the main array,
+    //but preserve its path number (anger=0/joy=1/fear=2) and chunk number
+    var helperArr=generateHelperArr(emoScores);
+    //Pad both arrays
+    padArray(emoScores,paddingSize);
+    padArray(helperArr,paddingSize,[-1,-1]);
+    //get terrainWidth and terrainHeight
+    var terrainWidth=emoScores.length*250;
+    var terrainHeight=emoScores[0].length*200;
+    //get wS and hS
+    var wS=(emoScores[0].length*scaleUp)-1;
+    var hS=(emoScores.length*scaleUp)-1;
+    //Establish padding and bounds
+    var paddingX=(paddingSize/(emoScores[0].length+paddingSize))*terrainWidth;
+    var paddingZ=(paddingSize/(emoScores.length+paddingSize))*terrainHeight;
+    var xBound=terrainWidth/2-(paddingX/2);
+    var zBound=terrainHeight/2-(paddingZ/2);
+    //Magnify both arrays
+    var scaledArr=magnifyArray(emoScores,scaleUp);
+    var helperArr=magnifyArray(helperArr,scaleUp);
+    //Smooth both arrays to prevent blocky terrain
+    var smoothedArr=smoothArray(scaledArr,smoothingRadius);
+    //Flatten both arrays
+    var flattenedArr=flattenArray(smoothedArr);
+    var helperArrFlat=flattenArray(helperArr);
+    //Determine total number of chunks
+    var numChunks=scaledArr[0].length;
+    return {flattenedArr: flattenedArr, numChunks:numChunks, helperArrFlat:helperArrFlat,wS:wS,hS:hS,terrainWidth:terrainWidth, terrainHeight:terrainHeight, paddingX:paddingX, paddingZ:paddingZ,xBound:xBound,zBound:zBound};
 
 }
 
+/*Places a very large plane under the generated geometry to prevent the appearance of a finite square world*/
 function makeBase(terrainWidth,terrainHeight,material){
     var geometry = new THREE.PlaneGeometry(terrainWidth*2,terrainHeight*2,1,1);
-    //should make the same as in generateGemoetry()
-    // var material = new THREE.MeshLambertMaterial({ color: 'red', shading: THREE.FlatShading }); 
     var plane = new THREE.Mesh(geometry, material);
     scene.add(plane);
     plane.rotation.x = -Math.PI / 2;
     plane.position.y=-1;
 }
 
-function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedArr,helperArrFlat){
+/*Generates and returns the terrain mesh. Calls buildZonesDict, allowing us easy later access the different parts of the terrain*/
+function generateMesh(terrainWidth,terrainHeight,wS,hS,numChunks,flattenedArr,helperArrFlat){
+    //Generate geometry and material
     var geometry = new THREE.PlaneGeometry(terrainWidth,terrainHeight,wS,hS);
-    //var texture=THREE.ImageUtils.loadTexture('assets/dirt2.png')
-    // texture.wrapS = THREE.RepeatWrapping;
-    // texture.wrapT = THREE.RepeatWrapping;
-    // texture.repeat.x = 200;
-    // texture.repeat.y = 200;
-    var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading/*, map: texture*/});
-    vertexDict={};
-    var vertexDictX;
-    var vertexDictY;
-    distanceX=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
-    distanceY=Math.abs(Math.round(geometry.vertices[scaledArr[0].length].y-geometry.vertices[0].y));
-    zZones={};
-    xZones={};
-    var updatedDict
+    var material = new THREE.MeshLambertMaterial({ color: 0xBA8BA9, shading: THREE.FlatShading});
+    //Determine distance Z (the width of each path) - and distance X (the length of the terrain representing a single chunk). "Z," not "Y", because this will be the Z direction once the plane is rotated. 
+    globalTerrainData.distanceZ=Math.abs(Math.round(geometry.vertices[1].x-geometry.vertices[0].x));
+    globalTerrainData.distanceX=Math.abs(Math.round(geometry.vertices[numChunks].y-geometry.vertices[0].y));
+    //Manipulate the vertices of the plane
     for(var i=0; i<geometry.vertices.length; i++){
         geometry.vertices[i].z =  flattenedArr[i]*200;
     }
-    buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry,i);
-    //final touches
+    //Track information about the different parts of the terrain
+    buildZonesDict(helperArrFlat,geometry,i);
+    //compute normals
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
+    //Create and rotate mesh
     var plane = new THREE.Mesh(geometry, material);
     plane.rotation.x = -Math.PI / 2;
     plane.castShadow=true;
@@ -74,68 +124,47 @@ function generateGeometry(terrainWidth,terrainHeight,wS,hS,scaledArr,flattenedAr
     return plane
 }
 
-function buildZonesDict(zZones,xZones,vertexDictX,vertexDictY,helperArrFlat,geometry){
+/*
+Produces three useful pieces of data
+    vertexDict (Object) - keys are arrays representing coordinates in the world [x,z], values are [pathNumber,chunkNumber] (anger=0,joy=1,fear=2)
+    xZones (Object) - keys are the indices of the journal entries (or -1 and 999 to represent padding), values are the xCoords where they begin
+    zZones (Object) - keys are the indices of the paths (or -1 and 999 to represent padding), values are the zCoords where they begin
+*/
+function buildZonesDict(helperArrFlat,geometry){
+        var vertexDictZ;
+        var vertexDictX;
+        //iterate through vertices
         for(var i=0; i<geometry.vertices.length; i++){
-            vertexDictX=customFloor(geometry.vertices[i].x,distanceX);
-            vertexDictY=customFloor(geometry.vertices[i].y,distanceY);
-            vertexDict[[vertexDictX,vertexDictY]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
-
-            if(!zZones[helperArrFlat[i][0]]){
-                zZones[helperArrFlat[i][0]]=vertexDictY;
+            vertexDictZ=customFloor(geometry.vertices[i].x,globalTerrainData.distanceZ);
+            vertexDictX=customFloor(geometry.vertices[i].y,globalTerrainData.distanceX);
+            //Fill in vertexDict with appropriate value from helperArrFlat
+            globalTerrainData.vertexDict[[vertexDictZ,vertexDictX]]=[helperArrFlat[i][0],helperArrFlat[i][helperArrFlat[i].length-1]];
+            //The first time we hit a certain Z zone (i.e. path), record its Z coordinate
+            if(!globalTerrainData.zZones[helperArrFlat[i][0]]){
+                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
             }
-            else if(vertexDictY<zZones[helperArrFlat[i][0]]){
-                zZones[helperArrFlat[i][0]]=vertexDictY;
+            else if(vertexDictX<globalTerrainData.zZones[helperArrFlat[i][0]]){
+                globalTerrainData.zZones[helperArrFlat[i][0]]=vertexDictX;
             }
-
-            if(!xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;            
+            //The first time we hit a certain X zone (i.e. chunk), record its XCoordinate
+            if(!globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictZ;            
             }
-            else if(vertexDictX<xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
-                xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictX;
+            else if(vertexDictZ<globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]){
+                globalTerrainData.xZones[helperArrFlat[i][helperArrFlat[i].length-1]]=vertexDictZ;
             }
         }
-        //get last padding zones
-        var toAdd=zZones[0]-zZones[1];
-        zZones[999]=zZones[0]+toAdd;
-        zZones[-1] = zZones[2] - toAdd;
-        var keys=Object.keys(xZones);
-        toAdd=xZones[1]-xZones[0];
-        xZones[999]=xZones[keys.length-2]+toAdd;
-        xZones[-1] = xZones[0] - toAdd;
-}
-function generateTerrainData(paths,paddingSize,scaleUp,smoothingRadius){
-    //numify
-    paths=numifyData(paths);
-
-    //create helper
-    var helperArr=generateHelperArr(paths);
-    //pad both
-    padArray(paths,paddingSize);
-    padArray(helperArr,paddingSize,[-1,-1]);
-    //get terrainWidth and terrainHeight
-    var terrainWidth=paths.length*250;
-    var terrainHeight=paths[0].length*200;
-    //get wS and hS
-    var wS=(paths[0].length*scaleUp)-1;
-    var hS=(paths.length*scaleUp)-1;
-    //padding and bounds
-    var paddingX=(paddingSize/(paths[0].length+paddingSize))*terrainWidth;
-    var paddingZ=(paddingSize/(paths.length+paddingSize))*terrainHeight;
-    var xBound=terrainWidth/2-(paddingX/2);
-    var zBound=terrainHeight/2-(paddingZ/2);
-    //magnify
-    var scaledArr=magnifyArray(paths,scaleUp);
-    var helperArr=magnifyArray(helperArr,scaleUp);
-    //smooth
-    var smoothedArr=smoothArray(scaledArr,smoothingRadius);
-    //flatten
-    var flattenedArr=flattenArray(smoothedArr);
-    var helperArrFlat=flattenArray(helperArr);
-
-    return {flattenedArr: flattenedArr, scaledArr:scaledArr, helperArrFlat:helperArrFlat,wS:wS,hS:hS,terrainWidth:terrainWidth, terrainHeight:terrainHeight, paddingX:paddingX, paddingZ:paddingZ,xBound:xBound,zBound:zBound};
-
+        //Get last padding zones
+        var toAdd=globalTerrainData.zZones[0]-globalTerrainData.zZones[1];
+        globalTerrainData.zZones[999]=globalTerrainData.zZones[0]+toAdd;
+        globalTerrainData.zZones[-1] = globalTerrainData.zZones[2] - toAdd;
+        var keys=Object.keys(globalTerrainData.xZones);
+        toAdd=globalTerrainData.xZones[1]-globalTerrainData.xZones[0];
+        globalTerrainData.xZones[999]=globalTerrainData.xZones[keys.length-2]+toAdd;
+        globalTerrainData.xZones[-1] = globalTerrainData.xZones[0] - toAdd;
 }
 
+/*Flattens an array one level. 2D->1D, or 3D -> 2D*/
 function flattenArray(array){
     var flattenedArr=[];
     for(var i=0;i<array.length;i++){
@@ -143,6 +172,7 @@ function flattenArray(array){
     } 
     return flattenedArr;   
 }
+/*Prevents terrain from appearing blockish. For each vertex, sample its neighbors within a certain distance and adjust that vertex accordingly*/
 function smoothArray(scaledArr,radius){
     var neighbors;
     var newVal;
@@ -172,7 +202,7 @@ function smoothArray(scaledArr,radius){
     }
     return smoothedArr;
 }
-
+/*Creates a 3d array that preserves the path number (0=anger, 1=joy, 2=fear) and chunk number of a given vertex. Later flattened to a 2D array.*/
 function generateHelperArr(paths){
     var helperArr=[];
     for(var i=0;i<paths.length;i++){
@@ -186,6 +216,7 @@ function generateHelperArr(paths){
     return helperArr;
 }
 
+/*Calculate mean*/
 function findMean(arr){
     var sum=0;
     arr.forEach(function(item){
@@ -194,11 +225,14 @@ function findMean(arr){
     return sum/arr.length;
 }
 
+/*Finds the largest number that is <=num and divisible by factor*/
 function customFloor(num,factor){
   return factor * Math.floor(num/factor);
 }
 
+/*Converts each element of an array to a number*/
 function numifyData(array){
+    //If the array already contains numbers, return
     if(typeof array[0] === 'Number'){
         return array;
     }
@@ -210,6 +244,7 @@ function numifyData(array){
     return array;
 }
 
+/*Creates a version of an array that is scale x bigger*/
 function magnifyArray(arr, scale) {
     var res = [];
     if(!arr.length)
@@ -223,6 +258,7 @@ function magnifyArray(arr, scale) {
     return res;
 }
 
+/*Pads an array on all sides, with paddingSize instances of either 0 or another specified padding element.*/
 function padArray(arr,paddingSize,paddingElt){
   //pad beginnings and ends of rows
   for(var i=0;i<arr.length;i++){

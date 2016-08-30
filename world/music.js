@@ -14,7 +14,7 @@ function placeMusic(){
 		song.leftEarth=false;
 		song.src=emoToSongSrc[emotion];
 		//NOT SURE WHY THIS TRANSLATION IS NECESSARY, MAKE CONSISTENT
-		var location={x: xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:-60}
+		var location={x: globalTerrainData.xZones[worldData.intenseEntries[emotion].chunkIndex],z: randomXInEmotion(emotion),y:-60}
 		song.entryMesh=createEntryBall(emotion,location);
 		song.associatedText=worldData.intenseEntries[emotion].body;
 		songs.push(song);

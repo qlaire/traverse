@@ -2,12 +2,20 @@
 <section id="entry">
     <div class="container">
         <div class="row">
-            <div class="col-xs-6 col-s-6 col-md-9 col-lg-12">
+            <div class="col s3 m6 l12">
                 <form name="newEntry" ng-submit="postEntry()" novalidate>
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input class="form-control" ng-model="title" id="title" type="text">
-                    </div>
+                  <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input class="form-control" ng-model="title" id="title" type="text">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control my-datepicker"
+                                   datepicker-popup="mediumDate"
+                                   max-date ="today"
+                                   is-open="datePickerIsOpen"
+                                   ng-click="datePickerOpen()"
+                                   ng-model="dt" />
+                  </div>
                     <div class="form-group">
                         <div name="body" class="tinymce tinymcestyle" ng-model="tinymceModel" ui-tinymce="tinymceOptions">
                         </div>

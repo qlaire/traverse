@@ -2,7 +2,7 @@ var planeHeight=600;
 var interstellarPlane;
 
 function placePlane(){
-	var geometry = new THREE.PlaneGeometry( terrainWidth,terrainHeight, 32,32);
+	var geometry = new THREE.PlaneGeometry(globalTerrainData.terrainWidth,globalTerrainData.terrainHeight, 32,32);
 	var material = new THREE.MeshBasicMaterial( {color: 0x7bbdec, side: THREE.DoubleSide,opacity:0, wireframe:true} );
 	material.transparent=true;
 	var plane = new THREE.Mesh( geometry, material );

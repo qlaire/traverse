@@ -1,0 +1,45 @@
+section#editEntry {
+    padding-top: 100px;
+    width: 1000px;
+}
+
+.warning {
+    color: red;
+}
+
+body.editEntry-page {
+    background: url("/images/background4.jpg");
+    color: black;
+    text-transform: none;
+    background-repeat: repeat-x;
+    background-color: #fbf5df;
+    background-position: 0px 50px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.tinymcestyle {
+    background-color: white;
+    color: black;
+    min-height: 300px;
+    height: auto;
+    padding: 20px;
+    box-shadow: 3px 3px 3px grey;
+    &:focus {
+        outline: none;
+    }
+    a[href] {
+        text-decoration: underline;
+    }
+    strong {
+        font-weight: bold;
+    }
+}
+
+table {
+    button {
+        padding: 0;
+    }
+}

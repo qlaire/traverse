@@ -1,35 +1,59 @@
 #home {
-  .home-bg,
-  .triangles-bg
-  {
+  font-family: "Dosis", sans-serif;
+  .triangles-bg {
       position:relative;
       background-attachment:fixed;
   }
   .home-bg {
-    min-height:599px;
-    background-position:center top;
     background-color:black;
-    background-image:url("/images/main_logo.jpg");
-    background-repeat:no-repeat;
+    img{
+      width:100%;
+      height:auto;
+    }
   }
   .triangles-bg {
     min-height:500px;
     background-image:url("/images/background5.png");
   }
-  .pink-bg {
-    max-height:400px;
-    color:#777;
-    background-color:#ffa69e;
+  .graphs {
+    min-height:500px;
+    background-color:black;
+    margin:0 auto;
+  }
+  .graph-container {
+    width: 90%;
+    text-align: center;
+  }
+  .explanation {
+    padding-top: 50px;
+  }
+  .top-explanation {
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
   .black-bg {
-    max-height:400px;
+    max-height:300px;
+    color:#777;
+    background-color:black;
+  }
+  .black-bg-2 {
+    margin:0 auto;
+    min-height:200px;
     color:#777;
     background-color:black;
   }
   .lilac-bg {
-    max-height:400px;
-    color:#ddd;
-    background-color:#8593b6;
+    min-height:250px;
+    color:#777;
+    background-color:#8b9bbd;
+    a {
+      color:#f5f5f5;
+      font-size: 19px;
+    }
+    a:hover {
+      color:white;
+      text-decoration:none;
+    }
   }
   .caption {
     padding:18px;
@@ -41,18 +65,57 @@
     font-size:30px;
     font-family:'Dosis', sans-serif;
   }
+  .border {
+    background-color:transparent;
+    color:#32353F;
+  }
   .span {
     background-color:#111;
     color:white;
     opacity:0.75;
   }
+  img.contributors {
+    width:200px;
+    height:200px;
+  }
+  .contributors-cont {
+    text-align: center;
+  }
+  .individual {
+    padding-bottom: 20px;
+  }
+  a.source-code {
+    font-size: 30px;
+    &:hover{
+      color:#61669c;
+    }
+  }
   h3 {
-    padding:100px;
     margin:0 auto;
     text-align:center;
     letter-spacing:5px;
-    text-transform:uppercase;
     font:20px "Dosis", sans-serif;
     color:#faf3dd;
+  }
+  p {
+    color:white;
+    font-size:19px;
+  }
+  h4 {
+    color: #faf3dd;
+  }
+  a {
+    color:#8493b5;
+  }
+  a:hover {
+    color:#b5c5e5;
+  }
+  footer {
+    a {
+      color:white;
+    }
+    a:hover{
+      color:#b9f3e7;
+    }
   }
 }
